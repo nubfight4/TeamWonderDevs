@@ -137,11 +137,11 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   Pivot: {fileID: 4070118818193130}
   cameraOffset: {x: 0, y: 0, z: 10}
-  cameraSpeed: 0.31
+  cameraSpeed: 0.15
   rotationSpeed: 5
-  maxViewAngle: 65
-  minViewAngle: -45
-  useOffsetvalue: 0
+  maxViewAngle: 45
+  minViewAngle: -10
+  useOffsetvalue: 1
 --- !u!124 &124768428293939268
 Behaviour:
   m_ObjectHideFlags: 1
