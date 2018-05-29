@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/VFX_Test.unity
+    guid: 895fb8c166df1064da0d6667dde2495d
+  - enabled: 1
+    path: Assets/Scenes/BeatSlicerTestScene.unity
+    guid: 4836366a7f624434193cabaa7fae07eb
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}
