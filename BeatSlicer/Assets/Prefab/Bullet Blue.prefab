@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114084594858110092}
   - component: {fileID: 54348275910303840}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Bullet Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 95e0a7adf26610440bc82c0bc3b62949, type: 2}
+  - {fileID: 2100000, guid: 54d7d7a533a2fc540b10306965593ecc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
