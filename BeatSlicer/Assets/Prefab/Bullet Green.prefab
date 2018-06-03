@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 54348275910303840}
   m_Layer: 0
   m_Name: Bullet Green
-  m_TagString: Untagged
+  m_TagString: Bullet Green
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +114,8 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletSpeed: 10
   selfDestructTimer: 5
+  bulletType: 2
+  isToBeDestroyed: 0
 --- !u!135 &135280678016643376
 SphereCollider:
   m_ObjectHideFlags: 1
