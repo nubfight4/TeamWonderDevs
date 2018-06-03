@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Boss
+  - Boundary
+  - Bullet Red
+  - Bullet Blue
+  - Bullet Green
+  - Boss Bullet Hardpoint
   layers:
   - Default
   - TransparentFX

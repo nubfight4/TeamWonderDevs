@@ -25,8 +25,8 @@ GameObject:
   - component: {fileID: 114084594858110092}
   - component: {fileID: 54348275910303840}
   m_Layer: 0
-  m_Name: Bullet
-  m_TagString: Untagged
+  m_Name: Bullet Green
+  m_TagString: Bullet Green
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,7 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 95e0a7adf26610440bc82c0bc3b62949, type: 2}
+  - {fileID: 2100000, guid: ee31e5db7339a7f4e8aa874e3709b7d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -114,6 +114,8 @@ MonoBehaviour:
   player: {fileID: 0}
   bulletSpeed: 10
   selfDestructTimer: 5
+  bulletType: 2
+  isToBeDestroyed: 0
 --- !u!135 &135280678016643376
 SphereCollider:
   m_ObjectHideFlags: 1
