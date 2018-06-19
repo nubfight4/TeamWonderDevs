@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using System.Linq;
 
 public static class ArrayExtensions
@@ -13,7 +14,24 @@ public static class ArrayExtensions
 	
 public class BossAIScript : MonoBehaviour 
 {
-	enum AttackPattern
+    [SerializeField]
+
+    //Transform destination;
+    NavMeshAgent navMeshAgent;
+
+    public float wanderRadius;
+    public float wanderTimer;
+    private float wanderTimerTemp;
+
+    enum MovementPattern
+    {
+        MOVE_PATTERN_1 = 0,
+        MOVE_PATTERN_2,
+        MOVE_PATTERN_3,
+        SET_MOVE_PATTERN
+    };
+
+    enum AttackPattern
 	{
 		ATTACK_PATTERN_1 = 0,
 		ATTACK_PATTERN_2,
@@ -24,30 +42,16 @@ public class BossAIScript : MonoBehaviour
 	public GameObject player;
 
 	private Rigidbody bossRigidbody;
-	private Vector3 bossMovementVelocity;
-	private float bossMovementDirection = 3.0f;
-	private float defaultDirection = 1.0f;
-
-	private float floatIncreaseDecrease = 0.0f;
-	private bool isFloatIncrease = true;
-	public float floatForce = 90.0f;
-	public float floatHeight = 3.5f;
 
 	private string[] allBullets = {"Bullet Red", "Bullet Blue", "Bullet Green"};
 	//private string[] shootableBullets = {"Bullet Red", "Bullet Green"};
 	//private string[] unshootableBullets = {"Bullet Blue"};
 
-	public Transform bossBulletHardPoint;
-
-	//For Testing
-	public Transform bossBulletHardPointM;
-	public Transform bossBulletHardPointL;
-	public Transform bossBulletHardPointR;
-
 	public float nextFire = 2.0f;
 	private float nextFireTemp;
 
 	AttackPattern currentAttackPattern = AttackPattern.SET_ATTACK_PATTERN;
+    MovementPattern currentMovementPattern = MovementPattern.SET_MOVE_PATTERN;
 
 
 	void Awake()
@@ -55,27 +59,26 @@ public class BossAIScript : MonoBehaviour
 		player = GameObject.FindGameObjectWithTag("Player");
 		bossRigidbody = GetComponent<Rigidbody>();
 		nextFireTemp = nextFire;
-	}
+        wanderTimerTemp = wanderTimer;
+        navMeshAgent = this.GetComponent<NavMeshAgent>();
+    }
 
 
 	void Start()
 	{
 		nextFire = nextFireTemp;
 		currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
-	}
+        currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
+
+    }
 
 
 	void Update()
 	{
 		bossAIShootingFunction();
-		bossMovementFunction();
-	}
-
-
-	void FixedUpdate()
-	{
-		bossfloatingFunction();
-	}
+        bossMovementFunction();
+        //SetDestination();
+    }
 
 
 	void bossAIShootingFunction()
@@ -96,85 +99,46 @@ public class BossAIScript : MonoBehaviour
 
 	void bossMovementFunction()
 	{
-		if(defaultDirection < bossMovementDirection)
-		{
-			defaultDirection += 1.0f * Time.deltaTime;
-		}
-		else
-		{
-			//For Velocity Changes
-			if(Random.value > 0.5f)
-			{
-				bossMovementVelocity.x = 2.0f * Random.value;
-			}
-			else
-			{
-				bossMovementVelocity.x = -2.0f * Random.value;
-			}
+        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
+        {
+            wanderTimerTemp += Time.deltaTime;
 
-			if(Random.value > 0.5f)
-			{
-				bossMovementVelocity.z = 2.0f * Random.value;
-			}
-			else
-			{
-				bossMovementVelocity.z = -2.0f * Random.value;
-			}
+            if (wanderTimerTemp >= wanderTimer)
+            {
+                Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+                navMeshAgent.SetDestination(newPos);
+                wanderTimerTemp = 0;
+            }
+        }
+    }
 
-			//For Direction Changes
-			if(Random.value > 0.5f)
-			{
-				bossMovementDirection += Random.value;
-			}
-			else
-			{
-				bossMovementDirection -= Random.value;
-			}
-
-			if(Random.value < 1.0f)
-			{
-				bossMovementDirection = 1 + Random.value;
-			}
-
-			defaultDirection = 0.0f;
-		}
-
-		bossRigidbody.velocity = bossMovementVelocity;
-	}
+    /*
+    void SetDestination()
+    {
+        if(destination != null)
+        {
+            Vector3 targetVector = destination.transform.position;
+            navMeshAgent.SetDestination(targetVector);
+        }
+    }
+    */
 
 
-	void bossfloatingFunction()
-	{
-		Ray floatRay = new Ray (transform.position, -transform.up);
-		RaycastHit floatHit;
+    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
+    {
+        Vector3 randDirection = Random.insideUnitSphere * dist;
 
-		if(Physics.Raycast(floatRay, out floatHit, floatHeight))
-		{
-			if(isFloatIncrease == true)
-			{
-				floatIncreaseDecrease += Time.deltaTime;
-			}
-			else if(isFloatIncrease == false)
-			{
-				floatIncreaseDecrease -= Time.deltaTime;
-			}
+        randDirection += origin;
 
-			if(floatIncreaseDecrease >= 0.5f)
-			{
-				isFloatIncrease = false;
-			}
-			else if(floatIncreaseDecrease <= -0.5f)
-			{
-				isFloatIncrease = true;
-			}
+        NavMeshHit navHit;
 
-			float propotionalHeight = ((floatHeight - floatHit.distance) / floatHeight) + floatIncreaseDecrease;
-			Vector3 appliedHoverForce = Vector3.up * propotionalHeight * floatForce;
-			bossRigidbody.AddForce(appliedHoverForce, ForceMode.Acceleration);
-		}
-	}
+        NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
+
+        return navHit.position;
+    }
 
 
+    /*
 	void OnTriggerExit(Collider other)
 	{
 		if(other.tag == "Boundary")
@@ -183,6 +147,7 @@ public class BossAIScript : MonoBehaviour
 			bossMovementVelocity = bossMovementVelocity * 2.0f;
 		}
 	}
+    */
 
 
 	void setAttackPattern()
@@ -193,8 +158,8 @@ public class BossAIScript : MonoBehaviour
 
 			if(redBullet != null)
 			{
-				redBullet.transform.position = bossBulletHardPoint.position;
-				redBullet.transform.rotation = bossBulletHardPoint.rotation;
+				redBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -2);
+				redBullet.transform.rotation = transform.rotation;
 				redBullet.SetActive(true);
 			}
 
@@ -202,8 +167,8 @@ public class BossAIScript : MonoBehaviour
 
 			if(redBullet1 != null)
 			{
-				redBullet1.transform.position = bossBulletHardPointR.position;
-				redBullet1.transform.rotation = bossBulletHardPointR.rotation;
+				redBullet1.transform.position = transform.position + (transform.forward * 2) + (transform.right * 2) + (transform.up * -2);
+				redBullet1.transform.rotation = transform.rotation;
 				redBullet1.SetActive(true);
 			}
 
@@ -211,8 +176,8 @@ public class BossAIScript : MonoBehaviour
 
 			if(blueBullet != null)
 			{
-				blueBullet.transform.position = bossBulletHardPointM.position;
-				blueBullet.transform.rotation = bossBulletHardPointM.rotation;
+				blueBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
+				blueBullet.transform.rotation = transform.rotation;
 				blueBullet.SetActive(true);
 			}
 
@@ -220,8 +185,8 @@ public class BossAIScript : MonoBehaviour
 
 			if(blueBullet != null)
 			{
-				greenBullet.transform.position = bossBulletHardPointL.position;
-				greenBullet.transform.rotation = bossBulletHardPointL.rotation;
+				greenBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -2) + (transform.up * -2);
+				greenBullet.transform.rotation = transform.rotation;
 				greenBullet.SetActive(true);
 			}
 
@@ -233,8 +198,8 @@ public class BossAIScript : MonoBehaviour
 
 			if(randBullet != null)
 			{
-				randBullet.transform.position = bossBulletHardPoint.position;
-				randBullet.transform.rotation = bossBulletHardPoint.rotation;
+				randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -2);
+				randBullet.transform.rotation = transform.rotation;
 				randBullet.SetActive(true);
 
 				randBullet = null;
@@ -244,8 +209,8 @@ public class BossAIScript : MonoBehaviour
 
 			if(randBullet != null)
 			{
-				randBullet.transform.position = bossBulletHardPointR.position;
-				randBullet.transform.rotation = bossBulletHardPointR.rotation;
+				randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * 2) + (transform.up * -2);
+				randBullet.transform.rotation = transform.rotation;
 				randBullet.SetActive(true);
 
 				randBullet = null;
@@ -255,8 +220,8 @@ public class BossAIScript : MonoBehaviour
 
 			if(randBullet != null)
 			{
-				randBullet.transform.position = bossBulletHardPointM.position;
-				randBullet.transform.rotation = bossBulletHardPointM.rotation;
+				randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
+				randBullet.transform.rotation = transform.rotation;
 				randBullet.SetActive(true);
 
 				randBullet = null;
@@ -266,8 +231,8 @@ public class BossAIScript : MonoBehaviour
 
 			if(randBullet != null)
 			{
-				randBullet.transform.position = bossBulletHardPointL.position;
-				randBullet.transform.rotation = bossBulletHardPointL.rotation;
+				randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -2) + (transform.up * -2);
+				randBullet.transform.rotation = transform.rotation;
 				randBullet.SetActive(true);
 
 				randBullet = null;
