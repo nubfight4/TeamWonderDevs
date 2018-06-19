@@ -69,18 +69,17 @@ public class BulletBaseScript : MonoBehaviour
 		}
 	}
 
-
 	void OnTriggerEnter(Collider other)
 	{
 		if(gameObject.activeSelf == true)
 		{
 			if(bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
 			{
-				if(other.tag == "Player")
+				if(other.tag == "Player" || other.tag == "Sword")
 				{
-					isToBeDestroyed = true;
-				}
-			}
+                    isToBeDestroyed = true;
+                }
+            }
 		}
 	}
 }

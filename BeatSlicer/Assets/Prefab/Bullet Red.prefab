@@ -57,6 +57,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 95e0a7adf26610440bc82c0bc3b62949, type: 2}
   m_StaticBatchInfo:
@@ -112,8 +113,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  bulletSpeed: 10
-  selfDestructTimer: 5
+  bulletSpeed: 5
+  selfDestructTimer: 10
   bulletType: 0
   isToBeDestroyed: 0
 --- !u!135 &135280678016643376

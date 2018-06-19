@@ -10,6 +10,8 @@ TagManager:
   - Bullet Blue
   - Bullet Green
   - Boss Bullet Hardpoint
+  - Sword
+  - PlayerModel
   layers:
   - Default
   - TransparentFX
