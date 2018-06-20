@@ -11,17 +11,10 @@ public static class ArrayExtensions
 		return array[Random.Range(0, array.Length)];
 	}
 }
-	
-public class BossAIScript : MonoBehaviour 
+
+public class BossAIScript : MonoBehaviour
 {
     [SerializeField]
-
-    //Transform destination;
-    NavMeshAgent navMeshAgent;
-
-    public float wanderRadius;
-    public float wanderTimer;
-    private float wanderTimerTemp;
 
     enum MovementPattern
     {
@@ -32,32 +25,40 @@ public class BossAIScript : MonoBehaviour
     };
 
     enum AttackPattern
-	{
-		ATTACK_PATTERN_1 = 0,
-		ATTACK_PATTERN_2,
-		ATTACK_PATTERN_3,
-		SET_ATTACK_PATTERN
-	};
-		
-	public GameObject player;
+    {
+        ATTACK_PATTERN_1 = 0,
+        ATTACK_PATTERN_2,
+        ATTACK_PATTERN_3,
+        SET_ATTACK_PATTERN
+    };
 
-	private Rigidbody bossRigidbody;
+    public GameObject player;
 
-	private string[] allBullets = {"Bullet Red", "Bullet Blue", "Bullet Green"};
-	//private string[] shootableBullets = {"Bullet Red", "Bullet Green"};
-	//private string[] unshootableBullets = {"Bullet Blue"};
+    public float wanderRadius;
+    public float wanderTimer;
+    private float wanderTimerTemp;
 
-	public float nextFire = 2.0f;
-	private float nextFireTemp;
+    private string[] allBullets = { "Bullet Red", "Bullet Blue", "Bullet Green" };
+    //private string[] shootableBullets = {"Bullet Red", "Bullet Green"};
+    //private string[] unshootableBullets = {"Bullet Blue"};
 
-	AttackPattern currentAttackPattern = AttackPattern.SET_ATTACK_PATTERN;
+    public float nextFire = 2.0f;
+    private float nextFireTemp;
+
+    public List<GameObject> DestinationPoints;
+    private int selectedDestination;
+    NavMeshAgent navMeshAgent;
+
+    int[] bossTopMovement = new int[] {0, 1, 2, 6, 7, 8, 9, 10, 14, 15, 16};
+    int[] bossOuterRingMovement = new int[] {0, 1, 2, 3, 4, 5, 6, 7};
+
+    AttackPattern currentAttackPattern = AttackPattern.SET_ATTACK_PATTERN;
     MovementPattern currentMovementPattern = MovementPattern.SET_MOVE_PATTERN;
 
 
 	void Awake()
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
-		bossRigidbody = GetComponent<Rigidbody>();
 		nextFireTemp = nextFire;
         wanderTimerTemp = wanderTimer;
         navMeshAgent = this.GetComponent<NavMeshAgent>();
@@ -68,7 +69,7 @@ public class BossAIScript : MonoBehaviour
 	{
 		nextFire = nextFireTemp;
 		currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
-        currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
+        currentMovementPattern = MovementPattern.MOVE_PATTERN_3;
 
     }
 
@@ -77,7 +78,6 @@ public class BossAIScript : MonoBehaviour
 	{
 		bossAIShootingFunction();
         bossMovementFunction();
-        //SetDestination();
     }
 
 
@@ -103,10 +103,42 @@ public class BossAIScript : MonoBehaviour
         {
             wanderTimerTemp += Time.deltaTime;
 
-            if (wanderTimerTemp >= wanderTimer)
+            if(wanderTimerTemp >= wanderTimer)
             {
-                Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
-                navMeshAgent.SetDestination(newPos);
+                selectedDestination = Random.Range(0, bossTopMovement.Length);
+                navMeshAgent.SetDestination(DestinationPoints[selectedDestination].transform.position);
+                wanderTimerTemp = 0;
+            }
+        }
+
+        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
+        {
+            wanderTimerTemp += Time.deltaTime;
+
+            if(wanderTimerTemp >= wanderTimer)
+            {
+                selectedDestination = Random.Range(0, DestinationPoints.Count);
+                navMeshAgent.SetDestination(DestinationPoints[selectedDestination].transform.position);
+                wanderTimerTemp = 0;
+            }
+        }
+
+        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3)
+        {
+            wanderTimerTemp += Time.deltaTime;
+
+            if(wanderTimerTemp >= wanderTimer)
+            {
+                if(selectedDestination != bossOuterRingMovement.Length)
+                {
+                    selectedDestination++;
+                }
+                else
+                {
+                    selectedDestination = 0;
+                }
+
+                navMeshAgent.SetDestination(DestinationPoints[selectedDestination].transform.position);
                 wanderTimerTemp = 0;
             }
         }

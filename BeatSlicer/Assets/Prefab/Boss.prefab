@@ -199,11 +199,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d8b728bafc3bd4ab31973294323e86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgent: {fileID: 0}
-  wanderRadius: 20
-  wanderTimer: 1.2
   player: {fileID: 0}
+  wanderRadius: 20
+  wanderTimer: 3
   nextFire: 2
+  DestinationPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!136 &136749890439549308
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -232,7 +249,7 @@ NavMeshAgent:
   m_AngularSpeed: 150
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0.94
