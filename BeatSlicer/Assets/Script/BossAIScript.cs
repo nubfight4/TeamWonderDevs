@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using System.Linq;
 
 public static class ArrayExtensions
@@ -10,270 +11,323 @@ public static class ArrayExtensions
 		return array[Random.Range(0, array.Length)];
 	}
 }
-	
-public class BossAIScript : MonoBehaviour 
+
+public class BossAIScript : MonoBehaviour
 {
-	enum AttackPattern
-	{
-		ATTACK_PATTERN_1 = 0,
-		ATTACK_PATTERN_2,
-		ATTACK_PATTERN_3,
-		SET_ATTACK_PATTERN
-	};
-		
-	public GameObject player;
+    [SerializeField]
 
-	private Rigidbody bossRigidbody;
-	private Vector3 bossMovementVelocity;
-	private float bossMovementDirection = 3.0f;
-	private float defaultDirection = 1.0f;
+    enum MovementPattern
+    {
+        MOVE_PATTERN_1 = 0,
+        MOVE_PATTERN_2,
+        MOVE_PATTERN_3,
+        SET_MOVE_PATTERN
+    };
 
-	private float floatIncreaseDecrease = 0.0f;
-	private bool isFloatIncrease = true;
-	public float floatForce = 90.0f;
-	public float floatHeight = 3.5f;
+    enum AttackPattern
+    {
+        ATTACK_PATTERN_1 = 0,
+        ATTACK_PATTERN_2,
+        ATTACK_PATTERN_3,
+        SET_ATTACK_PATTERN
+    };
 
-	private string[] allBullets = {"Bullet Red", "Bullet Blue", "Bullet Green"};
-	//private string[] shootableBullets = {"Bullet Red", "Bullet Green"};
-	//private string[] unshootableBullets = {"Bullet Blue"};
+    public GameObject player;
 
-	public Transform bossBulletHardPoint;
+    public bool isFloatingActive = true;
+    private bool bossFloatingBool;
 
-	//For Testing
-	public Transform bossBulletHardPointM;
-	public Transform bossBulletHardPointL;
-	public Transform bossBulletHardPointR;
+    public float movementTimer;
+    private float movementTimerTemp;
 
-	public float nextFire = 2.0f;
-	private float nextFireTemp;
+    private string[] allBullets = {"Bullet Red", "Bullet Blue", "Bullet Green"};
+    //private string[] shootableBullets = {"Bullet Red", "Bullet Green"};
+    //private string[] unshootableBullets = {"Bullet Blue"};
 
-	AttackPattern currentAttackPattern = AttackPattern.SET_ATTACK_PATTERN;
+    private bool isShooting;
+    public float timeBetweenBullets = 0.5f;
+    private float timeBetweenBulletsTemp;
+
+    public List<GameObject> DestinationPoints;
+    private int selectedDestination;
+    NavMeshAgent navMeshAgent;
+
+    int[] bossTopMovement = new int[] {0, 1, 2, 6, 7, 8, 9, 15};
+    int[] bossOuterRingMovement = new int[] {0, 1, 2, 3, 4, 5, 6, 7};
+
+    AttackPattern currentAttackPattern = AttackPattern.SET_ATTACK_PATTERN;
+    MovementPattern currentMovementPattern = MovementPattern.SET_MOVE_PATTERN;
 
 
 	void Awake()
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
-		bossRigidbody = GetComponent<Rigidbody>();
-		nextFireTemp = nextFire;
-	}
+		timeBetweenBulletsTemp = timeBetweenBullets;
+        movementTimerTemp = movementTimer;
+        navMeshAgent = this.GetComponent<NavMeshAgent>();
+    }
 
 
 	void Start()
 	{
-		nextFire = nextFireTemp;
+        StartCoroutine(ShootTimeNumGen());
+
+		timeBetweenBullets = timeBetweenBulletsTemp;
 		currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
-	}
+        currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
+
+        Debug.Log("Current Move Pattern = " + currentMovementPattern);
+        Debug.Log("Press 'J' to change Movement Pattern. This message will not repeat.");
+    }
 
 
 	void Update()
 	{
-		bossAIShootingFunction();
-		bossMovementFunction();
-	}
+		BossAIShootingFunction();
+        BossMovementFunction();
+
+        TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
+    }
 
 
-	void FixedUpdate()
+    void FixedUpdate()
+    {
+        if(isFloatingActive == true)
+        {
+            BossFloatingFunction();
+        }
+    }
+
+
+    void BossAIShootingFunction()
 	{
-		bossfloatingFunction();
-	}
-
-
-	void bossAIShootingFunction()
-	{
-		nextFire -= Time.deltaTime;
+		timeBetweenBullets -= Time.deltaTime;
 		transform.LookAt(player.transform);
 		Vector3 eulerAngles = transform.rotation.eulerAngles;
 		eulerAngles = new Vector3(0, eulerAngles.y, 0);
 		transform.rotation = Quaternion.Euler(eulerAngles);
 
-		if(nextFire <= 0)
-		{
-			nextFire = nextFireTemp;
-			setAttackPattern();
-		}
+        SetAttackPattern();
 	}
 		
 
-	void bossMovementFunction()
+	void BossMovementFunction()
 	{
-		if(defaultDirection < bossMovementDirection)
-		{
-			defaultDirection += 1.0f * Time.deltaTime;
-		}
-		else
-		{
-			//For Velocity Changes
-			if(Random.value > 0.5f)
-			{
-				bossMovementVelocity.x = 2.0f * Random.value;
-			}
-			else
-			{
-				bossMovementVelocity.x = -2.0f * Random.value;
-			}
+        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
+        {
+            movementTimerTemp += Time.deltaTime;
 
-			if(Random.value > 0.5f)
-			{
-				bossMovementVelocity.z = 2.0f * Random.value;
-			}
-			else
-			{
-				bossMovementVelocity.z = -2.0f * Random.value;
-			}
+            if(movementTimerTemp >= movementTimer)
+            {
+                selectedDestination = bossTopMovement[Random.Range(0,bossTopMovement.Length)];
+                navMeshAgent.SetDestination(DestinationPoints[selectedDestination].transform.position);
+                movementTimerTemp = 0;
+            }
+        }
 
-			//For Direction Changes
-			if(Random.value > 0.5f)
-			{
-				bossMovementDirection += Random.value;
-			}
-			else
-			{
-				bossMovementDirection -= Random.value;
-			}
+        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
+        {
+            movementTimerTemp += Time.deltaTime;
 
-			if(Random.value < 1.0f)
-			{
-				bossMovementDirection = 1 + Random.value;
-			}
+            if(movementTimerTemp >= movementTimer)
+            {
+                selectedDestination = Random.Range(0, DestinationPoints.Count);
+                navMeshAgent.SetDestination(DestinationPoints[selectedDestination].transform.position);
+                movementTimerTemp = 0;
+            }
+        }
 
-			defaultDirection = 0.0f;
-		}
+        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3)
+        {
+            movementTimerTemp += Time.deltaTime;
 
-		bossRigidbody.velocity = bossMovementVelocity;
-	}
+            if(movementTimerTemp >= movementTimer)
+            {
+                if(selectedDestination >= (bossOuterRingMovement.Length - 1))
+                {
+                    selectedDestination = 0;
+                }
+                else
+                {
+                    selectedDestination++;
+                }
 
-
-	void bossfloatingFunction()
-	{
-		Ray floatRay = new Ray (transform.position, -transform.up);
-		RaycastHit floatHit;
-
-		if(Physics.Raycast(floatRay, out floatHit, floatHeight))
-		{
-			if(isFloatIncrease == true)
-			{
-				floatIncreaseDecrease += Time.deltaTime;
-			}
-			else if(isFloatIncrease == false)
-			{
-				floatIncreaseDecrease -= Time.deltaTime;
-			}
-
-			if(floatIncreaseDecrease >= 0.5f)
-			{
-				isFloatIncrease = false;
-			}
-			else if(floatIncreaseDecrease <= -0.5f)
-			{
-				isFloatIncrease = true;
-			}
-
-			float propotionalHeight = ((floatHeight - floatHit.distance) / floatHeight) + floatIncreaseDecrease;
-			Vector3 appliedHoverForce = Vector3.up * propotionalHeight * floatForce;
-			bossRigidbody.AddForce(appliedHoverForce, ForceMode.Acceleration);
-		}
-	}
+                navMeshAgent.SetDestination(DestinationPoints[selectedDestination].transform.position);
+                movementTimerTemp = 0;
+            }
+        }
+    }
 
 
-	void OnTriggerExit(Collider other)
-	{
-		if(other.tag == "Boundary")
-		{
-			bossMovementVelocity = -bossMovementVelocity.normalized;
-			bossMovementVelocity = bossMovementVelocity * 2.0f;
-		}
-	}
+    void BossFloatingFunction()
+    {
+        if(navMeshAgent.baseOffset >= 1.5f)
+        {
+            bossFloatingBool = false;
+        }
+        else if(navMeshAgent.baseOffset <= 0.95f)
+        {
+            bossFloatingBool = true;
+        }
+
+        if(bossFloatingBool == true)
+        {
+            navMeshAgent.baseOffset += Time.deltaTime * 0.25f;
+        }
+        else if(bossFloatingBool == false)
+        {
+            navMeshAgent.baseOffset -= Time.deltaTime * 0.25f;
+        }
+    }
 
 
-	void setAttackPattern()
+	void SetAttackPattern()
 	{
 		if(currentAttackPattern == AttackPattern.ATTACK_PATTERN_1) // Set Bullets
 		{
-			GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+            if(timeBetweenBullets <= 0 && isShooting == true)
+		    {
+                GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
 
-			if(redBullet != null)
-			{
-				redBullet.transform.position = bossBulletHardPoint.position;
-				redBullet.transform.rotation = bossBulletHardPoint.rotation;
-				redBullet.SetActive(true);
-			}
+                if(redBullet != null)
+                {
+                    redBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -2);
+                    redBullet.transform.rotation = transform.rotation;
+                    redBullet.SetActive(true);
+                }
 
-			GameObject redBullet1 = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                GameObject redBullet1 = ObjectPooler.Instance.getPooledObject("Bullet Red");
 
-			if(redBullet1 != null)
-			{
-				redBullet1.transform.position = bossBulletHardPointR.position;
-				redBullet1.transform.rotation = bossBulletHardPointR.rotation;
-				redBullet1.SetActive(true);
-			}
+                if(redBullet1 != null)
+                {
+                    redBullet1.transform.position = transform.position + (transform.forward * 2) + (transform.right * 2) + (transform.up * -2);
+                    redBullet1.transform.rotation = transform.rotation;
+                    redBullet1.SetActive(true);
+                }
 
-			GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Bullet Blue");
+                GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Bullet Blue");
 
-			if(blueBullet != null)
-			{
-				blueBullet.transform.position = bossBulletHardPointM.position;
-				blueBullet.transform.rotation = bossBulletHardPointM.rotation;
-				blueBullet.SetActive(true);
-			}
+                if(blueBullet != null)
+                {
+                    blueBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
+                    blueBullet.transform.rotation = transform.rotation;
+                    blueBullet.SetActive(true);
+                }
 
-			GameObject greenBullet = ObjectPooler.Instance.getPooledObject("Bullet Green");
+                GameObject greenBullet = ObjectPooler.Instance.getPooledObject("Bullet Green");
 
-			if(blueBullet != null)
-			{
-				greenBullet.transform.position = bossBulletHardPointL.position;
-				greenBullet.transform.rotation = bossBulletHardPointL.rotation;
-				greenBullet.SetActive(true);
-			}
+                if(blueBullet != null)
+                {
+                    greenBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -2) + (transform.up * -2);
+                    greenBullet.transform.rotation = transform.rotation;
+                    greenBullet.SetActive(true);
+                }
 
-			currentAttackPattern = AttackPattern.ATTACK_PATTERN_2;
+                timeBetweenBullets = timeBetweenBulletsTemp;
+		    }
 		}
 		else if(currentAttackPattern == AttackPattern.ATTACK_PATTERN_2) // Randomized Bullets
 		{
-			GameObject randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
+            if(timeBetweenBullets <= 0 && isShooting == true)
+            {
+                GameObject randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
 
-			if(randBullet != null)
-			{
-				randBullet.transform.position = bossBulletHardPoint.position;
-				randBullet.transform.rotation = bossBulletHardPoint.rotation;
-				randBullet.SetActive(true);
+                if(randBullet != null)
+                {
+                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -2);
+                    randBullet.transform.rotation = transform.rotation;
+                    randBullet.SetActive(true);
 
-				randBullet = null;
-			}
+                    randBullet = null;
+                }
 
-			randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
+                randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
 
-			if(randBullet != null)
-			{
-				randBullet.transform.position = bossBulletHardPointR.position;
-				randBullet.transform.rotation = bossBulletHardPointR.rotation;
-				randBullet.SetActive(true);
+                if(randBullet != null)
+                {
+                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * 4) + (transform.up * -2);
+                    randBullet.transform.rotation = transform.rotation;
+                    randBullet.SetActive(true);
 
-				randBullet = null;
-			}
+                    randBullet = null;
+                }
 
-			randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
+                randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
 
-			if(randBullet != null)
-			{
-				randBullet.transform.position = bossBulletHardPointM.position;
-				randBullet.transform.rotation = bossBulletHardPointM.rotation;
-				randBullet.SetActive(true);
+                if(randBullet != null)
+                {
+                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
+                    randBullet.transform.rotation = transform.rotation;
+                    randBullet.SetActive(true);
 
-				randBullet = null;
-			}
+                    randBullet = null;
+                }
 
-			randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
+                randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
 
-			if(randBullet != null)
-			{
-				randBullet.transform.position = bossBulletHardPointL.position;
-				randBullet.transform.rotation = bossBulletHardPointL.rotation;
-				randBullet.SetActive(true);
+                if(randBullet != null)
+                {
+                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -4) + (transform.up * -2);
+                    randBullet.transform.rotation = transform.rotation;
+                    randBullet.SetActive(true);
 
-				randBullet = null;
-			}
+                    randBullet = null;
+                }
 
-			currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
+                timeBetweenBullets = timeBetweenBulletsTemp;
+            }
 		}
 	}
+
+
+    /// Temporary Functions Here
+
+
+    void TempMovePatternChangeButton() // Press 'J' To Change Between Movement Patterns 
+    {
+         if(Input.GetKeyDown(KeyCode.J))
+        {
+            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
+            {
+                currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
+                currentAttackPattern = AttackPattern.ATTACK_PATTERN_2;
+
+                Debug.Log("Current Move Pattern = " + currentMovementPattern);
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
+            {
+                currentMovementPattern = MovementPattern.MOVE_PATTERN_3;
+                currentAttackPattern = AttackPattern.ATTACK_PATTERN_2;
+
+                Debug.Log("Current Move Pattern = " + currentMovementPattern);
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3)
+            {
+                currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
+                currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
+
+                Debug.Log("Current Move Pattern = " + currentMovementPattern);
+            }
+        }
+    }
+
+
+    IEnumerator ShootTimeNumGen() //  Randomises Between isShooting = true || isShooting = false 
+    {
+        while(true)
+        {
+            int randResult = Random.Range(0,2);
+
+            if(randResult == 0)
+            {
+                isShooting = true;
+            }
+            else
+            {
+                isShooting = false;
+            }
+
+            yield return new WaitForSeconds(3);
+        }
+    }
 }
