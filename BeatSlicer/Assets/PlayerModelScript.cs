@@ -54,7 +54,7 @@ public class PlayerModelScript : MonoBehaviour {
             }
         }
     }
-
+    /*
     void OnCollisionEnter(Collider collision)
     {
         if (collision.tag == "Bullet Red" || collision.tag == "Bullet Green" || collision.tag == "Bullet Blue")
@@ -62,4 +62,5 @@ public class PlayerModelScript : MonoBehaviour {
             health--;
         }
     }
+    */
 }
