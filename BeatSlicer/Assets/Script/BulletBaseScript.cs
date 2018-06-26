@@ -34,14 +34,14 @@ public class BulletBaseScript : MonoBehaviour
 	void OnEnable()
 	{
 		selfDestructTimer = tempSelfDestructTimer;
-		bulletRigidbody.velocity = transform.forward * bulletSpeed;
-	}
+        bulletRigidbody.velocity = transform.forward * bulletSpeed;
+    }
 
 
 	void Update()
 	{
-		bulletBaseScriptUpdate();
-	}
+        bulletBaseScriptUpdate();
+    }
 
 
 	public void bulletBaseScriptUpdate()
@@ -69,18 +69,36 @@ public class BulletBaseScript : MonoBehaviour
 		}
 	}
 
+    /*
+    private void OnCollisionEnter(Collision other)
+    {
+        if (gameObject.activeSelf == true)
+        {
+            if (bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
+            {
+                if (other.gameObject.tag == "Player" || other.gameObject.tag == "Sword")
+                {
+                    isToBeDestroyed = true;
+                }
+            }
+        }
+    }
+    */
 
-	void OnTriggerEnter(Collider other)
+    
+    void OnTriggerEnter(Collider other)
 	{
-		if(gameObject.activeSelf == true)
-		{
-			if(bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
-			{
-				if(other.tag == "Player")
+
+        if (gameObject.activeSelf == true)
+        {
+            if (bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
+            {
+                if (other.tag == "PlayerHitbox" || other.gameObject.tag == "Sword" || other.gameObject.tag == "ChargeSlashProjectile")
 				{
-					isToBeDestroyed = true;
-				}
-			}
+                    isToBeDestroyed = true;
+                }
+            }
 		}
 	}
+    
 }

@@ -10,6 +10,9 @@ TagManager:
   - Bullet Blue
   - Bullet Green
   - Boss Bullet Hardpoint
+  - BossHitbox
+  - PlayerHitbox
+  - ChargeSlashProjectile
   layers:
   - Default
   - TransparentFX
