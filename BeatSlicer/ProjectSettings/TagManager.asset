@@ -13,6 +13,8 @@ TagManager:
   - Sword
   - PlayerModel
   - PlayerHitbox
+  - BossHitbox
+  - ChargeSlashProjectile
   layers:
   - Default
   - TransparentFX

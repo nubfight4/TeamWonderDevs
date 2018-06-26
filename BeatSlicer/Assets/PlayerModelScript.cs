@@ -12,6 +12,7 @@ public class PlayerModelScript : MonoBehaviour {
     public float maxCharge;
 
     private bool isPlayerAttacking = false;
+    public bool isPlayerChargeSlashing = false;
     Animator animator;
 
     public Image healthBar;
@@ -39,6 +40,7 @@ public class PlayerModelScript : MonoBehaviour {
         }
 
         animator.SetBool("isPlayerAttacking", isPlayerAttacking);
+        animator.SetBool("isPlayerChargeSlashing", isPlayerChargeSlashing);
 
         if (Input.GetButton("Attack"))
         {
@@ -53,6 +55,20 @@ public class PlayerModelScript : MonoBehaviour {
                 isPlayerAttacking = false;
             }
         }
+
+        if (Input.GetButton("ChargeSlash") && charge >= maxCharge)
+        {
+            {
+                isPlayerChargeSlashing = true;
+                charge = 0;            
+            }
+        }
+    }
+
+    public void StopChargeSlashAnim()
+    {
+        if(charge < maxCharge)
+        isPlayerChargeSlashing = false;
     }
     /*
     void OnCollisionEnter(Collider collision)

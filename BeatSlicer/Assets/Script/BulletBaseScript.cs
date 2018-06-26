@@ -88,11 +88,12 @@ public class BulletBaseScript : MonoBehaviour
     
     void OnTriggerEnter(Collider other)
 	{
-		if(gameObject.activeSelf == true)
-		{
-			if(bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
-			{
-				if(other.tag == "PlayerHitbox" || other.tag == "Sword")
+
+        if (gameObject.activeSelf == true)
+        {
+            if (bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
+            {
+                if (other.tag == "PlayerHitbox" || other.gameObject.tag == "Sword" || other.gameObject.tag == "ChargeSlashProjectile")
 				{
                     isToBeDestroyed = true;
                 }
