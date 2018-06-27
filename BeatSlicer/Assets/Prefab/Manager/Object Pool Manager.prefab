@@ -57,15 +57,15 @@ MonoBehaviour:
   - objectToPool: {fileID: 1628238117781054, guid: 9f33bdbc41387e846a43eb5687e8f834,
       type: 2}
     poolName: Red Bullets
-    amountToPool: 10
+    amountToPool: 20
     shouldExpand: 0
   - objectToPool: {fileID: 1628238117781054, guid: dc6f85a9d7de3e64b9f025d6501962c4,
       type: 2}
     poolName: Blue Bullets
-    amountToPool: 10
+    amountToPool: 20
     shouldExpand: 0
   - objectToPool: {fileID: 1628238117781054, guid: f1bc4b5d86ba88f46bb9d7c81ca62175,
       type: 2}
     poolName: Green Bullets
-    amountToPool: 10
+    amountToPool: 20
     shouldExpand: 0

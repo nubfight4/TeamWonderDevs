@@ -44,8 +44,9 @@ public class BossAIScript : MonoBehaviour
     //private string[] shootableBullets = {"Bullet Red", "Bullet Green"};
     //private string[] unshootableBullets = {"Bullet Blue"};
 
-    public float nextFire = 2.0f;
-    private float nextFireTemp;
+    private bool isShooting;
+    public float timeBetweenBullets = 0.5f;
+    private float timeBetweenBulletsTemp;
 
     public List<GameObject> DestinationPoints;
     private int selectedDestination;
@@ -61,7 +62,7 @@ public class BossAIScript : MonoBehaviour
 	void Awake()
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
-		nextFireTemp = nextFire;
+		timeBetweenBulletsTemp = timeBetweenBullets;
         movementTimerTemp = movementTimer;
         navMeshAgent = this.GetComponent<NavMeshAgent>();
     }
@@ -69,7 +70,9 @@ public class BossAIScript : MonoBehaviour
 
 	void Start()
 	{
-		nextFire = nextFireTemp;
+        StartCoroutine(ShootTimeNumGen());
+
+		timeBetweenBullets = timeBetweenBulletsTemp;
 		currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
         currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
 
@@ -98,17 +101,13 @@ public class BossAIScript : MonoBehaviour
 
     void BossAIShootingFunction()
 	{
-		nextFire -= Time.deltaTime;
+		timeBetweenBullets -= Time.deltaTime;
 		transform.LookAt(player.transform);
 		Vector3 eulerAngles = transform.rotation.eulerAngles;
 		eulerAngles = new Vector3(0, eulerAngles.y, 0);
 		transform.rotation = Quaternion.Euler(eulerAngles);
 
-		if(nextFire <= 0)
-		{
-			nextFire = nextFireTemp;
-			SetAttackPattern();
-		}
+        SetAttackPattern();
 	}
 		
 
@@ -186,131 +185,149 @@ public class BossAIScript : MonoBehaviour
 	{
 		if(currentAttackPattern == AttackPattern.ATTACK_PATTERN_1) // Set Bullets
 		{
-			GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+            if(timeBetweenBullets <= 0 && isShooting == true)
+		    {
+                GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
 
-			if(redBullet != null)
-			{
-				redBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -2);
-				redBullet.transform.rotation = transform.rotation;
-				redBullet.SetActive(true);
-			}
+                if(redBullet != null)
+                {
+                    redBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -2);
+                    redBullet.transform.rotation = transform.rotation;
+                    redBullet.SetActive(true);
+                }
 
-			GameObject redBullet1 = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                GameObject redBullet1 = ObjectPooler.Instance.getPooledObject("Bullet Red");
 
-			if(redBullet1 != null)
-			{
-				redBullet1.transform.position = transform.position + (transform.forward * 2) + (transform.right * 2) + (transform.up * -2);
-				redBullet1.transform.rotation = transform.rotation;
-				redBullet1.SetActive(true);
-			}
+                if(redBullet1 != null)
+                {
+                    redBullet1.transform.position = transform.position + (transform.forward * 2) + (transform.right * 2) + (transform.up * -2);
+                    redBullet1.transform.rotation = transform.rotation;
+                    redBullet1.SetActive(true);
+                }
 
-			GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Bullet Blue");
+                GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Bullet Blue");
 
-			if(blueBullet != null)
-			{
-				blueBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
-				blueBullet.transform.rotation = transform.rotation;
-				blueBullet.SetActive(true);
-			}
+                if(blueBullet != null)
+                {
+                    blueBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
+                    blueBullet.transform.rotation = transform.rotation;
+                    blueBullet.SetActive(true);
+                }
 
-			GameObject greenBullet = ObjectPooler.Instance.getPooledObject("Bullet Green");
+                GameObject greenBullet = ObjectPooler.Instance.getPooledObject("Bullet Green");
 
-			if(blueBullet != null)
-			{
-				greenBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -2) + (transform.up * -2);
-				greenBullet.transform.rotation = transform.rotation;
-				greenBullet.SetActive(true);
-			}
+                if(blueBullet != null)
+                {
+                    greenBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -2) + (transform.up * -2);
+                    greenBullet.transform.rotation = transform.rotation;
+                    greenBullet.SetActive(true);
+                }
 
-			currentAttackPattern = AttackPattern.ATTACK_PATTERN_2;
+                timeBetweenBullets = timeBetweenBulletsTemp;
+		    }
 		}
 		else if(currentAttackPattern == AttackPattern.ATTACK_PATTERN_2) // Randomized Bullets
 		{
-			GameObject randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
+            if(timeBetweenBullets <= 0 && isShooting == true)
+            {
+                GameObject randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
 
-			if(randBullet != null)
-			{
-				randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -2);
-				randBullet.transform.rotation = transform.rotation;
-				randBullet.SetActive(true);
+                if(randBullet != null)
+                {
+                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -2);
+                    randBullet.transform.rotation = transform.rotation;
+                    randBullet.SetActive(true);
 
-				randBullet = null;
-			}
+                    randBullet = null;
+                }
 
-			randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
+                randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
 
-			if(randBullet != null)
-			{
-				randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * 2) + (transform.up * -2);
-				randBullet.transform.rotation = transform.rotation;
-				randBullet.SetActive(true);
+                if(randBullet != null)
+                {
+                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * 4) + (transform.up * -2);
+                    randBullet.transform.rotation = transform.rotation;
+                    randBullet.SetActive(true);
 
-				randBullet = null;
-			}
+                    randBullet = null;
+                }
 
-			randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
+                randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
 
-			if(randBullet != null)
-			{
-				randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
-				randBullet.transform.rotation = transform.rotation;
-				randBullet.SetActive(true);
+                if(randBullet != null)
+                {
+                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
+                    randBullet.transform.rotation = transform.rotation;
+                    randBullet.SetActive(true);
 
-				randBullet = null;
-			}
+                    randBullet = null;
+                }
 
-			randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
+                randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
 
-			if(randBullet != null)
-			{
-				randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -2) + (transform.up * -2);
-				randBullet.transform.rotation = transform.rotation;
-				randBullet.SetActive(true);
+                if(randBullet != null)
+                {
+                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -4) + (transform.up * -2);
+                    randBullet.transform.rotation = transform.rotation;
+                    randBullet.SetActive(true);
 
-				randBullet = null;
-			}
+                    randBullet = null;
+                }
 
-			currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
+                timeBetweenBullets = timeBetweenBulletsTemp;
+            }
 		}
 	}
 
 
-    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
-    {
-        Vector3 randDirection = Random.insideUnitSphere * dist;
-
-        randDirection += origin;
-
-        NavMeshHit navHit;
-
-        NavMesh.SamplePosition(randDirection, out navHit, dist, layermask);
-
-        return navHit.position;
-    }
+    /// Temporary Functions Here
 
 
-    void TempMovePatternChangeButton()
+    void TempMovePatternChangeButton() // Press 'J' To Change Between Movement Patterns 
     {
          if(Input.GetKeyDown(KeyCode.J))
         {
             if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
             {
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
+                currentAttackPattern = AttackPattern.ATTACK_PATTERN_2;
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
             {
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_3;
+                currentAttackPattern = AttackPattern.ATTACK_PATTERN_2;
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3)
             {
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
+                currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
+        }
+    }
+
+
+    IEnumerator ShootTimeNumGen() //  Randomises Between isShooting = true || isShooting = false 
+    {
+        while(true)
+        {
+            int randResult = Random.Range(0,2);
+
+            if(randResult == 0)
+            {
+                isShooting = true;
+            }
+            else
+            {
+                isShooting = false;
+            }
+
+            yield return new WaitForSeconds(3);
         }
     }
 }
