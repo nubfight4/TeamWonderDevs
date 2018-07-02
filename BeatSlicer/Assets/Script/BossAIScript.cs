@@ -107,7 +107,7 @@ public class BossAIScript : MonoBehaviour
 		eulerAngles = new Vector3(0, eulerAngles.y, 0);
 		transform.rotation = Quaternion.Euler(eulerAngles);
 
-        SetAttackPattern();
+        //SetAttackPattern(); // Legacy Shooting Code
 	}
 		
 

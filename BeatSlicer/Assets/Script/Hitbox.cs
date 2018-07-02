@@ -6,7 +6,15 @@ public class Hitbox : MonoBehaviour {
 
     public PlayerModelScript player;
 
-	//Just put this in bullet script - Kevin.
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
 
     private void OnTriggerEnter(Collider collision)
     {

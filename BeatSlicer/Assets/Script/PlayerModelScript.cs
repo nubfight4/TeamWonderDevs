@@ -12,12 +12,10 @@ public class PlayerModelScript : MonoBehaviour {
     public float maxCharge;
 
     private bool isPlayerAttacking = false;
-    public bool isPlayerChargeSlashing = false;
     Animator animator;
 
     public Image healthBar;
     public Image chargeBar;
-    public GameObject chargeSlashProjectile;
 
     // Use this for initialization
     void Start() {
@@ -31,6 +29,7 @@ public class PlayerModelScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+
         healthBar.fillAmount = health / maxHealth;
         chargeBar.fillAmount = charge / maxCharge;
 
@@ -40,7 +39,6 @@ public class PlayerModelScript : MonoBehaviour {
         }
 
         animator.SetBool("isPlayerAttacking", isPlayerAttacking);
-        animator.SetBool("isPlayerChargeSlashing", isPlayerChargeSlashing);
 
         if (Input.GetButton("Attack"))
         {
@@ -55,25 +53,6 @@ public class PlayerModelScript : MonoBehaviour {
                 isPlayerAttacking = false;
             }
         }
-
-        if (Input.GetButton("ChargeSlash") && charge >= maxCharge)
-        {
-            {
-                isPlayerChargeSlashing = true;
-                charge = 0;            
-            }
-        }
-    }
-
-    public void ChargeSlash()
-    {
-        Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(90.0f,90.0f,0.0f));
-    }
-
-    public void StopChargeSlashAnim()
-    {
-        if(charge < maxCharge)
-        isPlayerChargeSlashing = false;
     }
     /*
     void OnCollisionEnter(Collider collision)
