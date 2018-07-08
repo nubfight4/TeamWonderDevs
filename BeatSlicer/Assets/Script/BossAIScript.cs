@@ -22,7 +22,6 @@ public class BossAIScript : MonoBehaviour
         MOVE_PATTERN_2,
         MOVE_PATTERN_3A,
         MOVE_PATTERN_3B,
-        MOVE_PATTERN_FALL,
         SET_MOVE_PATTERN
     };
 
@@ -46,6 +45,7 @@ public class BossAIScript : MonoBehaviour
     public List<GameObject> StageTwoPoints;
 
     private int selectedDestination;
+    private int previousDestination;
     NavMeshAgent navMeshAgent;
 
     int[] bossStageOneMovement = new int[] {0, 1, 7}; // Removed 8, 9, 15
@@ -62,6 +62,7 @@ public class BossAIScript : MonoBehaviour
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
         movementTimerTemp = movementTimer;
+        previousDestination = 99; // Initializing with a number that is not 0
         navMeshAgent = this.GetComponent<NavMeshAgent>();
     }
 
@@ -80,6 +81,7 @@ public class BossAIScript : MonoBehaviour
 
 	void Update()
 	{
+        LookAtPlayerFunction();
         BossMovementFunction();
 
         TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
@@ -94,14 +96,18 @@ public class BossAIScript : MonoBehaviour
         }
     }
 
-	
-	void BossMovementFunction()
-	{
+
+    void LookAtPlayerFunction()
+    {
         transform.LookAt(player.transform);
         Vector3 eulerAngles = transform.rotation.eulerAngles;
         eulerAngles = new Vector3(0,eulerAngles.y,0);
         transform.rotation = Quaternion.Euler(eulerAngles);
+    }
 
+	
+	void BossMovementFunction()
+	{
         if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
         {
             navMeshAgent.speed = 0;
@@ -112,7 +118,7 @@ public class BossAIScript : MonoBehaviour
             {
                 navMeshAgent.speed = 0;
 
-                if(isEmergingUp != true && currentMovementPattern != MovementPattern.MOVE_PATTERN_3B)
+                if(isEmergingUp != true && currentMovementPattern != MovementPattern.MOVE_PATTERN_3B) // If MOVE_PATTERN_2, this will repeat the cycle
                 {
                     movementTimerTemp -= Time.deltaTime;
 
@@ -212,7 +218,6 @@ public class BossAIScript : MonoBehaviour
             {
                 if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
                 {
-                    selectedDestination = bossStageOneMovement[Random.Range(0,bossStageOneMovement.Length)];
                     transform.position = StageOnePoints[selectedDestination].transform.position;
                 }
                 else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
@@ -242,15 +247,6 @@ public class BossAIScript : MonoBehaviour
                 {
                     bossFloatingBool = true;
                 }
-
-                if(bossFloatingBool == true)
-                {
-                    navMeshAgent.baseOffset += Time.deltaTime * 0.25f;
-                }
-                else if(bossFloatingBool == false)
-                {
-                    navMeshAgent.baseOffset -= Time.deltaTime * 0.25f;
-                }
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
             {
@@ -262,15 +258,15 @@ public class BossAIScript : MonoBehaviour
                 {
                     bossFloatingBool = true;
                 }
+            }
 
-                if(bossFloatingBool == true)
-                {
-                    navMeshAgent.baseOffset += Time.deltaTime * 0.25f;
-                }
-                else if(bossFloatingBool == false)
-                {
-                    navMeshAgent.baseOffset -= Time.deltaTime * 0.25f;
-                }
+            if(bossFloatingBool == true)
+            {
+                navMeshAgent.baseOffset += Time.deltaTime * 0.25f;
+            }
+            else if(bossFloatingBool == false)
+            {
+                navMeshAgent.baseOffset -= Time.deltaTime * 0.25f;
             }
         }
     }
@@ -291,6 +287,8 @@ public class BossAIScript : MonoBehaviour
                 isEmergingUp = false;
                 isVanishing = false;
                 isMoving = false;
+
+                previousDestination = 99; // Reset to number other than 0
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
@@ -325,6 +323,8 @@ public class BossAIScript : MonoBehaviour
                 isVanishing = true;
                 isMoving = false;
 
+                previousDestination = 99; // Reset to number other than 0
+
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
         }
@@ -339,8 +339,15 @@ public class BossAIScript : MonoBehaviour
 
             if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
             {
-                selectedDestination = bossStageOneMovement[Random.Range(0,bossStageOneMovement.Length)];
+                do
+                {
+                    selectedDestination = bossStageOneMovement[Random.Range(0,bossStageOneMovement.Length)];
+
+                } while(selectedDestination == previousDestination); // Will repeat randomization until selectedDestination != previousDestination
+
                 navMeshAgent.SetDestination(StageOnePoints[selectedDestination].transform.position);
+
+                previousDestination = selectedDestination;
 
                 isDisappearingDown = true;
             }
