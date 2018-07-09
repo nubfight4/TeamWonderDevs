@@ -25,13 +25,12 @@ public class BossAIScript : MonoBehaviour
         SET_MOVE_PATTERN
     };
 
-    public GameObject player;
+    private GameObject player;
 
-    public bool isEmergingUp = true;
-    public bool isDisappearingDown = false;
-    public bool isVanishing = false;
+    private bool isVanishingAndReappearing = false;
+    private bool isFlyingUp = false;
 
-    public bool isFloatingActive = true;
+    private bool isFloatingActive = true;
     private bool bossFloatingBool;
 
     public float movementTimer;
@@ -48,12 +47,10 @@ public class BossAIScript : MonoBehaviour
     private int previousDestination;
     NavMeshAgent navMeshAgent;
 
-    int[] bossStageOneMovement = new int[] {0, 1, 7}; // Removed 8, 9, 15
-
+    int[] bossStageOneMovement = new int[] {0, 1, 4};
     int[] bossStageTwoMovementStart = new int[] {0, 2, 4, 6, 7, 8};
     int[] bossStageTwoMovementEnd = new int[] {1, 3, 5, 7, 6, 8};
-
-    int[] bossStageThreeMovement = new int[] {7, 3, 5, 1, 16};
+    int[] bossStageThreeMovement = new int[] {4, 2, 3, 1, 5};
 
     MovementPattern currentMovementPattern = MovementPattern.SET_MOVE_PATTERN;
 
@@ -69,8 +66,9 @@ public class BossAIScript : MonoBehaviour
 
 	void Start()
 	{
-        navMeshAgent.baseOffset = -2.0f;
         currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
+
+        navMeshAgent.baseOffset = 2.0f; // Move Boss to starting floating height
 
         StartCoroutine(TempMovePatternTimer());
 
@@ -118,7 +116,7 @@ public class BossAIScript : MonoBehaviour
             {
                 navMeshAgent.speed = 0;
 
-                if(isEmergingUp != true && currentMovementPattern != MovementPattern.MOVE_PATTERN_3B) // If MOVE_PATTERN_2, this will repeat the cycle
+                if(isFlyingUp != true && currentMovementPattern == MovementPattern.MOVE_PATTERN_2) // If MOVE_PATTERN_2, this will repeat the cycle
                 {
                     movementTimerTemp -= Time.deltaTime;
 
@@ -126,11 +124,11 @@ public class BossAIScript : MonoBehaviour
                     {
                         movementTimerTemp = movementTimer;
 
-                        isEmergingUp = true;
+                        isFlyingUp = true;
                     }
                 }
             }
-            else if(isMoving == false && isEmergingUp != true && isDisappearingDown != true && isVanishing != true)
+            else if(isMoving != true && isFlyingUp != true && isVanishingAndReappearing != true)
             {
                 transform.position = StageTwoPoints[bossStageTwoMovementStart[selectedDestination]].transform.position;
 
@@ -163,94 +161,70 @@ public class BossAIScript : MonoBehaviour
 
     void BossFloatingFunction()
     {
-        if(isVanishing == true)
+        if(isVanishingAndReappearing == true)
         {
             if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
             {
-                navMeshAgent.baseOffset = -2.0f;
-
-                isDisappearingDown = true;
-                isVanishing = false;
-            }
-            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
-            {
-                navMeshAgent.baseOffset = -2.0f;
-
-                selectedDestination = 0;
-
-                isDisappearingDown = true;
-                isVanishing = false;
-            }
-        }
-        else if(isEmergingUp ==  true)
-        {
-            navMeshAgent.baseOffset += Time.deltaTime * 2.0f;
-
-            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
-            {
-                if(navMeshAgent.baseOffset >= 1.5f)
+                if(navMeshAgent.baseOffset <= 1.7f || navMeshAgent.baseOffset >= 2.2f)
                 {
-                    isEmergingUp = false;
+                    navMeshAgent.baseOffset = 2.0f;
                 }
+
+                transform.position = StageOnePoints[selectedDestination].transform.position;
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
             {
-                if(navMeshAgent.baseOffset >= 11.0f && selectedDestination == 5)
+                if(navMeshAgent.baseOffset <= 3.7f || navMeshAgent.baseOffset >= 4.2f)
                 {
                     navMeshAgent.baseOffset = 4.0f;
-                    selectedDestination = 0;
-
-                    transform.position = StageTwoPoints[selectedDestination].transform.position;
-
-                    isEmergingUp = false;
                 }
-                else if(navMeshAgent.baseOffset >= 4.5f && selectedDestination != 5)
-                {
-                    isEmergingUp = false;
-                }
+
+                selectedDestination = 0;
+                
+                transform.position = StageTwoPoints[selectedDestination].transform.position;
             }
-        }
-        else if(isDisappearingDown == true)
-        {
-            navMeshAgent.baseOffset -= Time.deltaTime * 2.0f;
-
-            if(navMeshAgent.baseOffset <= -1.5f)
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
             {
-                if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
+                if(navMeshAgent.baseOffset <= 1.7f || navMeshAgent.baseOffset >= 2.2f)
                 {
-                    transform.position = StageOnePoints[selectedDestination].transform.position;
-                }
-                else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
-                {
-                    navMeshAgent.baseOffset = 4.0f;
-                    selectedDestination = 0;
-                    transform.position = StageTwoPoints[selectedDestination].transform.position;
-                }
-                else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
-                {
-                    transform.position = StageOnePoints[bossStageThreeMovement[selectedDestination]].transform.position;
+                    navMeshAgent.baseOffset = 2.0f;
                 }
 
-                isEmergingUp = true;
-                isDisappearingDown = false;
+                transform.position = StageOnePoints[bossStageThreeMovement[selectedDestination]].transform.position;
+            }
+
+            isVanishingAndReappearing = false;
+        }
+        else if(isFlyingUp ==  true)
+        {
+            navMeshAgent.baseOffset += Time.deltaTime * 2.0f;
+
+            if(navMeshAgent.baseOffset >= 11.0f && selectedDestination == 5)
+            {
+                navMeshAgent.baseOffset = 4.0f;
+                selectedDestination = 0;
+
+                transform.position = StageTwoPoints[selectedDestination].transform.position;
+
+                isFlyingUp = false;
             }
         }
-        else
+        else // This is for managing the floating distance from the ground
         {
             if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
             {
-                if(navMeshAgent.baseOffset >= 2.0f)
+                if(navMeshAgent.baseOffset >= 2.2f)
                 {
                     bossFloatingBool = false;
                 }
-                else if(navMeshAgent.baseOffset <= 1.2f)
+                else if(navMeshAgent.baseOffset <= 1.7f)
                 {
                     bossFloatingBool = true;
                 }
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
             {
-                if(navMeshAgent.baseOffset >= 4.5f)
+                if(navMeshAgent.baseOffset >= 4.2f)
                 {
                     bossFloatingBool = false;
                 }
@@ -283,9 +257,8 @@ public class BossAIScript : MonoBehaviour
             {
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
 
-                isDisappearingDown = true;
-                isEmergingUp = false;
-                isVanishing = false;
+                isVanishingAndReappearing = true;
+                isFlyingUp = false;
                 isMoving = false;
 
                 previousDestination = 99; // Reset to number other than 0
@@ -296,10 +269,11 @@ public class BossAIScript : MonoBehaviour
             {
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_3A;
 
-                isDisappearingDown = false;
-                isEmergingUp = false;
-                isVanishing = true;
+                isVanishingAndReappearing = true;
+                isFlyingUp = false;
                 isMoving = false;
+
+                selectedDestination = 0; // Reset to 0
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
@@ -307,9 +281,8 @@ public class BossAIScript : MonoBehaviour
             {
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
 
-                isDisappearingDown = true;
-                isEmergingUp = false;
-                isVanishing = false;
+                isVanishingAndReappearing = true;
+                isFlyingUp = false;
                 isMoving = false;
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
@@ -318,9 +291,8 @@ public class BossAIScript : MonoBehaviour
             {
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
 
-                isDisappearingDown = false;
-                isEmergingUp = false;
-                isVanishing = true;
+                isVanishingAndReappearing = true;
+                isFlyingUp = false;
                 isMoving = false;
 
                 previousDestination = 99; // Reset to number other than 0
@@ -349,7 +321,7 @@ public class BossAIScript : MonoBehaviour
 
                 previousDestination = selectedDestination;
 
-                isDisappearingDown = true;
+                isVanishingAndReappearing = true;
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
             {
@@ -371,7 +343,7 @@ public class BossAIScript : MonoBehaviour
                     Debug.Log("Current Move Pattern = " + currentMovementPattern);
                 }
 
-                isDisappearingDown = true;
+                isVanishingAndReappearing = true;
             }
         }
     }
