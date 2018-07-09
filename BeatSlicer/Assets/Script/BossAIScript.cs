@@ -20,61 +20,57 @@ public class BossAIScript : MonoBehaviour
     {
         MOVE_PATTERN_1 = 0,
         MOVE_PATTERN_2,
-        MOVE_PATTERN_3,
+        MOVE_PATTERN_3A,
+        MOVE_PATTERN_3B,
         SET_MOVE_PATTERN
     };
 
-    enum AttackPattern
-    {
-        ATTACK_PATTERN_1 = 0,
-        ATTACK_PATTERN_2,
-        ATTACK_PATTERN_3,
-        SET_ATTACK_PATTERN
-    };
+    private GameObject player;
 
-    public GameObject player;
+    private bool isVanishingAndReappearing = false;
+    private bool isFlyingUp = false;
 
-    public bool isFloatingActive = true;
+    private bool isFloatingActive = true;
     private bool bossFloatingBool;
 
     public float movementTimer;
     private float movementTimerTemp;
 
-    private string[] allBullets = {"Bullet Red", "Bullet Blue", "Bullet Green"};
-    //private string[] shootableBullets = {"Bullet Red", "Bullet Green"};
-    //private string[] unshootableBullets = {"Bullet Blue"};
+    private bool isMoving = false;
 
-    private bool isShooting;
-    public float timeBetweenBullets = 0.5f;
-    private float timeBetweenBulletsTemp;
+    //private string[] allBullets = {"Bullet Red", "Bullet Blue", "Bullet Green"};
 
-    public List<GameObject> DestinationPoints;
+    public List<GameObject> StageOnePoints;
+    public List<GameObject> StageTwoPoints;
+
     private int selectedDestination;
+    private int previousDestination;
     NavMeshAgent navMeshAgent;
 
-    int[] bossTopMovement = new int[] {0, 1, 2, 6, 7, 8, 9, 15};
-    int[] bossOuterRingMovement = new int[] {0, 1, 2, 3, 4, 5, 6, 7};
+    int[] bossStageOneMovement = new int[] {0, 1, 4};
+    int[] bossStageTwoMovementStart = new int[] {0, 2, 4, 6, 7, 8};
+    int[] bossStageTwoMovementEnd = new int[] {1, 3, 5, 7, 6, 8};
+    int[] bossStageThreeMovement = new int[] {4, 2, 3, 1, 5};
 
-    AttackPattern currentAttackPattern = AttackPattern.SET_ATTACK_PATTERN;
     MovementPattern currentMovementPattern = MovementPattern.SET_MOVE_PATTERN;
 
 
 	void Awake()
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
-		timeBetweenBulletsTemp = timeBetweenBullets;
         movementTimerTemp = movementTimer;
+        previousDestination = 99; // Initializing with a number that is not 0
         navMeshAgent = this.GetComponent<NavMeshAgent>();
     }
 
 
 	void Start()
 	{
-        StartCoroutine(ShootTimeNumGen());
-
-		timeBetweenBullets = timeBetweenBulletsTemp;
-		currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
         currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
+
+        navMeshAgent.baseOffset = 2.0f; // Move Boss to starting floating height
+
+        StartCoroutine(TempMovePatternTimer());
 
         Debug.Log("Current Move Pattern = " + currentMovementPattern);
         Debug.Log("Press 'J' to change Movement Pattern. This message will not repeat.");
@@ -83,7 +79,7 @@ public class BossAIScript : MonoBehaviour
 
 	void Update()
 	{
-		BossAIShootingFunction();
+        LookAtPlayerFunction();
         BossMovementFunction();
 
         TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
@@ -99,61 +95,65 @@ public class BossAIScript : MonoBehaviour
     }
 
 
-    void BossAIShootingFunction()
-	{
-		timeBetweenBullets -= Time.deltaTime;
-		transform.LookAt(player.transform);
-		Vector3 eulerAngles = transform.rotation.eulerAngles;
-		eulerAngles = new Vector3(0, eulerAngles.y, 0);
-		transform.rotation = Quaternion.Euler(eulerAngles);
+    void LookAtPlayerFunction()
+    {
+        transform.LookAt(player.transform);
+        Vector3 eulerAngles = transform.rotation.eulerAngles;
+        eulerAngles = new Vector3(0,eulerAngles.y,0);
+        transform.rotation = Quaternion.Euler(eulerAngles);
+    }
 
-        SetAttackPattern();
-	}
-		
-
+	
 	void BossMovementFunction()
 	{
-        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
+        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
         {
-            movementTimerTemp += Time.deltaTime;
-
-            if(movementTimerTemp >= movementTimer)
-            {
-                selectedDestination = bossTopMovement[Random.Range(0,bossTopMovement.Length)];
-                navMeshAgent.SetDestination(DestinationPoints[selectedDestination].transform.position);
-                movementTimerTemp = 0;
-            }
+            navMeshAgent.speed = 0;
         }
-
-        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
+        else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
         {
-            movementTimerTemp += Time.deltaTime;
-
-            if(movementTimerTemp >= movementTimer)
+            if(selectedDestination == 5)
             {
-                selectedDestination = Random.Range(0, DestinationPoints.Count);
-                navMeshAgent.SetDestination(DestinationPoints[selectedDestination].transform.position);
-                movementTimerTemp = 0;
+                navMeshAgent.speed = 0;
+
+                if(isFlyingUp != true && currentMovementPattern == MovementPattern.MOVE_PATTERN_2) // If MOVE_PATTERN_2, this will repeat the cycle
+                {
+                    movementTimerTemp -= Time.deltaTime;
+
+                    if(movementTimerTemp <= 0)
+                    {
+                        movementTimerTemp = movementTimer;
+
+                        isFlyingUp = true;
+                    }
+                }
             }
-        }
-
-        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3)
-        {
-            movementTimerTemp += Time.deltaTime;
-
-            if(movementTimerTemp >= movementTimer)
+            else if(isMoving != true && isFlyingUp != true && isVanishingAndReappearing != true)
             {
-                if(selectedDestination >= (bossOuterRingMovement.Length - 1))
-                {
-                    selectedDestination = 0;
-                }
-                else
-                {
-                    selectedDestination++;
-                }
+                transform.position = StageTwoPoints[bossStageTwoMovementStart[selectedDestination]].transform.position;
 
-                navMeshAgent.SetDestination(DestinationPoints[selectedDestination].transform.position);
-                movementTimerTemp = 0;
+                isMoving = true;
+            }
+            else if(isMoving == true)
+            {
+                navMeshAgent.speed = 8;
+
+                navMeshAgent.SetDestination(StageTwoPoints[bossStageTwoMovementEnd[selectedDestination]].transform.position);
+
+                float distance = Vector3.Distance(StageTwoPoints[bossStageTwoMovementEnd[selectedDestination]].transform.position,transform.position);
+
+                if(distance <= 3.0f)
+                {
+                    selectedDestination = selectedDestination + 1;
+
+                    if(selectedDestination == 5)
+                    {
+                        transform.position = StageTwoPoints[bossStageTwoMovementStart[selectedDestination]].transform.position;
+                        navMeshAgent.SetDestination(StageTwoPoints[bossStageTwoMovementEnd[selectedDestination]].transform.position);
+                    }
+
+                    isMoving = false;
+                }
             }
         }
     }
@@ -161,128 +161,94 @@ public class BossAIScript : MonoBehaviour
 
     void BossFloatingFunction()
     {
-        if(navMeshAgent.baseOffset >= 1.5f)
+        if(isVanishingAndReappearing == true)
         {
-            bossFloatingBool = false;
-        }
-        else if(navMeshAgent.baseOffset <= 0.95f)
-        {
-            bossFloatingBool = true;
-        }
+            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
+            {
+                if(navMeshAgent.baseOffset <= 1.7f || navMeshAgent.baseOffset >= 2.2f)
+                {
+                    navMeshAgent.baseOffset = 2.0f;
+                }
 
-        if(bossFloatingBool == true)
-        {
-            navMeshAgent.baseOffset += Time.deltaTime * 0.25f;
+                transform.position = StageOnePoints[selectedDestination].transform.position;
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+            {
+                if(navMeshAgent.baseOffset <= 3.7f || navMeshAgent.baseOffset >= 4.2f)
+                {
+                    navMeshAgent.baseOffset = 4.0f;
+                }
+
+                selectedDestination = 0;
+                
+                transform.position = StageTwoPoints[selectedDestination].transform.position;
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
+            {
+                if(navMeshAgent.baseOffset <= 1.7f || navMeshAgent.baseOffset >= 2.2f)
+                {
+                    navMeshAgent.baseOffset = 2.0f;
+                }
+
+                transform.position = StageOnePoints[bossStageThreeMovement[selectedDestination]].transform.position;
+            }
+
+            isVanishingAndReappearing = false;
         }
-        else if(bossFloatingBool == false)
+        else if(isFlyingUp ==  true)
         {
-            navMeshAgent.baseOffset -= Time.deltaTime * 0.25f;
+            navMeshAgent.baseOffset += Time.deltaTime * 2.0f;
+
+            if(navMeshAgent.baseOffset >= 11.0f && selectedDestination == 5)
+            {
+                navMeshAgent.baseOffset = 4.0f;
+                selectedDestination = 0;
+
+                transform.position = StageTwoPoints[selectedDestination].transform.position;
+
+                isFlyingUp = false;
+            }
+        }
+        else // This is for managing the floating distance from the ground
+        {
+            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
+            {
+                if(navMeshAgent.baseOffset >= 2.2f)
+                {
+                    bossFloatingBool = false;
+                }
+                else if(navMeshAgent.baseOffset <= 1.7f)
+                {
+                    bossFloatingBool = true;
+                }
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+            {
+                if(navMeshAgent.baseOffset >= 4.2f)
+                {
+                    bossFloatingBool = false;
+                }
+                else if(navMeshAgent.baseOffset <= 3.7f)
+                {
+                    bossFloatingBool = true;
+                }
+            }
+
+            if(bossFloatingBool == true)
+            {
+                navMeshAgent.baseOffset += Time.deltaTime * 0.25f;
+            }
+            else if(bossFloatingBool == false)
+            {
+                navMeshAgent.baseOffset -= Time.deltaTime * 0.25f;
+            }
         }
     }
 
 
-	void SetAttackPattern()
-	{
-		if(currentAttackPattern == AttackPattern.ATTACK_PATTERN_1) // Set Bullets
-		{
-            if(timeBetweenBullets <= 0 && isShooting == true)
-		    {
-                GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+    /// Temporary Functions Below
 
-                if(redBullet != null)
-                {
-                    redBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -3);
-                    redBullet.transform.rotation = transform.rotation;
-                    redBullet.SetActive(true);
-                }
-
-                GameObject redBullet1 = ObjectPooler.Instance.getPooledObject("Bullet Red");
-
-                if(redBullet1 != null)
-                {
-                    redBullet1.transform.position = transform.position + (transform.forward * 2) + (transform.right * 2) + (transform.up * -3);
-                    redBullet1.transform.rotation = transform.rotation;
-                    redBullet1.SetActive(true);
-                }
-
-                GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Bullet Blue");
-
-                if(blueBullet != null)
-                {
-                    blueBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
-                    blueBullet.transform.rotation = transform.rotation;
-                    blueBullet.SetActive(true);
-                }
-
-                GameObject greenBullet = ObjectPooler.Instance.getPooledObject("Bullet Green");
-
-                if(blueBullet != null)
-                {
-                    greenBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -2) + (transform.up * -3);
-                    greenBullet.transform.rotation = transform.rotation;
-                    greenBullet.SetActive(true);
-                }
-
-                timeBetweenBullets = timeBetweenBulletsTemp;
-		    }
-		}
-		else if(currentAttackPattern == AttackPattern.ATTACK_PATTERN_2) // Randomized Bullets
-		{
-            if(timeBetweenBullets <= 0 && isShooting == true)
-            {
-                GameObject randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
-
-                if(randBullet != null)
-                {
-                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * -3);
-                    randBullet.transform.rotation = transform.rotation;
-                    randBullet.SetActive(true);
-
-                    randBullet = null;
-                }
-
-                randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
-
-                if(randBullet != null)
-                {
-                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * 4) + (transform.up * -3);
-                    randBullet.transform.rotation = transform.rotation;
-                    randBullet.SetActive(true);
-
-                    randBullet = null;
-                }
-
-                randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
-
-                if(randBullet != null)
-                {
-                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.up * 2);
-                    randBullet.transform.rotation = transform.rotation;
-                    randBullet.SetActive(true);
-
-                    randBullet = null;
-                }
-
-                randBullet = ObjectPooler.Instance.getPooledObject(allBullets.RandomItem());
-
-                if(randBullet != null)
-                {
-                    randBullet.transform.position = transform.position + (transform.forward * 2) + (transform.right * -4) + (transform.up * -3);
-                    randBullet.transform.rotation = transform.rotation;
-                    randBullet.SetActive(true);
-
-                    randBullet = null;
-                }
-
-                timeBetweenBullets = timeBetweenBulletsTemp;
-            }
-		}
-	}
-
-
-    /// Temporary Functions Here
-
-
+    
     void TempMovePatternChangeButton() // Press 'J' To Change Between Movement Patterns 
     {
          if(Input.GetKeyDown(KeyCode.J))
@@ -290,21 +256,46 @@ public class BossAIScript : MonoBehaviour
             if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
             {
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
-                currentAttackPattern = AttackPattern.ATTACK_PATTERN_2;
+
+                isVanishingAndReappearing = true;
+                isFlyingUp = false;
+                isMoving = false;
+
+                previousDestination = 99; // Reset to number other than 0
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
             {
-                currentMovementPattern = MovementPattern.MOVE_PATTERN_3;
-                currentAttackPattern = AttackPattern.ATTACK_PATTERN_2;
+                currentMovementPattern = MovementPattern.MOVE_PATTERN_3A;
+
+                isVanishingAndReappearing = true;
+                isFlyingUp = false;
+                isMoving = false;
+
+                selectedDestination = 0; // Reset to 0
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
-            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3)
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
+            {
+                currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
+
+                isVanishingAndReappearing = true;
+                isFlyingUp = false;
+                isMoving = false;
+
+                Debug.Log("Current Move Pattern = " + currentMovementPattern);
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
             {
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
-                currentAttackPattern = AttackPattern.ATTACK_PATTERN_1;
+
+                isVanishingAndReappearing = true;
+                isFlyingUp = false;
+                isMoving = false;
+
+                previousDestination = 99; // Reset to number other than 0
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
@@ -312,22 +303,48 @@ public class BossAIScript : MonoBehaviour
     }
 
 
-    IEnumerator ShootTimeNumGen() //  Randomises Between isShooting = true || isShooting = false 
+    private IEnumerator TempMovePatternTimer()
     {
         while(true)
         {
-            int randResult = Random.Range(0,2);
+            yield return new WaitForSeconds(Random.Range(5,11));
 
-            if(randResult == 0)
+            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
             {
-                isShooting = true;
-            }
-            else
-            {
-                isShooting = false;
-            }
+                do
+                {
+                    selectedDestination = bossStageOneMovement[Random.Range(0,bossStageOneMovement.Length)];
 
-            yield return new WaitForSeconds(3);
+                } while(selectedDestination == previousDestination); // Will repeat randomization until selectedDestination != previousDestination
+
+                navMeshAgent.SetDestination(StageOnePoints[selectedDestination].transform.position);
+
+                previousDestination = selectedDestination;
+
+                isVanishingAndReappearing = true;
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
+            {
+                navMeshAgent.SetDestination(StageOnePoints[selectedDestination].transform.position);
+
+                selectedDestination = selectedDestination + 1;
+
+                if(selectedDestination == 5)
+                {
+                    selectedDestination = 0;
+                }
+
+                int randNum = Random.Range(0,6);
+
+                if(randNum == 1)
+                {
+                    currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
+
+                    Debug.Log("Current Move Pattern = " + currentMovementPattern);
+                }
+
+                isVanishingAndReappearing = true;
+            }
         }
     }
 }
