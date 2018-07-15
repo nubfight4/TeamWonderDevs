@@ -7,14 +7,17 @@ public class BossShootingScript : MonoBehaviour
 
     public enum BulletPatternType
     {
-        // 1st Bullet pattern //
+        // 1st Bullet Pattern //
         TURNING_RIGHT = 0,
         TURNING_LEFT,
         BOTH_TURNS,
 
-        // 2nd Bullet pattern //
+        // 2nd Bullet Pattern //
         BOMBING_RUN,
         CIRCLE_RAIN,
+
+        // 3rd Bullet Pattern
+        CONE_SHOT,
 
         REST,
         SET_TYPE
@@ -29,6 +32,9 @@ public class BossShootingScript : MonoBehaviour
     float bombingTimerCountdown;
     float circleRainTimer;
     float circleRainTimerCountdown;
+    float coneShotTimer;
+    float coneShotTimerCountdown;
+
     public BulletPattern bulletPattern;
 
     BulletPatternType currentBulletPattern = BulletPatternType.SET_TYPE;
@@ -41,14 +47,13 @@ public class BossShootingScript : MonoBehaviour
         rest = 2f;
         bombingTimer = 0.8f;
         circleRainTimer = 0.5f;
-        currentBulletPattern = BulletPatternType.CIRCLE_RAIN;
+        coneShotTimer = 0.2f;
+        currentBulletPattern = BulletPatternType.CONE_SHOT;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
         if (currentBulletPattern == BulletPatternType.TURNING_LEFT || currentBulletPattern == BulletPatternType.TURNING_RIGHT)
         {
             timerCountdown += Time.deltaTime;
@@ -93,13 +98,30 @@ public class BossShootingScript : MonoBehaviour
             }
         }
 
+        else if (currentBulletPattern == BulletPatternType.CONE_SHOT)
+        {
+            coneShotTimerCountdown += Time.deltaTime;
+            if (coneShotTimerCountdown >= coneShotTimer)
+            {
+                SetBulletPattern();
+                if (waveCount >= 5)
+                {
+                    //SetBulletPattern();
+                    currentBulletPattern = BulletPatternType.REST;
+                    SetBulletPattern();
+                    waveCount = 0;
+                }
+                coneShotTimerCountdown = 0;
+            }
+        }
+
         else if (currentBulletPattern == BulletPatternType.REST)
         {
             restCountdown += Time.deltaTime;
             if (restCountdown >= rest)
             {
                 restCountdown = 0;
-                currentBulletPattern = BulletPatternType.CIRCLE_RAIN;
+                currentBulletPattern = BulletPatternType.CONE_SHOT;
             }
         }
 
@@ -250,7 +272,28 @@ public class BossShootingScript : MonoBehaviour
             waveCount++;
         }
 
+        //Third Stage Bullet
+        else if(currentBulletPattern == BulletPatternType.CONE_SHOT)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
 
+                if (redBullet != null)
+                {
+                    redBullet.transform.position = transform.position;
+                    redBullet.transform.rotation = transform.rotation;
+                    redBullet.transform.rotation *= Quaternion.Euler(i * 36, 0, 0);
+                    bulletPattern.bulletSpeed = 10f;
+                    bulletPattern.selfDestructTimer = 6f;
+                    bulletPattern.aimPlayerTimer = 1f;
+                    bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.AIM_PLAYER;
+                    redBullet.SetActive(true);
+                }
+            }
+            waveCount++;
+        }
         /*
         void function(GameObject bulletType)
         {

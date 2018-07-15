@@ -500,7 +500,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4987120324112630, guid: dc04a2f79f6e1b84f801fdb1b12d98bb, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 11.65
       objectReference: {fileID: 0}
     - target: {fileID: 4987120324112630, guid: dc04a2f79f6e1b84f801fdb1b12d98bb, type: 2}
       propertyPath: m_LocalPosition.z
@@ -932,7 +932,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &245583611 stripped
 GameObject:
@@ -957,9 +957,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 90
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &245583617 stripped
 Transform:
@@ -989,9 +996,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 180
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &251041672 stripped
 Transform:
@@ -1323,9 +1337,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 280
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &286470706 stripped
 Transform:
@@ -1582,9 +1603,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 190
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &304544615 stripped
 Transform:
@@ -1697,9 +1725,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 60
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &317009278 stripped
 Transform:
@@ -1873,9 +1908,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 0
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &333531068 stripped
 Transform:
@@ -1977,9 +2019,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 310
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &347800898 stripped
 Transform:
@@ -2394,9 +2443,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 240
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &558821904 stripped
 Transform:
@@ -2426,9 +2482,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 210
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &571551602 stripped
 Transform:
@@ -2674,9 +2737,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 80
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &634838969 stripped
 Transform:
@@ -2706,9 +2776,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 160
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &691255552 stripped
 Transform:
@@ -2738,9 +2815,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 20
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &708611450 stripped
 Transform:
@@ -2845,9 +2929,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 170
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &738532408 stripped
 Transform:
@@ -2877,9 +2968,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 290
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &766184100 stripped
 Transform:
@@ -2909,9 +3007,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 270
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &783149412 stripped
 Transform:
@@ -3024,9 +3129,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 110
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &826167796 stripped
 Transform:
@@ -3347,9 +3459,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 200
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &931419250 stripped
 Transform:
@@ -3889,9 +4008,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 220
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &995603018 stripped
 Transform:
@@ -4234,9 +4360,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 30
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1095125126 stripped
 Transform:
@@ -4421,9 +4554,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 340
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1158825105 stripped
 Transform:
@@ -4536,7 +4676,7 @@ Transform:
   - {fileID: 1158825105}
   - {fileID: 1625063672}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1165699407
 GameObject:
@@ -4633,9 +4773,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 120
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1207891337 stripped
 Transform:
@@ -4812,9 +4959,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 300
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1256806659 stripped
 Transform:
@@ -4844,9 +4998,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 150
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1291044534 stripped
 Transform:
@@ -4951,9 +5112,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 50
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1310126763 stripped
 Transform:
@@ -4983,9 +5151,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 100
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1332526153 stripped
 Transform:
@@ -5170,9 +5345,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 10
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1448932938 stripped
 Transform:
@@ -5202,9 +5384,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 230
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1473428366 stripped
 Transform:
@@ -5622,9 +5811,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 260
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1519679492 stripped
 Transform:
@@ -5864,7 +6060,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4257452837224406, guid: 3bf4c7c3c44bfb14693f80a1139a1994, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114165185599255986, guid: 3bf4c7c3c44bfb14693f80a1139a1994,
         type: 2}
@@ -6054,9 +6250,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 350
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1625063672 stripped
 Transform:
@@ -6376,7 +6579,7 @@ Transform:
   m_Children:
   - {fileID: 1549181399}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1765903776
 Prefab:
@@ -6623,9 +6826,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 320
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1857170109 stripped
 Transform:
@@ -6655,9 +6865,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 140
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1883532266 stripped
 Transform:
@@ -6808,6 +7025,53 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1931457866}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1935945448
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4805439899804468, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805439899804468, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805439899804468, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805439899804468, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805439899804468, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805439899804468, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805439899804468, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805439899804468, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114418635327283750, guid: 294a728be3fd12e41ae5bd8882913947,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &1961798402
 Prefab:
   m_ObjectHideFlags: 0
@@ -6906,9 +7170,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 70
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1963262879 stripped
 Transform:
@@ -6938,9 +7209,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 130
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &1999543676 stripped
 Transform:
@@ -6970,9 +7248,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 330
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &2009100497 stripped
 Transform:
@@ -7146,9 +7431,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 40
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &2119058043 stripped
 Transform:
@@ -7178,9 +7470,16 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 250
   smoothing: 2
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
   currentBulletPattern: 2
 --- !u!4 &2144014197 stripped
 Transform:

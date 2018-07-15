@@ -17,6 +17,7 @@ public class BulletPattern : MonoBehaviour {
         TURNING_LEFT,
         STRAIGHT,
         RAIN,
+        AIM_PLAYER,
         SET_TYPE
     };
 
@@ -37,6 +38,7 @@ public class BulletPattern : MonoBehaviour {
     public bool isBomb = false;
     bool rainFall = false;
     bool fallen = false;
+    bool aimed = false;
     public bool stop = false;
 
     public Vector3 m_EulerAngleVelocity;
@@ -46,6 +48,8 @@ public class BulletPattern : MonoBehaviour {
     public float rainFallTimerCountdown;
     public float rainFallStopTimer;
     public float rainFallStopTimerCountdown;
+    public float aimPlayerTimer;
+    public float aimPlayerCountdown;
 
     public BulletPatternType currentBulletPattern = BulletPatternType.SET_TYPE;
 
@@ -128,7 +132,24 @@ public class BulletPattern : MonoBehaviour {
                 bulletRigidbody.velocity = transform.forward * bulletSpeed;
             }
         }
+
+        else if(currentBulletPattern == BulletPatternType.AIM_PLAYER)
+        {
+            bulletRigidbody.velocity = transform.forward * bulletSpeed;
+
+            if (aimed == false)
+            {
+                aimPlayerCountdown += Time.deltaTime;
+
+                if(aimPlayerCountdown >= aimPlayerTimer)
+                {
+                    transform.LookAt(player.transform);
+                    aimed = true;
+                }
+            }
+        }
     }
+
 
     public void bulletBaseScriptUpdate()
     {
@@ -152,8 +173,10 @@ public class BulletPattern : MonoBehaviour {
             {
                 rainFallTimerCountdown = 0f;
                 rainFallStopTimerCountdown = 0f;
+                aimPlayerCountdown = 0f;
                 fallen = false;
                 stop = false;
+                aimed = false;
                 isToBeDestroyed = true;
             }
         }
@@ -167,7 +190,7 @@ public class BulletPattern : MonoBehaviour {
             {
                 if (other.tag == "PlayerHitbox" || other.tag == "Sword")
                 {
-                    isToBeDestroyed = true;
+                    selfDestructTimer = 0f;
                 }
             }
 
