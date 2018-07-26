@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 136749890439549308}
   - component: {fileID: 114591055903484350}
   - component: {fileID: 195708364032882902}
+  - component: {fileID: 65847053692468830}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -259,6 +260,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65847053692468830
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1272457943025630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114309032372947740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -284,6 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementTimer: 8
+  isOutside: 0
   StageOnePoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -301,6 +315,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  currentMovementPattern: 5
 --- !u!136 &136749890439549308
 CapsuleCollider:
   m_ObjectHideFlags: 1

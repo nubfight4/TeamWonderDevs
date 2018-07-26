@@ -264,6 +264,8 @@ public class BossShootingScript : MonoBehaviour
                 bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
                 blueBullet.SetActive(true);
             }
+
+            currentBulletPattern = BulletPatternType.REST;
         }
 
         else if (currentBulletPattern == BulletPatternType.CIRCLE_RAIN)
