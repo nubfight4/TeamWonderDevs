@@ -88,7 +88,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1996424909752660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.000000029802322, y: -1.019, z: -0.00000017881393}
+  m_LocalPosition: {x: -0.000000029802322, y: -1.412, z: -0.00000017881393}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 4867669670057210}
@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPattern: {fileID: 0}
+  currentBulletPattern: 7
 --- !u!114 &114591055903484350
 MonoBehaviour:
   m_ObjectHideFlags: 1
