@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // bonusTimer is to adjust how long the timer is
+    public float bonusTimer;
+    public float bonusTime;
+    float originalSpeed;
+    public float setBonusSpeed;
+    public float setOffbeatSpeed;
 
     public float moveSpeed;
     public float attackTimer;
@@ -12,7 +18,7 @@ public class PlayerController : MonoBehaviour
     public float gravityScale;
 
     public Transform pivot;
-
+    public RhythmBarUIScript rhythmBarUIScript;
     public GameObject playerModel;
 
     //private Transform player;
@@ -24,14 +30,16 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 moveInput;
 
-    // Use this for initialization
     void Start()
     {
+        GameObject rhythmBarUI = GameObject.FindGameObjectWithTag("Rhythm Bar");
+        rhythmBarUIScript = rhythmBarUI.GetComponent<RhythmBarUIScript>();
         //player = GetComponent<Transform>();
+        originalSpeed = moveSpeed;
+
         characterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         //isPlayerMoving = false;
@@ -56,5 +64,29 @@ public class PlayerController : MonoBehaviour
             Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveInput.x, 0f, moveInput.z));
             playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
         }
+
+
+        //Rhythm Bar Functions
+        if (rhythmBarUIScript.rhythmBarHit)
+        {
+            moveSpeed = setBonusSpeed;
+            bonusTime = bonusTimer;
+            rhythmBarUIScript.rhythmBarHit = false;
+        }
+
+        else if (rhythmBarUIScript.offbeatHit)
+        {
+            moveSpeed = setOffbeatSpeed;
+            bonusTime = bonusTimer;
+            rhythmBarUIScript.offbeatHit = false;
+        }
+
+        bonusTime -= Time.deltaTime;
+
+        if(bonusTime <= 0)
+        {
+            bonusTime = 0;
+            moveSpeed = originalSpeed;
+        }   
     }
 }

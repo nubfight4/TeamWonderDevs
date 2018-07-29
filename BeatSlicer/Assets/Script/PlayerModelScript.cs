@@ -24,7 +24,7 @@ public class PlayerModelScript : MonoBehaviour {
         maxHealth = 10;
         health = maxHealth;
         charge = 0;
-        maxCharge = 5;
+        maxCharge = 50;
 
         animator = GetComponent<Animator>();
     }
@@ -67,7 +67,7 @@ public class PlayerModelScript : MonoBehaviour {
 
     public void ChargeSlash()
     {
-        Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(90.0f,90.0f,0.0f));
+        Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(0.0f,0.0f,0.0f));
     }
 
     public void StopChargeSlashAnim()

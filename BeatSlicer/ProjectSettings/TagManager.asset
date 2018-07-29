@@ -13,6 +13,9 @@ TagManager:
   - BossHitbox
   - PlayerHitbox
   - ChargeSlashProjectile
+  - Rhythm Bullet
+  - Rhythm Bar
+  - Sword
   layers:
   - Default
   - TransparentFX
