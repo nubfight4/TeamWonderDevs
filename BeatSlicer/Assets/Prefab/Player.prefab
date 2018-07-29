@@ -501,7 +501,7 @@ MonoBehaviour:
   isPlayerChargeSlashing: 0
   healthBar: {fileID: 0}
   chargeBar: {fileID: 0}
-  chargeSlashProjectile: {fileID: 1693695049399626, guid: 52c0df1f809a2f0469782cc6328a2dbb,
+  chargeSlashProjectile: {fileID: 1308116977295994, guid: b55927a3284d5c44499e71e84fbab901,
     type: 2}
 --- !u!114 &114792311385198414
 MonoBehaviour:

@@ -7,7 +7,7 @@ public class ChargeSlashProjectileScript : MonoBehaviour
     public float speed;
     Rigidbody rigidbody;
     public PlayerModelScript player;
-    public BossModelScript boss;
+    //public BossModelScript boss;
 
     private void Start()
     {

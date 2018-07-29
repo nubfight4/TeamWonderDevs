@@ -1571,11 +1571,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114792311385198414, guid: 294a728be3fd12e41ae5bd8882913947,
+    - target: {fileID: 114104074605698232, guid: 294a728be3fd12e41ae5bd8882913947,
         type: 2}
-      propertyPath: boss
+      propertyPath: pivot
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1991339797}
     - target: {fileID: 114613364609263278, guid: 294a728be3fd12e41ae5bd8882913947,
         type: 2}
       propertyPath: healthBar
@@ -1586,11 +1586,6 @@ Prefab:
       propertyPath: chargeBar
       value: 
       objectReference: {fileID: 451973852}
-    - target: {fileID: 114104074605698232, guid: 294a728be3fd12e41ae5bd8882913947,
-        type: 2}
-      propertyPath: pivot
-      value: 
-      objectReference: {fileID: 1991339797}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
   m_IsPrefabParent: 0
@@ -1669,11 +1664,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 224559114856803526, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
-        type: 2}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 224559114856803526, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -1764,6 +1754,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114727384346563766, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
+        type: 2}
+      propertyPath: playerModelScript
+      value: 
+      objectReference: {fileID: 1031308736}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
   m_IsPrefabParent: 0
@@ -2132,6 +2127,12 @@ GameObject:
   m_PrefabParentObject: {fileID: 1471754866319014, guid: 43aa85be3222a1742a85a053bc6ffdf1,
     type: 2}
   m_PrefabInternal: {fileID: 2091144016}
+--- !u!114 &1031308736 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114613364609263278, guid: 294a728be3fd12e41ae5bd8882913947,
+    type: 2}
+  m_PrefabInternal: {fileID: 797237452}
+  m_Script: {fileID: 11500000, guid: 7bb0c61354deea340855b4ea5fa83fe9, type: 3}
 --- !u!1 &1038049625
 GameObject:
   m_ObjectHideFlags: 0
