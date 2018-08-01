@@ -88,7 +88,7 @@ public class ObjectPooler : MonoBehaviour
 
 		foreach(ObjectPoolItem item in itemsToPool)
 		{
-			if(item.objectToPool.CompareTag(tag))
+    
 			{
 				if(item.shouldExpand)
 				{

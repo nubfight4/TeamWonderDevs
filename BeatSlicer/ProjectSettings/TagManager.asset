@@ -13,6 +13,9 @@ TagManager:
   - BossHitbox
   - PlayerHitbox
   - ChargeSlashProjectile
+  - Rhythm Bar
+  - PlaneHitbox
+  - Rhythm Bullet
   layers:
   - Default
   - TransparentFX
@@ -23,7 +26,7 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
+  - wall
   - 
   - 
   - 

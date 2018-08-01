@@ -67,5 +67,5 @@ MonoBehaviour:
   - objectToPool: {fileID: 1628238117781054, guid: f1bc4b5d86ba88f46bb9d7c81ca62175,
       type: 2}
     poolName: Green Bullets
-    amountToPool: 1000
+    amountToPool: 0
     shouldExpand: 0

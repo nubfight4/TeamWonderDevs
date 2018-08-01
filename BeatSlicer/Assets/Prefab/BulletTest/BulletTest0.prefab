@@ -23,9 +23,10 @@ GameObject:
   - component: {fileID: 23312216480559836}
   - component: {fileID: 135912875462870274}
   - component: {fileID: 114286394893461926}
+  - component: {fileID: 114158374939061540}
   m_Layer: 0
   m_Name: BulletTest0
-  m_TagString: Untagged
+  m_TagString: Bullet Blue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,6 +86,36 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1764944281241340}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114158374939061540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1764944281241340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f516af63426acbb4ebcd786d0a026165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1902837072406284, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+  bossShootingSpot: {fileID: 4987120324112630, guid: dc04a2f79f6e1b84f801fdb1b12d98bb,
+    type: 2}
+  bulletSpeed: 10
+  selfDestructTimer: 5
+  bulletType: 3
+  isToBeDestroyed: 0
+  isBomb: 0
+  stop: 0
+  m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
+  turningAngle: 0
+  smoothing: 0
+  rainFallTimer: 0
+  rainFallTimerCountdown: 0
+  rainFallStopTimer: 0
+  rainFallStopTimerCountdown: 0
+  aimPlayerTimer: 0
+  aimPlayerCountdown: 0
+  currentBulletPattern: 5
 --- !u!114 &114286394893461926
 MonoBehaviour:
   m_ObjectHideFlags: 1
