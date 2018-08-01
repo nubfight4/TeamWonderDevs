@@ -117,12 +117,7 @@ public class BossShootingScript : MonoBehaviour
 
         else if (currentBulletPattern == BulletPatternType.REST)
         {
-            restCountdown += Time.deltaTime;
-            if (restCountdown >= rest)
-            {
-                restCountdown = 0;
-                currentBulletPattern = BulletPatternType.CONE_SHOT;
-            }
+            // Hi! I AM REST
         }
 
 
