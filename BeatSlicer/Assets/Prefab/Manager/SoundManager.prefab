@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 114068597582969510}
   m_Layer: 0
   m_Name: SoundManager
-  m_TagString: Untagged
+  m_TagString: SoundManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -307,6 +307,14 @@ MonoBehaviour:
   audioClipInfoList:
   - audioClipID: 1
     audioClip: {fileID: 8300000, guid: d10eb49caf1ffc246aa38cc281569f72, type: 3}
+  - audioClipID: 101
+    audioClip: {fileID: 8300000, guid: 9c6902afd1b713b41b98d88d8d666148, type: 3}
+  - audioClipID: 102
+    audioClip: {fileID: 8300000, guid: 54483ba1ca1b0e843a4e5b4e12910537, type: 3}
+  - audioClipID: 103
+    audioClip: {fileID: 8300000, guid: 0bdabd6a7d9c9284db49e1863a00d048, type: 3}
+  - audioClipID: 105
+    audioClip: {fileID: 8300000, guid: 7fb2415cfae872a489ea92363579e053, type: 3}
   bgmAudioSource: {fileID: 82196635567275634}
   sfxAudioSource: {fileID: 82270118015193982}
   brightnessMask: {fileID: 0}

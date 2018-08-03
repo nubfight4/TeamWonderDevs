@@ -47,7 +47,7 @@ public class RhythmBarUIScript : MonoBehaviour
             playerModelScript.charge += 5;
         }
 
-        //Timer
+        #region Timer
         if (rhythmBarTimer <= 0)
         {
             rhythmBarTimer = 0;
@@ -61,6 +61,7 @@ public class RhythmBarUIScript : MonoBehaviour
         {
             isPlayerAttacking = false;
         }
+        #endregion
     }
 
     public void RhythmBarHit()

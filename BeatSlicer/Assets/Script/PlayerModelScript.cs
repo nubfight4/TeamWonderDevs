@@ -36,12 +36,8 @@ public class PlayerModelScript : MonoBehaviour {
     void Update() {
         healthBar.fillAmount = health / maxHealth;
         chargeBar.fillAmount = charge / maxCharge;
-
-        if (charge >= maxCharge)
-        {
-            charge = maxCharge;
-        }
-
+      
+        #region Attack Function
         animator.SetBool("isPlayerAttacking", isPlayerAttacking);
         animator.SetBool("isPlayerChargeSlashing", isPlayerChargeSlashing);
 
@@ -71,6 +67,14 @@ public class PlayerModelScript : MonoBehaviour {
             }
         }
 
+        #endregion
+
+        #region Charge Slash Function
+        if (charge >= maxCharge)
+        {
+            charge = maxCharge;
+        }
+
         if (Input.GetButton("ChargeSlash") && charge >= maxCharge)
         {
             {
@@ -78,10 +82,13 @@ public class PlayerModelScript : MonoBehaviour {
                 charge = 0;            
             }
         }
+        #endregion
     }
 
+    #region  Charge Slash Function(cont.)
     public void ChargeSlash()
     {
+        SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_CHARGE_SLASH);
         Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(0.0f,0.0f,0.0f));
     }
 
@@ -90,13 +97,5 @@ public class PlayerModelScript : MonoBehaviour {
         if(charge < maxCharge)
         isPlayerChargeSlashing = false;
     }
-    /*
-    void OnCollisionEnter(Collider collision)
-    {
-        if (collision.tag == "Bullet Red" || collision.tag == "Bullet Green" || collision.tag == "Bullet Blue")
-        {
-            health--;
-        }
-    }
-    */
+    #endregion
 }

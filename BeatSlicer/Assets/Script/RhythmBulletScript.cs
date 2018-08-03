@@ -20,13 +20,4 @@ public class RhythmBulletScript : MonoBehaviour {
             RhythmBar.SetActive(false);
         }
 	}
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Sword")
-        {
-            Debug.Log("sad");
-            gameObject.SetActive(false);
-        }
-    }
 }

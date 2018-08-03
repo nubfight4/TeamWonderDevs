@@ -9,14 +9,10 @@ public class SwordScript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.tag == "Bullet Red" || collision.tag == "Bullet Green" || collision.tag == "Bullet Blue")
+        if (collision.tag == "Rhythm Bullet")
         {
             player.charge++;
-        }
-
-        if (collision.tag == "BossHitbox")
-        {
-            boss.health--;
+            SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_BULLET_HIT_BY_PLAYER_ONBEAT);
         }
     }
 }
