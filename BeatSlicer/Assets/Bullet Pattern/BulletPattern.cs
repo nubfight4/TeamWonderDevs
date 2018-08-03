@@ -200,7 +200,7 @@ public class BulletPattern : MonoBehaviour {
                 //insert bomb script
                 for (int i = 0; i < 8; i++)
                 {
-                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                     redBullet.GetComponent(typeof(BulletPattern));
                     if(redBullet != null)
                     {

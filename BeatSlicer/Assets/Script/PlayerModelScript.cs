@@ -11,6 +11,9 @@ public class PlayerModelScript : MonoBehaviour {
     public float maxHealth;
     public float maxCharge;
 
+    public float attackSpeedTimer;
+    public float countdown;
+
     private bool isPlayerAttacking = false;
     public bool isPlayerChargeSlashing = false;
     Animator animator;
@@ -42,9 +45,20 @@ public class PlayerModelScript : MonoBehaviour {
         animator.SetBool("isPlayerAttacking", isPlayerAttacking);
         animator.SetBool("isPlayerChargeSlashing", isPlayerChargeSlashing);
 
-        if (Input.GetButton("Attack"))
+        if(countdown <= 0)
+        {
+            countdown = 0;
+        }
+        else
+        {
+            isPlayerAttacking = false;
+            countdown -= Time.deltaTime;
+        }
+
+        if (Input.GetButtonDown("Attack") && countdown <= 0)
         {
             {
+                countdown = attackSpeedTimer;
                 isPlayerAttacking = true;
             }
         }
@@ -52,6 +66,7 @@ public class PlayerModelScript : MonoBehaviour {
         if (Input.GetButtonUp("Attack"))
         {
             {
+                countdown = 0;
                 isPlayerAttacking = false;
             }
         }
@@ -67,7 +82,7 @@ public class PlayerModelScript : MonoBehaviour {
 
     public void ChargeSlash()
     {
-        Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(90.0f,90.0f,0.0f));
+        Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(0.0f,0.0f,0.0f));
     }
 
     public void StopChargeSlashAnim()

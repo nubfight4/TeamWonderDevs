@@ -54,18 +54,13 @@ MonoBehaviour:
   rootPoolName: Pooled Objects
   pooledObjects: []
   itemsToPool:
-  - objectToPool: {fileID: 1628238117781054, guid: 9f33bdbc41387e846a43eb5687e8f834,
+  - objectToPool: {fileID: 1532468161635432, guid: 6c0434a21dc71e344b7f4938a89e3ecd,
       type: 2}
-    poolName: Red Bullets
+    poolName: Rhythm Bullets
     amountToPool: 1000
     shouldExpand: 0
-  - objectToPool: {fileID: 1628238117781054, guid: dc6f85a9d7de3e64b9f025d6501962c4,
+  - objectToPool: {fileID: 1764944281241340, guid: 020abbb93a5d9f64cb7e6b8f84653fc9,
       type: 2}
-    poolName: Blue Bullets
+    poolName: Non-Rhythm Bullets
     amountToPool: 1000
-    shouldExpand: 0
-  - objectToPool: {fileID: 1628238117781054, guid: f1bc4b5d86ba88f46bb9d7c81ca62175,
-      type: 2}
-    poolName: Green Bullets
-    amountToPool: 0
     shouldExpand: 0

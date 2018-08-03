@@ -13,7 +13,7 @@ public class ManagerControllerScript : MonoBehaviour
 		{
 			if(mInstance == null)
 			{
-				GameObject tempObject = GameObject.FindWithTag("GameController");
+				GameObject tempObject = GameObject.FindWithTag("ManagerController");
 
 				if(tempObject == null)
 				{

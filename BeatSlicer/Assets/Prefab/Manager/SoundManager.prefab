@@ -109,11 +109,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d10eb49caf1ffc246aa38cc281569f72, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -304,7 +304,9 @@ MonoBehaviour:
   bgmVolume: 1
   sfxVolume: 1
   brightness: 1
-  audioClipInfoList: []
+  audioClipInfoList:
+  - audioClipID: 1
+    audioClip: {fileID: 8300000, guid: d10eb49caf1ffc246aa38cc281569f72, type: 3}
   bgmAudioSource: {fileID: 82196635567275634}
   sfxAudioSource: {fileID: 82270118015193982}
   brightnessMask: {fileID: 0}

@@ -16,6 +16,8 @@ TagManager:
   - Rhythm Bar
   - PlaneHitbox
   - Rhythm Bullet
+  - SoundManager
+  - ManagerController
   layers:
   - Default
   - TransparentFX

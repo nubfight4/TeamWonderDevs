@@ -41,14 +41,14 @@ public class RhythmBarUIScript : MonoBehaviour
         }
 
         //Check if 10 perfect beats
-        if(perfectBeats>= 10)
+        if (perfectBeats >= 10)
         {
             perfectBeats = 0;
             playerModelScript.charge += 5;
         }
 
         //Timer
-        if(rhythmBarTimer <= 0)
+        if (rhythmBarTimer <= 0)
         {
             rhythmBarTimer = 0;
         }
@@ -56,7 +56,7 @@ public class RhythmBarUIScript : MonoBehaviour
         {
             rhythmBarTimer -= Time.deltaTime;
         }
-        
+
         if (rhythmBarTimer <= 0)
         {
             isPlayerAttacking = false;

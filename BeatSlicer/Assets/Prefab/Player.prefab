@@ -477,11 +477,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40cc7de1fd43e144dbe091234b7ee5d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bonusTimer: 2
+  bonusTime: 0
+  setBonusSpeed: 15
+  setOffbeatSpeed: 0.8
   moveSpeed: 10
   attackTimer: 0
   rotationSpeed: 10
   gravityScale: 10
   pivot: {fileID: 0}
+  rhythmBarUIScript: {fileID: 0}
   playerModel: {fileID: 1809103693922398}
 --- !u!114 &114613364609263278
 MonoBehaviour:
@@ -498,6 +503,8 @@ MonoBehaviour:
   charge: 0
   maxHealth: 0
   maxCharge: 0
+  attackSpeedTimer: 0.1
+  countdown: 0
   isPlayerChargeSlashing: 0
   healthBar: {fileID: 0}
   chargeBar: {fileID: 0}

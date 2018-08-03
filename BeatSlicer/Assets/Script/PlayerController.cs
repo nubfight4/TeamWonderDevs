@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // bonusTimer is to adjust how long the timer is
+    public float bonusTimer;
+    public float bonusTime;
+    float originalSpeed;
+    public float setBonusSpeed;
+    public float setOffbeatSpeed;
 
     public float moveSpeed;
     public float attackTimer;
@@ -13,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     public Transform pivot;
 
+    public RhythmBarUIScript rhythmBarUIScript;
     public GameObject playerModel;
 
     //private Transform player;
@@ -27,6 +34,10 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GameObject rhythmBarUI = GameObject.FindGameObjectWithTag("Rhythm Bar");
+        rhythmBarUIScript = rhythmBarUI.GetComponent<RhythmBarUIScript>();
+        originalSpeed = moveSpeed;
+
         //player = GetComponent<Transform>();
         characterController = GetComponent<CharacterController>();
     }
@@ -56,5 +67,31 @@ public class PlayerController : MonoBehaviour
             Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveInput.x, 0f, moveInput.z));
             playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
         }
+
+        //Rhythm Bar Functions
+        if (rhythmBarUIScript.rhythmBarHit)
+        {
+            Debug.Log("hey");
+            moveSpeed = setBonusSpeed;
+            bonusTime = bonusTimer;
+            rhythmBarUIScript.rhythmBarHit = false;
+        }
+
+        else if (rhythmBarUIScript.offbeatHit)
+        {
+            Debug.Log("heysdasad");
+            moveSpeed = setOffbeatSpeed;
+            bonusTime = bonusTimer;
+            rhythmBarUIScript.offbeatHit = false;
+        }
+
+        bonusTime -= Time.deltaTime;
+
+        if (bonusTime <= 0)
+        {
+            bonusTime = 0;
+            moveSpeed = originalSpeed;
+        }
+
     }
 }

@@ -6,8 +6,13 @@ using UnityEngine.UI;
 public enum AudioClipID
 {
 	BGM_MAIN_MENU = 0,
+    BGM_INGAME = 1,
 
     SFX_BATTLE_TRANSACTION = 100,
+    SFX_BULLET_HIT_BY_PLAYER = 101,
+    SFX_CHARGE_SLASH = 102,
+    SFX_DETUNE = 103,
+    SFX_PLAYER_HIT_BY_BULLET = 104,
 
 	TOTAL = 9001
 }
