@@ -501,8 +501,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   charge: 0
-  maxHealth: 0
-  maxCharge: 0
+  maxHealth: 10
+  maxCharge: 100
   attackSpeedTimer: 0.1
   countdown: 0
   isPlayerChargeSlashing: 0

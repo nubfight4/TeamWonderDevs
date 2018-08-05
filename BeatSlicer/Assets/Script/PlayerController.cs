@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameObject rhythmBarUI = GameObject.FindGameObjectWithTag("Rhythm Bar");
-        rhythmBarUIScript = rhythmBarUI.GetComponent<RhythmBarUIScript>();
+        //rhythmBarUIScript = rhythmBarUI.GetComponent<RhythmBarUIScript>();
         originalSpeed = moveSpeed;
 
         //player = GetComponent<Transform>();

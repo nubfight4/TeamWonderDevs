@@ -24,10 +24,8 @@ public class PlayerModelScript : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        maxHealth = 10;
         health = maxHealth;
-        charge = 0;
-        maxCharge = 5;
+        charge = 100;
 
         animator = GetComponent<Animator>();
     }
@@ -78,24 +76,11 @@ public class PlayerModelScript : MonoBehaviour {
         if (Input.GetButton("ChargeSlash") && charge >= maxCharge)
         {
             {
-                isPlayerChargeSlashing = true;
+                SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_CHARGE_SLASH);
+                Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), Quaternion.Euler(0.0f, 0.0f, 0.0f));
                 charge = 0;            
             }
         }
         #endregion
     }
-
-    #region  Charge Slash Function(cont.)
-    public void ChargeSlash()
-    {
-        SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_CHARGE_SLASH);
-        Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.Euler(0.0f,0.0f,0.0f));
-    }
-
-    public void StopChargeSlashAnim()
-    {
-        if(charge < maxCharge)
-        isPlayerChargeSlashing = false;
-    }
-    #endregion
 }
