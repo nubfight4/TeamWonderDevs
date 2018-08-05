@@ -18,6 +18,7 @@ TagManager:
   - Rhythm Bullet
   - SoundManager
   - ManagerController
+  - PausePanel
   layers:
   - Default
   - TransparentFX

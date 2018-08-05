@@ -26,12 +26,15 @@ public class GameManagerScript : MonoBehaviour
 			return mInstance;
 		}
 	}
+
 	public static bool CheckInstanceExist()
 	{
 		return mInstance;
 	}
-	#endregion Singleton
+    #endregion Singleton
 
+    GameObject PausePanel;
+    bool isPaused;
 
 	void Awake()
 	{
@@ -41,8 +44,41 @@ public class GameManagerScript : MonoBehaviour
 		}
 	}
 
-	void Start()
-	{
+    private void Start()
+    {
+        PausePanel = GameObject.FindGameObjectWithTag("PausePanel");
+        PausePanel.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        isPaused = false;
+    }
 
+    void Update()
+	{
+        if(Input.GetButtonDown("Pause"))
+        {
+            if(!isPaused)
+            {
+                PausePanel.SetActive(true);
+                Time.timeScale = 0.0f;
+                isPaused = true;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                ResumeGame();
+            }
+            
+        }
 	}
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1.0f;
+        PausePanel.SetActive(false);
+        isPaused = false;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 }
