@@ -5,7 +5,7 @@ using UnityEngine;
 public class SwordScript : MonoBehaviour {
 
     public PlayerModelScript player;
-    public BossModelScript boss;
+    public BossAIScript boss;
 
     private void OnTriggerEnter(Collider collision)
     {

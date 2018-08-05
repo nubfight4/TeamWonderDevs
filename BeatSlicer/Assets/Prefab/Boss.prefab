@@ -297,7 +297,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementTimer: 8
-  isOutside: 0
   StageOnePoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -316,6 +315,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   currentMovementPattern: 5
+  healthBar: {fileID: 0}
+  health: 0
 --- !u!136 &136749890439549308
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -674,7 +674,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1115000810755632, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224005001061582486, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
         type: 2}
@@ -696,9 +696,20 @@ Prefab:
       propertyPath: m_AnchoredPosition.x
       value: 94
       objectReference: {fileID: 0}
+    - target: {fileID: 114542320093864518, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &949575137 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114715496363805466, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
+    type: 2}
+  m_PrefabInternal: {fileID: 889698216}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &985612488 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1471754866319014, guid: 43aa85be3222a1742a85a053bc6ffdf1,
@@ -2978,6 +2989,11 @@ Prefab:
       propertyPath: StageTwoPoints.Array.data[8]
       value: 
       objectReference: {fileID: 2091144017}
+    - target: {fileID: 114591055903484350, guid: c572ec21b0bd39c49b6c06fdc972734a,
+        type: 2}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 949575137}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c572ec21b0bd39c49b6c06fdc972734a, type: 2}
   m_IsPrefabParent: 0

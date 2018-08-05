@@ -181,7 +181,7 @@ public class BossShootingScript : MonoBehaviour
         {
             for (int i = 0; i < 36; i++)
             {
-                GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); // BulletTest0 (Non-Rhythm Bullet - Actual)
+                GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); // Non-Rhythm Bullet (Non-Rhythm Bullet - Actual)
                 bulletPattern = (BulletPattern)blueBullet.GetComponent(typeof(BulletPattern));
 
                 if (blueBullet != null)
@@ -221,7 +221,7 @@ public class BossShootingScript : MonoBehaviour
                     redBullet.SetActive(true);
                 }
 
-                GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); // BulletTest0 (Non-Rhythm Bullet - Actual)
+                GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); // Non-Rhythm Bullet (Non-Rhythm Bullet - Actual)
                 bulletPattern = (BulletPattern)blueBullet.GetComponent(typeof(BulletPattern));
 
 
@@ -248,7 +248,7 @@ public class BossShootingScript : MonoBehaviour
         else if (currentBulletPattern == BulletPatternType.BOMBING_RUN)
         {
             float randomAngle = Random.Range(-180, 180);
-            GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); // BulletTest0 (Non-Rhythm Bullet - Actual)
+            GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); // Non-Rhythm Bullet (Non-Rhythm Bullet - Actual)
 
             bulletPattern = (BulletPattern)blueBullet.GetComponent(typeof(BulletPattern));
 

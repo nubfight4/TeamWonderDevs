@@ -187,7 +187,7 @@ public class BulletPattern : MonoBehaviour {
         {
             if (bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
             {
-                if (other.tag == "PlayerHitbox" || other.tag == "Sword")
+                if (other.tag == "PlayerHitbox" || other.gameObject.tag == "Sword" || other.gameObject.tag == "ChargeSlashProjectile")
                 {
                     selfDestructTimer = 0f;
                 }
