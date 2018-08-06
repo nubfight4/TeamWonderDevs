@@ -93,8 +93,8 @@ public class BossAIScript : MonoBehaviour
         BulletPatternSetterFunction();
 
         TempMultiTimerFunction();
-        // TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
-        // TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K'
+        //TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
+        //TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K'
     }
 
 

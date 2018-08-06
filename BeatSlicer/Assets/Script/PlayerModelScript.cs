@@ -14,7 +14,7 @@ public class PlayerModelScript : MonoBehaviour {
     public float attackSpeedTimer;
     public float countdown;
 
-    private bool isPlayerAttacking = false;
+    public bool isPlayerAttacking = false;
     public bool isPlayerChargeSlashing = false;
     Animator animator;
 
@@ -25,7 +25,7 @@ public class PlayerModelScript : MonoBehaviour {
     // Use this for initialization
     void Start() {
         health = maxHealth;
-        charge = 100;
+        charge = 100; // change when actually playing game
 
         animator = GetComponent<Animator>();
     }

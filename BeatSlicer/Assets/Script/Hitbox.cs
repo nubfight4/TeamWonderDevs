@@ -10,7 +10,7 @@ public class Hitbox : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.tag == "Rhythm Bullet")
+        if (collision.tag == "Rhythm Bullet" && !player.isPlayerAttacking)
         {
             SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PLAYER_HIT_BY_BULLET);
             player.health--;

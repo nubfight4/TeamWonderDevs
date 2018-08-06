@@ -18,6 +18,8 @@ TagManager:
   - Rhythm Bullet
   - SoundManager
   - ManagerController
+  - PausePanel
+  - Sword
   layers:
   - Default
   - TransparentFX

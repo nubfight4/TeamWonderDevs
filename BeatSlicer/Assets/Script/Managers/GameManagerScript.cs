@@ -34,7 +34,7 @@ public class GameManagerScript : MonoBehaviour
     #endregion Singleton
 
     GameObject PausePanel;
-    bool isPaused;
+    public bool isPaused;
 
 	void Awake()
 	{
@@ -42,7 +42,10 @@ public class GameManagerScript : MonoBehaviour
 		{
 			Destroy(this.gameObject);
 		}
-	}
+
+        //ResumeGame();
+
+    }
 
     private void Start()
     {

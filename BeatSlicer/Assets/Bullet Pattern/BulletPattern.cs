@@ -194,6 +194,7 @@ public class BulletPattern : MonoBehaviour {
             }
 
             if(other.tag == "PlaneHitbox" && isBomb)
+            //if(isBomb && transform.position.y <= 2.5f)   //Please change this to distance formula from ground
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
 
@@ -204,12 +205,14 @@ public class BulletPattern : MonoBehaviour {
                     redBullet.GetComponent(typeof(BulletPattern));
                     if(redBullet != null)
                     {
+                        turningAngle = 0f;
                         redBullet.transform.position = transform.position;
                         redBullet.transform.rotation = transform.rotation;
                         redBullet.transform.rotation *= Quaternion.Euler(0, i * 45, 0);
                         redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
                         redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
-                        currentBulletPattern = BulletPatternType.STRAIGHT;
+                        redBullet.GetComponent<BulletPattern>().smoothing = 0f;
+                        redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPatternType.STRAIGHT;
                         redBullet.SetActive(true);
                     }
                 }
