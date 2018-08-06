@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BossAIScript : MonoBehaviour
 {
@@ -95,6 +96,11 @@ public class BossAIScript : MonoBehaviour
         TempMultiTimerFunction();
         //TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
         //TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K'
+
+        if(health <= 0)
+        {
+            SceneManager.LoadScene("Win Screen");
+        }
     }
 
 

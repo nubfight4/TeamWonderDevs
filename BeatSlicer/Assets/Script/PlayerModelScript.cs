@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerModelScript : MonoBehaviour {
     //Delete this script when done and unnecessary, better to keep one player script only if possible. - Kevin
@@ -65,6 +66,10 @@ public class PlayerModelScript : MonoBehaviour {
             }
         }
 
+        if(health <= 0)
+        {
+            SceneManager.LoadScene("Defeat Screen");
+        }
         #endregion
 
         #region Charge Slash Function
