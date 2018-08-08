@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 public class ButtonFunctions : MonoBehaviour {
     public GameManagerScript gameManagerScript;
 
+    public void TutorialStart()
+    {
+        SceneManager.LoadScene("TutorialScene");
+    }
+
 	public void StartGame()
     {
         SceneManager.LoadScene("BeatSlicerTestScene");
