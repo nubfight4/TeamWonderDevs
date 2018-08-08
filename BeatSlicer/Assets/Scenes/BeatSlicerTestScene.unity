@@ -612,14 +612,6 @@ Prefab:
       propertyPath: chargeBar
       value: 
       objectReference: {fileID: 451973852}
-    - target: {fileID: 1475820258665118, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1923086031186794, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
-      propertyPath: m_TagString
-      value: Sword
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
   m_IsPrefabAsset: 0

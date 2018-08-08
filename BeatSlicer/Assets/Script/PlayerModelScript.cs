@@ -19,6 +19,7 @@ public class PlayerModelScript : MonoBehaviour {
     public bool isPlayerChargeSlashing = false;
     Animator animator;
 
+    GameObject chargeSlashAura;
     public Image healthBar;
     public Image chargeBar;
     public GameObject chargeSlashProjectile;
@@ -26,8 +27,7 @@ public class PlayerModelScript : MonoBehaviour {
     // Use this for initialization
     void Start() {
         health = maxHealth;
-        charge = 100; // change when actually playing game
-
+        chargeSlashAura = GameObject.FindGameObjectWithTag("ChargeSlashAura");
         animator = GetComponent<Animator>();
     }
 
@@ -75,7 +75,12 @@ public class PlayerModelScript : MonoBehaviour {
         #region Charge Slash Function
         if (charge >= maxCharge)
         {
+            chargeSlashAura.SetActive(true);
             charge = maxCharge;
+        }
+        else
+        {
+            chargeSlashAura.SetActive(false);
         }
 
         if (Input.GetButton("ChargeSlash") && charge >= maxCharge)
