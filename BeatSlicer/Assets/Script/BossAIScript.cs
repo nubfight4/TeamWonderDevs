@@ -82,6 +82,8 @@ public class BossAIScript : MonoBehaviour
         StartCoroutine(TempMovePatternTimer()); // To be removed, edited or refined later
 
         //Debug.Log("Current Move Pattern = " + currentMovementPattern);
+        Debug.Log("Temporary Movement Pattern Change Button 'J'");
+        Debug.Log("Temporary Boss Stunner (& Unstunner) Button 'K'");
     }
 
 
@@ -95,13 +97,8 @@ public class BossAIScript : MonoBehaviour
         BulletPatternSetterFunction();
 
         TempMultiTimerFunction();
-        //TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
-        //TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K'
-
-        if(health <= 0)
-        {
-            SceneManager.LoadScene("Win Screen");
-        }
+        TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J' // To disable by Public Playtest
+        TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K' // To disable by Public Playtest
     }
 
 
@@ -381,7 +378,7 @@ public class BossAIScript : MonoBehaviour
     }
 
 
-    void OnTriggerEnter(Collider other) // For isOutside boolean usage & Boss Health
+    void OnTriggerEnter(Collider other) // For isOutside boolean usage & Boss Health/Stun
     {
         if(other.tag == "ChargeSlashProjectile")
         {
@@ -394,7 +391,7 @@ public class BossAIScript : MonoBehaviour
                 health--;
             }
 
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
         }
 
         if(other.tag == "Boundary")
