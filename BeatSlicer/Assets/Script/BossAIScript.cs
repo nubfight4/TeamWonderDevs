@@ -15,7 +15,7 @@ public class BossAIScript : MonoBehaviour
         MOVE_PATTERN_2, // Circle Rain
         MOVE_PATTERN_3A,
         MOVE_PATTERN_3B, // Cone Shot
-        BOSS_STUN, //  When set to BOSS_STUN, please ensure that the other values as shown in TempBossStunnerButton() is present
+        BOSS_STUN,
         SET_MOVE_PATTERN
     };
 
@@ -56,14 +56,13 @@ public class BossAIScript : MonoBehaviour
     public Image healthBar;
 
     public float health;
-    private readonly float maxHealth = 5; // Was 10
+    private readonly float maxHealth = 1; // Was 5, set to 1
 
 
     void Awake()
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
         movementTimerTemp = movementTimer;
-        previousDestination = 99; // Initializing with a number that is not 0
         navMeshAgent = this.GetComponent<NavMeshAgent>();
     }
 
@@ -71,6 +70,8 @@ public class BossAIScript : MonoBehaviour
 	void Start()
 	{
         health = maxHealth;
+
+        previousDestination = 99; // Initializing with a number that is not 0
 
         currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
         previousMovementPattern = currentMovementPattern;
@@ -434,7 +435,7 @@ public class BossAIScript : MonoBehaviour
         {
             tempNum += Time.deltaTime;
 
-            if(tempNum >= 4.0f && (currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)) // For Left, Right, Both Attacks
+            if(tempNum >= 4.5f && (currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)) // For Left, Right, Both Attacks
             {
                 tempNum = 0;
 
@@ -477,9 +478,12 @@ public class BossAIScript : MonoBehaviour
                 }
                 else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B)
                 {
-                    currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
-
                     previousDestination = 99; // Reset to number other than 0
+
+                    bulletPatternReady = true;
+                    tempTimerHasStarted = false;
+
+                    SceneManager.LoadScene("Win Screen"); // Loads Win Scene
                 }
 
                 //Debug.Log("Current Move Pattern = " + currentMovementPattern);
