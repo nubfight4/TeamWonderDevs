@@ -12,7 +12,6 @@ public class Hitbox : MonoBehaviour {
     {
         if (collision.tag == "Rhythm Bullet" && !player.isPlayerAttacking)
         {
-            SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PLAYER_HIT_BY_BULLET);
             player.health--;
         }
     }

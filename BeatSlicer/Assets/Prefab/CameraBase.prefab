@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraMoveSpeed: 120
-  clampAngle: 66
+  clampAngle: 20
   inputSensitivity: 150
   camDistanceXToPlayer: 0
   camDistanceYToPlayer: 0
