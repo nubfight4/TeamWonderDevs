@@ -71,7 +71,6 @@ public class PlayerController : MonoBehaviour
         //Rhythm Bar Functions
         if (rhythmBarUIScript.rhythmBarHit)
         {
-            Debug.Log("hey");
             moveSpeed = setBonusSpeed;
             bonusTime = bonusTimer;
             rhythmBarUIScript.rhythmBarHit = false;
@@ -79,7 +78,6 @@ public class PlayerController : MonoBehaviour
 
         else if (rhythmBarUIScript.offbeatHit)
         {
-            Debug.Log("heysdasad");
             moveSpeed = setOffbeatSpeed;
             bonusTime = bonusTimer;
             rhythmBarUIScript.offbeatHit = false;

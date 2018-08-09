@@ -12,7 +12,7 @@ public class SwordScript : MonoBehaviour {
         if (collision.tag == "Rhythm Bullet")
         {
             player.charge++;
-            SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_BULLET_HIT_BY_PLAYER_ONBEAT);
+            SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_HIT_BY_PLAYER_ONBEAT);
         }
     }
 }

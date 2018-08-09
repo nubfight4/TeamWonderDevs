@@ -86,7 +86,7 @@ public class PlayerModelScript : MonoBehaviour {
         if (Input.GetButton("ChargeSlash") && charge >= maxCharge)
         {
             {
-                SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_CHARGE_SLASH);
+                SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_CHARGE_SLASH);
                 Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), Quaternion.Euler(0.0f, 0.0f, 0.0f));
                 charge = 0;            
             }

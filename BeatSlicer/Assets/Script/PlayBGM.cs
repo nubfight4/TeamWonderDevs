@@ -10,6 +10,6 @@ public class PlayBGM : MonoBehaviour {
     */
     private void Awake()
     {
-        SoundManagerScript.Instance.PlayBGM(AudioClipID.BGM_INGAME);
+        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME);
     }
 }

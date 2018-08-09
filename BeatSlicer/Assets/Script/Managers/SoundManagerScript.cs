@@ -26,6 +26,7 @@ public class AudioClipInfo
 
 public class SoundManagerScript : MonoBehaviour 
 {
+    /*
 	#region Singleton
 	private static SoundManagerScript mInstance;
 
@@ -53,7 +54,9 @@ public class SoundManagerScript : MonoBehaviour
 		return mInstance;
 	}
 	#endregion Singleton
-
+    */
+    public static SoundManagerScript mInstance;
+    
 	public float bgmVolume = 1.0f;
 	public float sfxVolume = 1.0f;
 	public float brightness = 1.0f;
@@ -71,12 +74,24 @@ public class SoundManagerScript : MonoBehaviour
 	// Preload before any Start() rins in other scripts
 	void Awake () 
 	{
+        /*
 		if(SoundManagerScript.CheckInstanceExist())
 		{
 			Destroy(this.gameObject);
 		}
+        */
 
-		AudioSource[] audioSourceList = this.GetComponentsInChildren<AudioSource>();
+        if (mInstance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            mInstance = this;
+        }
+        else if (mInstance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        AudioSource[] audioSourceList = this.GetComponentsInChildren<AudioSource>();
 
 		if(audioSourceList[0].gameObject.name == "BGMAudioSource")
 		{
