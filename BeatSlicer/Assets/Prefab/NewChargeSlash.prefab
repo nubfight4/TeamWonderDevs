@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23159847035283020}
   - component: {fileID: 114752506879211082}
   - component: {fileID: 65578237581709348}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: NewChargeSlash
   m_TagString: ChargeSlashProjectile
   m_Icon: {fileID: 0}

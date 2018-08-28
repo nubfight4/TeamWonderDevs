@@ -25,7 +25,8 @@ public class CameraFollow : MonoBehaviour {
     public GameObject CameraObj;
     public GameObject PlayerObj;
 
-    public Transform Pivot;
+    public Transform xPivot;
+    public Transform yPivot; // Set this for vertical rotation
 
     // Use this for initialization
     void Start ()
@@ -34,8 +35,9 @@ public class CameraFollow : MonoBehaviour {
 		rotY = rot.y;
 		rotX = rot.x;
 
-        Pivot.transform.position = PlayerObj.transform.position;
-        Pivot.transform.parent = null;
+        xPivot.transform.position = PlayerObj.transform.position;
+        xPivot.transform.parent = null;
+        yPivot.transform.position = CameraObj.transform.position;
     }
 	
 	// Update is called once per frame
@@ -46,11 +48,13 @@ public class CameraFollow : MonoBehaviour {
 		finalInputX = mouseX;
 		finalInputZ = -mouseY;
 
-		rotY += finalInputX * inputSensitivity * Time.deltaTime;
+        float horizontal = mouseX * inputSensitivity * Time.deltaTime;
+        PlayerObj.transform.Rotate(0f, horizontal, 0f);
+
+        rotY += finalInputX * inputSensitivity * Time.deltaTime;
 		rotX += finalInputZ * inputSensitivity * Time.deltaTime;
 
-        Pivot.Rotate(0f, finalInputX * inputSensitivity * Time.deltaTime, 0f);   
-
+        xPivot.Rotate(0f, finalInputX * inputSensitivity * Time.deltaTime, 0f);
 
         rotX = Mathf.Clamp (rotX, -clampAngle, clampAngle);
 
@@ -62,8 +66,8 @@ public class CameraFollow : MonoBehaviour {
     {
 		CameraUpdater ();
 
-        Pivot.transform.position = PlayerObj.transform.position;
-
+        xPivot.transform.position = PlayerObj.transform.position;
+        yPivot.transform.position = CameraObj.transform.position;
 
     }
 
@@ -74,5 +78,5 @@ public class CameraFollow : MonoBehaviour {
 		//move towards the target
 		float step = CameraMoveSpeed * Time.deltaTime;
 		transform.position = Vector3.MoveTowards (transform.position, target.position, step);
-	}
+	}   
 }

@@ -31,14 +31,14 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - wall
+  - Bullet
+  - ChargeWave
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
+  - Wall
   - 
   - 
   - 
