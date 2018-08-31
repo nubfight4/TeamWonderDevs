@@ -2584,16 +2584,6 @@ Prefab:
       propertyPath: PlayerObj
       value: 
       objectReference: {fileID: 473205787}
-    - target: {fileID: 114373466522522584, guid: ce17ebedeeff28f43b65211a21233a3e,
-        type: 2}
-      propertyPath: maxClampAngle
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114373466522522584, guid: ce17ebedeeff28f43b65211a21233a3e,
-        type: 2}
-      propertyPath: minClampAngle
-      value: 15
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce17ebedeeff28f43b65211a21233a3e, type: 2}
   m_IsPrefabAsset: 0

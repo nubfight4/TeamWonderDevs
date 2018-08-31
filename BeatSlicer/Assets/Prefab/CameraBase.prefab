@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraMoveSpeed: 120
-  minClampAngle: 20
+  minClampAngle: 15
   maxClampAngle: 10
   inputSensitivity: 150
   mouseX: 0
