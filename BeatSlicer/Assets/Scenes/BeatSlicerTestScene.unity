@@ -478,7 +478,7 @@ Prefab:
       objectReference: {fileID: 1031308736}
     - target: {fileID: 1346915066362842, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114025016393264510, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
         type: 2}
@@ -1016,6 +1016,15 @@ Prefab:
       propertyPath: PlayerObj
       value: 
       objectReference: {fileID: 473205787}
+    - target: {fileID: 1334010174836434, guid: ce17ebedeeff28f43b65211a21233a3e, type: 2}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114205157403298552, guid: ce17ebedeeff28f43b65211a21233a3e,
+        type: 2}
+      propertyPath: volumeLayer.m_Bits
+      value: 768
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce17ebedeeff28f43b65211a21233a3e, type: 2}
   m_IsPrefabAsset: 0
