@@ -4,10 +4,10 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Bullet Test 1
-  m_Shader: {fileID: 4800000, guid: 4443140fbd110a7011005aba44295342, type: 3}
+  m_Shader: {fileID: 4800000, guid: 8a785bf916a9daa4ba997ea0c20a501a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -80,6 +80,30 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _RefractTex:
         m_Texture: {fileID: 8900000, guid: 51e3f49dbd110a7011005aba44295342, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_1A2ECD12_Texture:
+        m_Texture: {fileID: 2800000, guid: 47599e11e3863ed42ba9370687c78c48, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8E6C6B4F_Texture:
+        m_Texture: {fileID: 2800000, guid: 580782a250d190f49baed3900f059eb6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8F31F380_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_C19929E6_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_C29108A2_Texture:
+        m_Texture: {fileID: 2800000, guid: 4d7d401a6ef6c0546b5e54ab3812698a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_F2EB0871_Texture:
+        m_Texture: {fileID: 2800000, guid: 199bd0d701fac334ea2fed5fa015d172, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TranslucencyMask:
