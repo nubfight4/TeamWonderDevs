@@ -7,17 +7,13 @@ public class CameraFollow : MonoBehaviour {
 	public float CameraMoveSpeed = 120.0f;
 	
 	Vector3 FollowPOS;
-	public float clampAngle = 80.0f;
+	public float minClampAngle = 15.0f;
+    public float maxClampAngle = 10.0f;
     public float inputSensitivity = 150.0f;
-	public float camDistanceXToPlayer;
-	public float camDistanceYToPlayer;
-	public float camDistanceZToPlayer;
 	public float mouseX;
 	public float mouseY;
 	public float finalInputX;
 	public float finalInputZ;
-	public float smoothX;
-	public float smoothY;
 	private float rotY = 0.0f;
 	private float rotX = 0.0f;
 
@@ -46,25 +42,25 @@ public class CameraFollow : MonoBehaviour {
 		finalInputX = mouseX;
 		finalInputZ = -mouseY;
 
-		rotY += finalInputX * inputSensitivity * Time.deltaTime;
+        float horizontal = mouseX * inputSensitivity * Time.deltaTime;
+        PlayerObj.transform.Rotate(0f, horizontal, 0f);
+
+        rotY += finalInputX * inputSensitivity * Time.deltaTime;
 		rotX += finalInputZ * inputSensitivity * Time.deltaTime;
 
-        Pivot.Rotate(0f, finalInputX * inputSensitivity * Time.deltaTime, 0f);   
+        //xPivot.Rotate(0f, finalInputX * inputSensitivity * Time.deltaTime, 0f);
 
+        rotX = Mathf.Clamp (rotX, -minClampAngle, maxClampAngle);
 
-        rotX = Mathf.Clamp (rotX, -clampAngle, clampAngle);
-
-		Quaternion localRotation = Quaternion.Euler (rotX, rotY, 0.0f);
+		Quaternion localRotation = Quaternion.Euler (0.0f, rotY, 0.0f);
 		transform.rotation = localRotation;
+        CameraObj.transform.rotation = Quaternion.Euler(rotX, rotY, 0.0f);
 	}
 
 	void LateUpdate ()
     {
 		CameraUpdater ();
-
         Pivot.transform.position = PlayerObj.transform.position;
-
-
     }
 
     void CameraUpdater()
@@ -73,6 +69,8 @@ public class CameraFollow : MonoBehaviour {
 
 		//move towards the target
 		float step = CameraMoveSpeed * Time.deltaTime;
-		transform.position = Vector3.MoveTowards (transform.position, target.position, step);
-	}
+        Vector3 selfPos = new Vector3(transform.position.x, transform.position.y  + 2.0f, transform.position.z);
+        Vector3 targetPos = new Vector3(target.position.x, target.position.y + 3.0f, target.position.z);
+        transform.position = Vector3.MoveTowards (selfPos, targetPos, step);
+	}   
 }

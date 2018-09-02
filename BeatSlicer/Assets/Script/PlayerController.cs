@@ -61,12 +61,14 @@ public class PlayerController : MonoBehaviour
             characterController.Move(moveInput * Time.deltaTime);
 
         //Move the player in different direction based on camera
+        /*
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
             transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0);
             Quaternion newRotation = Quaternion.LookRotation(new Vector3(moveInput.x, 0f, moveInput.z));
             playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
         }
+        */
 
         //Rhythm Bar Functions
         if (rhythmBarUIScript.rhythmBarHit)

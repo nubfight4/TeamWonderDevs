@@ -11,21 +11,39 @@ public class CameraCollision : MonoBehaviour {
 	public Vector3 dollyDirAdjusted;
 	public float distance;
 
-    private LayerMask wallMask = 9;
+    float raySphereThickness = 1f;
+    GameObject player;
+    Vector3 playerPos;
+    private LayerMask wallMask = 16;
 
 	// Use this for initialization
 	void Awake ()
     {
 		dollyDir = transform.localPosition.normalized;
 		distance = transform.localPosition.magnitude;
-	}
+
+        distance = maxDistance;
+        transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, Time.deltaTime * smooth);
+        transform.localPosition = dollyDir * distance;
+
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
 		Vector3 desiredCameraPos = transform.parent.TransformPoint (dollyDir * maxDistance);
-		RaycastHit hit;
 
+        playerPos = player.transform.position;
+
+        Vector3 origin = playerPos;
+        Vector3 direction = transform.TransformDirection(Vector3.back);
+
+        /*
+        //Old Code
+        RaycastHit hit;
+
+        
 		if (Physics.Linecast (transform.parent.position, desiredCameraPos, out hit, 1 << 9))
         {
 			distance = Mathf.Clamp ((hit.distance * 0.87f), minDistance, maxDistance);
@@ -37,5 +55,29 @@ public class CameraCollision : MonoBehaviour {
 		}
 
 		transform.localPosition = Vector3.Lerp (transform.localPosition, dollyDir * distance, Time.deltaTime * smooth);
-	}
+        */
+
+        //new code
+        RaycastHit[] hits;
+
+        hits = Physics.RaycastAll(origin, transform.forward * -1, Mathf.Infinity, 1 << wallMask.value);
+        Debug.DrawRay(transform.position, transform.forward, Color.green);
+        // SphereCastAll's wallMask not working
+        //hits = Physics.SphereCastAll(origin, raySphereThickness, direction, wallMask.value);
+
+        foreach (RaycastHit hit in hits) 
+        {
+
+            Renderer R = hit.collider.GetComponent<Renderer>();
+            if (R == null)
+                continue; // no renderer attached? go to next hit
+
+            AutoTransparent AT = R.GetComponent <AutoTransparent>();
+            if (AT == null) // if no script is attached, attach one
+            {
+                AT = R.gameObject.AddComponent <AutoTransparent>();
+            }
+            AT.BeTransparent(); // get called every frame to reset the falloff
+        }
+    }
 }
