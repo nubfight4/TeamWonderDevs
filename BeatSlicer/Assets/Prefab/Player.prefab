@@ -562,9 +562,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  charge: 0
-  maxHealth: 10
-  maxCharge: 10
+  charge: 1111
+  maxHealth: 142421
+  maxCharge: 1
   attackSpeedTimer: 0.1
   countdown: 0
   isPlayerAttacking: 0
@@ -598,6 +598,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 114613364609263278}
+  playerDamagedVFX: {fileID: 1735740048272868, guid: 2866b6d2e0ee779419867e7d18979919,
+    type: 2}
 --- !u!136 &136394818970207218
 CapsuleCollider:
   m_ObjectHideFlags: 1

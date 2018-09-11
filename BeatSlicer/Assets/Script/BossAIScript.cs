@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class BossAIScript : MonoBehaviour
 {
     [SerializeField]
+    // VFX Objects
+    public GameObject BossDamagedVFX;
 
     public enum MovementPattern
     {
@@ -377,12 +379,11 @@ public class BossAIScript : MonoBehaviour
         }
     }
 
-
     void OnTriggerEnter(Collider other) // For isOutside boolean usage & Boss Health/Stun
     {
         if(other.tag == "ChargeSlashProjectile")
-        {
-            if(health <= 0)
+        {         
+            if (health <= 0)
             {
                 health = 0;
             }
@@ -390,7 +391,7 @@ public class BossAIScript : MonoBehaviour
             {
                 health--;
             }
-
+            Instantiate(BossDamagedVFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform.parent);
             //Destroy(other.gameObject);
         }
 
