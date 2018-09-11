@@ -69,7 +69,7 @@ public class CameraFollow : MonoBehaviour {
 
 		//move towards the target
 		float step = CameraMoveSpeed * Time.deltaTime;
-        Vector3 selfPos = new Vector3(transform.position.x, transform.position.y  + 2.0f, transform.position.z);
+        Vector3 selfPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
         Vector3 targetPos = new Vector3(target.position.x, target.position.y + 3.0f, target.position.z);
         transform.position = Vector3.MoveTowards (selfPos, targetPos, step);
 	}   
