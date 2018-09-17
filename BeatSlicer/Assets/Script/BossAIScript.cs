@@ -58,6 +58,8 @@ public class BossAIScript : MonoBehaviour
     public float health;
     private readonly float maxHealth = 1; // Was 5, set to 1
 
+    public AudioClip bossWooshSound;
+
 
     void Awake()
 	{
@@ -188,6 +190,7 @@ public class BossAIScript : MonoBehaviour
                 }
 
                 transform.position = StageOnePoints[selectedDestination].transform.position;
+                gameObject.GetComponent<AudioSource>().PlayOneShot(bossWooshSound,1.0f);
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
             {
@@ -208,6 +211,7 @@ public class BossAIScript : MonoBehaviour
                 }
 
                 transform.position = StageOnePoints[bossStageThreeMovement[selectedDestination]].transform.position;
+                gameObject.GetComponent<AudioSource>().PlayOneShot(bossWooshSound,1.0f);
             }
 
             isVanishingAndReappearing = false;
@@ -390,8 +394,6 @@ public class BossAIScript : MonoBehaviour
             {
                 health--;
             }
-
-            //Destroy(other.gameObject);
         }
 
         if(other.tag == "Boundary")
