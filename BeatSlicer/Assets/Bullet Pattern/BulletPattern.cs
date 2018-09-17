@@ -53,6 +53,10 @@ public class BulletPattern : MonoBehaviour {
 
     public BulletPatternType currentBulletPattern = BulletPatternType.SET_TYPE;
 
+    public AudioClip bulletBoomSound;
+    public AudioClip bombDropSound;
+    public bool playBombDropSound = false;
+
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -156,8 +160,17 @@ public class BulletPattern : MonoBehaviour {
 
         if (isToBeDestroyed == true)
         {
+            this.GetComponent<AudioSource>().enabled = false;
             gameObject.SetActive(false);
             isToBeDestroyed = false;
+        }
+
+        if(playBombDropSound == true)
+        {
+            this.GetComponent<AudioSource>().enabled = true;
+            this.GetComponent<AudioSource>().PlayOneShot(bombDropSound, 1.0f);
+
+            playBombDropSound = false;
         }
     }
 
@@ -214,6 +227,12 @@ public class BulletPattern : MonoBehaviour {
                         redBullet.GetComponent<BulletPattern>().smoothing = 0f;
                         redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPatternType.STRAIGHT;
                         redBullet.SetActive(true);
+
+                        if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Boom' sound
+                        {
+                            redBullet.GetComponent<AudioSource>().enabled = true;
+                            redBullet.GetComponent<AudioSource>().PlayOneShot(bulletBoomSound,1.0f);
+                        }
                     }
                 }
 

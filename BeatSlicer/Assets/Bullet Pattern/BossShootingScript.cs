@@ -263,6 +263,8 @@ public class BossShootingScript : MonoBehaviour
                 bulletPattern.selfDestructTimer = 10f;
                 bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
                 blueBullet.SetActive(true);
+
+                blueBullet.GetComponent<BulletPattern>().playBombDropSound = true;
             }
 
             currentBulletPattern = BulletPatternType.REST;

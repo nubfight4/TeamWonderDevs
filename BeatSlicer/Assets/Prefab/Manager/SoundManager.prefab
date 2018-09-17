@@ -318,5 +318,5 @@ MonoBehaviour:
   bgmAudioSource: {fileID: 82196635567275634}
   sfxAudioSource: {fileID: 82270118015193982}
   brightnessMask: {fileID: 0}
-  sfxAudioSourceList: []
   bgmAudioSourceList: []
+  sfxAudioSourceList: []

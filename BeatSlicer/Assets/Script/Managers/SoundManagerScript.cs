@@ -56,23 +56,23 @@ public class SoundManagerScript : MonoBehaviour
 	#endregion Singleton
     */
     public static SoundManagerScript mInstance;
-    
+
 	public float bgmVolume = 1.0f;
 	public float sfxVolume = 1.0f;
-	public float brightness = 1.0f;
+    public float brightness = 1.0f;
 
 
 	public List<AudioClipInfo> audioClipInfoList = new List<AudioClipInfo>();
 
-	public AudioSource bgmAudioSource;
+    public AudioSource bgmAudioSource;
 	public AudioSource sfxAudioSource;
-	public Image brightnessMask;
+    public Image brightnessMask;
 
-	public List<AudioSource> sfxAudioSourceList = new List<AudioSource>();
-	public List<AudioSource> bgmAudioSourceList = new List<AudioSource>();
+    public List<AudioSource> bgmAudioSourceList = new List<AudioSource>();
+    public List<AudioSource> sfxAudioSourceList = new List<AudioSource>();
 
-	// Preload before any Start() rins in other scripts
-	void Awake () 
+    // Preload before any Start() rins in other scripts
+    void Awake () 
 	{
         /*
 		if(SoundManagerScript.CheckInstanceExist())
@@ -231,7 +231,7 @@ public class SoundManagerScript : MonoBehaviour
 		sfxAudioSource.volume = sfxVolume;
 	}
 
-	public void SetBrightness(float value)
+    public void SetBrightness(float value)
 	{
 		brightness = value;
 		brightnessMask.color = new Color(0, 0, 0, 1 - brightness);
