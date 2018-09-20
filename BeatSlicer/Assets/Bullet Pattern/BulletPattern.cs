@@ -23,7 +23,7 @@ public class BulletPattern : MonoBehaviour {
 
 
     public GameObject player;
-
+    public GameObject bulletDestroyedVFX;
     public Transform bossShootingSpot;
 
     public float bulletSpeed = 10.0f;
@@ -187,8 +187,14 @@ public class BulletPattern : MonoBehaviour {
         {
             if (bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
             {
-                if (other.tag == "PlayerHitbox" || other.gameObject.tag == "Sword" || other.gameObject.tag == "ChargeSlashProjectile")
+                if (other.tag == "PlayerHitbox" || other.gameObject.tag == "ChargeSlashProjectile")
                 {
+                    selfDestructTimer = 0f;
+                }
+                else if (other.gameObject.tag == "Sword")
+                {
+                    Instantiate(bulletDestroyedVFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), 
+                        Quaternion.Euler(Random.Range(-45.0f,45.0f),Random.Range(-45.0f,45.0f),transform.rotation.z), transform.parent);
                     selfDestructTimer = 0f;
                 }
             }
