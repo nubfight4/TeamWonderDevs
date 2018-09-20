@@ -249,6 +249,8 @@ MonoBehaviour:
   bulletBoomSound: {fileID: 8300000, guid: 3aabb4ced82d0e0418db04653e949dda, type: 3}
   bombDropSound: {fileID: 8300000, guid: c6eda11d52d22cd478794399b42acc74, type: 3}
   playBombDropSound: 0
+  bulletDestroyedVFX: {fileID: 1754754949281932, guid: ee5fccb6fbb26094f89b42d31cd40d01,
+    type: 2}
 --- !u!114 &114505551576633754
 MonoBehaviour:
   m_ObjectHideFlags: 1
