@@ -59,7 +59,7 @@ public class BossAIScript : MonoBehaviour
     private readonly float maxHealth = 1; // Was 5, set to 1
 
     public AudioClip bossWooshSound;
-
+    public GameObject bossDamagedVFX;
 
     void Awake()
 	{
@@ -394,6 +394,7 @@ public class BossAIScript : MonoBehaviour
             {
                 health--;
             }
+            Instantiate(bossDamagedVFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform.parent);
         }
 
         if(other.tag == "Boundary")
