@@ -21,6 +21,7 @@ TagManager:
   - PausePanel
   - Sword
   - ChargeSlashAura
+  - PlayerDamagedVFX
   layers:
   - Default
   - TransparentFX
