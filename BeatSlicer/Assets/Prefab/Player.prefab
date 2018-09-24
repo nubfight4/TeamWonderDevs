@@ -542,13 +542,14 @@ MonoBehaviour:
   bonusTimer: 2
   bonusTime: 0
   setBonusSpeed: 15
-  setOffbeatSpeed: 0.8
+  setOffbeatSpeed: 7
   moveSpeed: 10
   attackTimer: 0
   rotationSpeed: 10
   gravityScale: 10
   pivot: {fileID: 0}
   rhythmBarUIScript: {fileID: 0}
+  rhythmBarScript: {fileID: 0}
   playerModel: {fileID: 1809103693922398}
 --- !u!114 &114613364609263278
 MonoBehaviour:
@@ -563,7 +564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   charge: 0
-  maxHealth: 10
+  maxHealth: 123123120
   maxCharge: 10
   attackSpeedTimer: 0.1
   countdown: 0

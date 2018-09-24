@@ -1,0 +1,544 @@
+fileFormatVersion: 2
+guid: ec14ed9da1b49dd4a949046293e35f5e
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: RhythmBar(1) - Copy_0
+    21300002: RhythmBar(1) - Copy_1
+    21300004: RhythmBar(1) - Copy_2
+    21300006: RhythmBar(1) - Copy_3
+    21300008: RhythmBar(1) - Copy_4
+    21300010: RhythmBar(1) - Copy_5
+    21300012: RhythmBar(1) - Copy_6
+    21300014: RhythmBar(1) - Copy_7
+    21300016: RhythmBar(1) - Copy_8
+    21300018: RhythmBar(1) - Copy_9
+    21300020: RhythmBar(1) - Copy_10
+    21300022: RhythmBar(1) - Copy_11
+    21300024: RhythmBar(1) - Copy_12
+    21300026: RhythmBar(1) - Copy_13
+    21300028: RhythmBar(1) - Copy_14
+    21300030: RhythmBar(1) - Copy_15
+    21300032: RhythmBar(1) - Copy_16
+    21300034: RhythmBar(1) - Copy_17
+    21300036: RhythmBar(1) - Copy_18
+    21300038: RhythmBar(1) - Copy_19
+    21300040: RhythmBar(1) - Copy_20
+    21300042: RhythmBar(1) - Copy_21
+    21300044: RhythmBar(1) - Copy_22
+    21300046: RhythmBar(1) - Copy_23
+    21300048: RhythmBar(1) - Copy_24
+    21300050: RhythmBar(1) - Copy_25
+    21300052: RhythmBar(1) - Copy_26
+    21300054: RhythmBar(1) - Copy_27
+    21300056: RhythmBar(1) - Copy_28
+    21300058: RhythmBar(1) - Copy_29
+    21300060: RhythmBar(1) - Copy_30
+    21300062: RhythmBar(1) - Copy_31
+    21300064: RhythmBar(1) - Copy_32
+    21300066: RhythmBar(1) - Copy_33
+    21300068: RhythmBar(1) - Copy_34
+    21300070: RhythmBar(1) - Copy_35
+    21300072: RhythmBar(1) - Copy_36
+    21300074: RhythmBar(1) - Copy_37
+    21300076: RhythmBar(1) - Copy_38
+    21300078: RhythmBar(1) - Copy_39
+    21300080: RhythmBar(1) - Copy_40
+    21300082: RhythmBar(1) - Copy_41
+    21300084: RhythmBar(1) - Copy_42
+    21300086: RhythmBar(1) - Copy_43
+    21300088: RhythmBar(1) - Copy_44
+    21300090: RhythmBar(1) - Copy_45
+    21300092: RhythmBar(1) - Copy_46
+    21300094: RhythmBar(1) - Copy_47
+    21300096: RhythmBar(1) - Copy_48
+    21300098: RhythmBar(1) - Copy_49
+    21300100: RhythmBar(1) - Copy_50
+    21300102: RhythmBar(1) - Copy_51
+    21300104: RhythmBar(1) - Copy_52
+    21300106: RhythmBar(1) - Copy_53
+    21300108: RhythmBar(1) - Copy_54
+    21300110: RhythmBar(1) - Copy_55
+    21300112: RhythmBar(1) - Copy_56
+    21300114: RhythmBar(1) - Copy_57
+    21300116: RhythmBar(1) - Copy_58
+    21300118: RhythmBar(1) - Copy_59
+    21300120: RhythmBar(1) - Copy_60
+    21300122: RhythmBar(1) - Copy_61
+    21300124: RhythmBar(1) - Copy_62
+    21300126: RhythmBar(1) - Copy_63
+    21300128: RhythmBar(1) - Copy_64
+    21300130: RhythmBar(1) - Copy_65
+    21300132: RhythmBar(1) - Copy_66
+    21300134: RhythmBar(1) - Copy_67
+    21300136: RhythmBar(1) - Copy_68
+    21300138: RhythmBar(1) - Copy_69
+    21300140: RhythmBar(1) - Copy_70
+    21300142: RhythmBar(1) - Copy_71
+    21300144: RhythmBar(1) - Copy_72
+    21300146: RhythmBar(1) - Copy_73
+    21300148: RhythmBar(1) - Copy_74
+    21300150: RhythmBar(1) - Copy_75
+    21300152: RhythmBar(1) - Copy_76
+    21300154: RhythmBar(1) - Copy_77
+    21300156: RhythmBar(1) - Copy_78
+    21300158: RhythmBar(1) - Copy_79
+    21300160: RhythmBar(1) - Copy_80
+    21300162: RhythmBar(1) - Copy_81
+    21300164: RhythmBar(1) - Copy_82
+    21300166: RhythmBar(1) - Copy_83
+    21300168: RhythmBar(1) - Copy_84
+    21300170: RhythmBar(1) - Copy_85
+    21300172: RhythmBar(1) - Copy_86
+    21300174: RhythmBar(1) - Copy_87
+    21300176: RhythmBar(1) - Copy_88
+    21300178: RhythmBar(1) - Copy_89
+    21300180: RhythmBar(1) - Copy_90
+    21300182: RhythmBar(1) - Copy_91
+    21300184: RhythmBar(1) - Copy_92
+    21300186: RhythmBar(1) - Copy_93
+    21300188: RhythmBar(1) - Copy_94
+    21300190: RhythmBar(1) - Copy_95
+    21300192: RhythmBar(1) - Copy_96
+    21300194: RhythmBar(1) - Copy_97
+    21300196: RhythmBar(1) - Copy_98
+    21300198: RhythmBar(1) - Copy_99
+    21300200: RhythmBar(1) - Copy_100
+    21300202: RhythmBar(1) - Copy_101
+    21300204: RhythmBar(1) - Copy_102
+    21300206: RhythmBar(1) - Copy_103
+    21300208: RhythmBar(1) - Copy_104
+    21300210: RhythmBar(1) - Copy_105
+    21300212: RhythmBar(1) - Copy_106
+    21300214: RhythmBar(1) - Copy_107
+    21300216: RhythmBar(1) - Copy_108
+    21300218: RhythmBar(1) - Copy_109
+    21300220: RhythmBar(1) - Copy_110
+    21300222: RhythmBar(1) - Copy_111
+    21300224: RhythmBar(1) - Copy_112
+    21300226: RhythmBar(1) - Copy_113
+    21300228: RhythmBar(1) - Copy_114
+    21300230: RhythmBar(1) - Copy_115
+    21300232: RhythmBar(1) - Copy_116
+    21300234: RhythmBar(1) - Copy_117
+    21300236: RhythmBar(1) - Copy_118
+    21300238: RhythmBar(1) - Copy_119
+    21300240: RhythmBar(1) - Copy_120
+    21300242: RhythmBar(1) - Copy_121
+    21300244: RhythmBar(1) - Copy_122
+    21300246: RhythmBar(1) - Copy_123
+    21300248: RhythmBar(1) - Copy_124
+    21300250: RhythmBar(1) - Copy_125
+    21300252: RhythmBar(1) - Copy_126
+    21300254: RhythmBar(1) - Copy_127
+    21300256: RhythmBar(1) - Copy_128
+    21300258: RhythmBar(1) - Copy_129
+    21300260: RhythmBar(1) - Copy_130
+    21300262: RhythmBar(1) - Copy_131
+    21300264: RhythmBar(1) - Copy_132
+    21300266: RhythmBar(1) - Copy_133
+    21300268: RhythmBar(1) - Copy_134
+    21300270: RhythmBar(1) - Copy_135
+    21300272: RhythmBar(1) - Copy_136
+    21300274: RhythmBar(1) - Copy_137
+    21300276: RhythmBar(1) - Copy_138
+    21300278: RhythmBar(1) - Copy_139
+    21300280: RhythmBar(1) - Copy_140
+    21300282: RhythmBar(1) - Copy_141
+    21300284: RhythmBar(1) - Copy_142
+    21300286: RhythmBar(1) - Copy_143
+    21300288: RhythmBar(1) - Copy_144
+    21300290: RhythmBar(1) - Copy_145
+    21300292: RhythmBar(1) - Copy_146
+    21300294: RhythmBar(1) - Copy_147
+    21300296: RhythmBar(1) - Copy_148
+    21300298: RhythmBar(1) - Copy_149
+    21300300: RhythmBar(1) - Copy_150
+    21300302: RhythmBar(1) - Copy_151
+    21300304: RhythmBar(1) - Copy_152
+    21300306: RhythmBar(1) - Copy_153
+  externalObjects: {}
+  serializedVersion: 7
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1200
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50a61bb2c61a4d947a05e7871708a7bb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_1
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1200
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f99d158755e25f9468e428b5c78370d8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1000
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 491ca6c0a8d977e4c96be235f652fc12
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_3
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1000
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b135f4e02ba323642a38bc244419616f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 800
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d809958caf0a0844eac32b36bdd2f185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_5
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 800
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 55e85c7bdf0b9bd40b99779763a49435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cf44e4422cdf624498efe8b908a1b75
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_7
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 600
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bb4793a9377d21479ebcb40ff5fa6ae
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 400
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc5aabbd48515df42b54de6b8fce0ef4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_9
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 400
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0821ce4ba3c70054e990a330ee32f2bc
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 200
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa3a6346ba0bb634486304054c918d16
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_11
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 200
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4de5ddcb23168f947bfaef1fc5c910a5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00965201e6d03244e921387d2ae8f3a6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RhythmBar(1) - Copy_13
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 0
+        width: 1000
+        height: 200
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5a14044504b2f44596327fa26862a80
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 58146376b084c3749b93d9116f96ba05
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
