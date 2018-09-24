@@ -542,14 +542,16 @@ MonoBehaviour:
   bonusTimer: 2
   bonusTime: 0
   setBonusSpeed: 15
-  setOffbeatSpeed: 0.8
+  setOffbeatSpeed: 7
   moveSpeed: 10
   attackTimer: 0
   rotationSpeed: 10
   gravityScale: 10
+  onBeat: 0
+  missBeat: 0
   pivot: {fileID: 0}
-  rhythmBarUIScript: {fileID: 0}
   playerModel: {fileID: 1809103693922398}
+  player: {fileID: 114613364609263278}
 --- !u!114 &114613364609263278
 MonoBehaviour:
   m_ObjectHideFlags: 1

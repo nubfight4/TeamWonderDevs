@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
     public float bonusTimer;
     public float bonusTime;
     float originalSpeed;
-    public float setBonusSpeed;
-    public float setOffbeatSpeed;
+    public float setBonusSpeed = 15;
+    public float setOffbeatSpeed = 7;
 
     public float moveSpeed;
     public float attackTimer;
@@ -17,10 +17,15 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed;
     public float gravityScale;
 
+    public bool onBeat;
+    public bool missBeat;
+    float onBeatCharge;
+
     public Transform pivot;
 
-    public RhythmBarUIScript rhythmBarUIScript;
+    //public RhythmBarUIScript rhythmBarUIScript;
     public GameObject playerModel;
+    public PlayerModelScript player;
 
     //private Transform player;
     private CharacterController characterController;
@@ -47,18 +52,51 @@ public class PlayerController : MonoBehaviour
     {
         //isPlayerMoving = false;
 
-            float yStore = moveInput.y;
-            moveInput = (transform.forward * Input.GetAxisRaw("Vertical") * moveSpeed) + (transform.right * Input.GetAxisRaw("Horizontal") * moveSpeed);
-            moveInput = moveInput.normalized * moveSpeed;
-            moveInput.y = yStore;
+        //New Rhythm Bar Functions
+        if (onBeat)
+        {
+            moveSpeed = setBonusSpeed;
+            bonusTime = bonusTimer;
+            onBeatCharge++;
+            onBeat = false;
+        }
 
-            if(characterController.isGrounded)
-            {
-                moveInput.y = 0f;
-            }
+        if (missBeat)
+        {
+            moveSpeed = setOffbeatSpeed;
+            bonusTime = bonusTimer;
+            onBeatCharge = 0;
+            missBeat = false;
+        }
 
-            moveInput.y = moveInput.y + (Physics.gravity.y * gravityScale * Time.deltaTime);
-            characterController.Move(moveInput * Time.deltaTime);
+        if (onBeatCharge >= 5)
+        {
+            player.charge++;
+            onBeatCharge = 0;
+        }
+
+        if (bonusTime >= 0)
+        {
+            bonusTime -= Time.deltaTime;
+        }
+
+        else
+        {
+            moveSpeed = originalSpeed;
+        }
+
+        float yStore = moveInput.y;
+        moveInput = (transform.forward * Input.GetAxisRaw("Vertical") * moveSpeed) + (transform.right * Input.GetAxisRaw("Horizontal") * moveSpeed);
+        moveInput = moveInput.normalized * moveSpeed;
+        moveInput.y = yStore;
+
+        if (characterController.isGrounded)
+        {
+            moveInput.y = 0f;
+        }
+
+        moveInput.y = moveInput.y + (Physics.gravity.y * gravityScale * Time.deltaTime);
+        characterController.Move(moveInput * Time.deltaTime);
 
         //Move the player in different direction based on camera
         /*
@@ -71,6 +109,7 @@ public class PlayerController : MonoBehaviour
         */
 
         //Rhythm Bar Functions
+        /*
         if (rhythmBarUIScript.rhythmBarHit)
         {
             moveSpeed = setBonusSpeed;
@@ -92,6 +131,7 @@ public class PlayerController : MonoBehaviour
             bonusTime = 0;
             moveSpeed = originalSpeed;
         }
-
+        */
     }
+
 }
