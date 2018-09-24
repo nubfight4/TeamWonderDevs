@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public enum AudioClipID
 {
 	BGM_MAIN_MENU = 0,
-    BGM_INGAME = 1,
+    BGM_INGAME_1 = 1,
+    BGM_INGAME_2 = 2,
 
     SFX_BULLET_HIT_BY_PLAYER_ONBEAT = 101,
     SFX_BULLET_HIT_BY_PLAYER_OFFBEAT = 102,
@@ -59,16 +60,15 @@ public class SoundManagerScript : MonoBehaviour
     
 	public float bgmVolume = 1.0f;
 	public float sfxVolume = 1.0f;
-	public float brightness = 1.0f;
-
+    //public float brightness = 1.0f; // Not sure what this is for, commenting for now.
 
 	public List<AudioClipInfo> audioClipInfoList = new List<AudioClipInfo>();
 
 	public AudioSource bgmAudioSource;
 	public AudioSource sfxAudioSource;
-	public Image brightnessMask;
+    //public Image brightnessMask; // Not sure what this is for, commenting for now.
 
-	public List<AudioSource> sfxAudioSourceList = new List<AudioSource>();
+    public List<AudioSource> sfxAudioSourceList = new List<AudioSource>();
 	public List<AudioSource> bgmAudioSourceList = new List<AudioSource>();
 
 	// Preload before any Start() rins in other scripts
@@ -105,7 +105,7 @@ public class SoundManagerScript : MonoBehaviour
 		}
 	}
 
-	AudioClip FindAudioClip(AudioClipID audioClipID)
+	public AudioClip FindAudioClip(AudioClipID audioClipID)
 	{
 		for(int i=0; i<audioClipInfoList.Count; i++)
 		{
@@ -231,9 +231,12 @@ public class SoundManagerScript : MonoBehaviour
 		sfxAudioSource.volume = sfxVolume;
 	}
 
+    // Not sure what this is for, commenting for now.
+    /*
 	public void SetBrightness(float value)
 	{
 		brightness = value;
 		brightnessMask.color = new Color(0, 0, 0, 1 - brightness);
     }
+    */
 }

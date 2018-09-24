@@ -58,8 +58,8 @@ public class BossAIScript : MonoBehaviour
     public float health;
     private readonly float maxHealth = 1; // Was 5, set to 1
 
-    public AudioClip bossWooshSound;
-    public GameObject bossDamagedVFX;
+    public AudioClip bossWooshSound; // Sound used for Boss Appearing -TEST-
+
 
     void Awake()
 	{
@@ -84,8 +84,8 @@ public class BossAIScript : MonoBehaviour
         StartCoroutine(TempMovePatternTimer()); // To be removed, edited or refined later
 
         //Debug.Log("Current Move Pattern = " + currentMovementPattern);
-        Debug.Log("Temporary Movement Pattern Change Button 'J'");
-        Debug.Log("Temporary Boss Stunner (& Unstunner) Button 'K'");
+        //Debug.Log("Temporary Movement Pattern Change Button 'J'");
+        //Debug.Log("Temporary Boss Stunner (& Unstunner) Button 'K'");
     }
 
 
@@ -99,8 +99,8 @@ public class BossAIScript : MonoBehaviour
         BulletPatternSetterFunction();
 
         TempMultiTimerFunction();
-        TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J' // To disable by Public Playtest
-        TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K' // To disable by Public Playtest
+        //TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J' // To disable by Public Playtest
+        //TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K' // To disable by Public Playtest
     }
 
 
@@ -378,6 +378,8 @@ public class BossAIScript : MonoBehaviour
 
                 //Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
+
+            SoundManagerScript.mInstance.bgmAudioSource.volume -= Time.deltaTime * 0.5f; // This works for now (Creates the crossfade sound effect) // is set 0.5f
         }
     }
 
@@ -394,7 +396,6 @@ public class BossAIScript : MonoBehaviour
             {
                 health--;
             }
-            Instantiate(bossDamagedVFX, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform.parent);
         }
 
         if(other.tag == "Boundary")
@@ -437,32 +438,41 @@ public class BossAIScript : MonoBehaviour
 
             if(tempNum >= 4.5f && (currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)) // For Left, Right, Both Attacks
             {
-                tempNum = 0;
+                tempNum = 0.0f;
 
                 bulletPatternReady = true;
                 tempTimerHasStarted = false;
             }
             else if(tempNum >= 1.5f && (currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B) && selectedDestination != 5) // For Bombing Run
             {
-                tempNum = 0;
+                tempNum = 0.0f;
 
                 bulletPatternReady = true;
                 tempTimerHasStarted = false;
             }
             else if(tempNum >= 4.5f && (currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B) && selectedDestination == 5) // For Cone Shot or Circle Rain
             {
-                tempNum = 0;
+                tempNum = 0.0f;
 
                 bulletPatternReady = true;
                 tempTimerHasStarted = false;
             }
-            else if(tempNum >= 5.0f && currentMovementPattern == MovementPattern.BOSS_STUN) // 5 seconds of the BOSS_STUN state before resuming previous state // May adjust values later
+            else if(tempNum >= 6.0f && currentMovementPattern == MovementPattern.BOSS_STUN) // 6 seconds of the BOSS_STUN state before resuming previous state // May adjust values later
             {
-                tempNum = 0;
+                tempNum = 0.0f;
 
                 if(previousMovementPattern == MovementPattern.MOVE_PATTERN_1)
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
+
+                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1)) // For BGM Change
+                    {
+                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
+                    }
+                    else
+                    {
+                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
+                    }
 
                     previousDestination = 99; // Reset to number other than 0
                 }
@@ -470,11 +480,29 @@ public class BossAIScript : MonoBehaviour
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_3A;
 
+                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1)) // For BGM Change
+                    {
+                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
+                    }
+                    else
+                    {
+                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
+                    }
+
                     selectedDestination = 0; // Reset to 0
                 }
                 else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3A)
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
+
+                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1)) // For BGM Change
+                    {
+                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
+                    }
+                    else
+                    {
+                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
+                    }
                 }
                 else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B)
                 {
@@ -482,6 +510,15 @@ public class BossAIScript : MonoBehaviour
 
                     bulletPatternReady = true;
                     tempTimerHasStarted = false;
+
+                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1)) // For BGM Change
+                    {
+                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
+                    }
+                    else
+                    {
+                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
+                    }
 
                     SceneManager.LoadScene("Win Screen"); // Loads Win Scene
                 }
@@ -502,7 +539,7 @@ public class BossAIScript : MonoBehaviour
         }
         else if(tempTimerHasStarted == false)
         {
-            tempNum = 0;
+            tempNum = 0.0f;
         }
     }
 
