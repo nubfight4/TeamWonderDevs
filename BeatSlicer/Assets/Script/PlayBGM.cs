@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PlayBGM : MonoBehaviour {
     /*
-	void Start () {
+	void Start () 
+    {
         SoundManagerScript.Instance.PlayBGM(AudioClipID.BGM_INGAME);
 	}
     */
+
     private void Awake()
     {
         SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);

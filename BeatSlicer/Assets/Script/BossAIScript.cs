@@ -379,7 +379,7 @@ public class BossAIScript : MonoBehaviour
                 //Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
 
-            SoundManagerScript.mInstance.bgmAudioSource.volume -= Time.deltaTime * 0.5f; // This works for now (Creates the crossfade sound effect)
+            SoundManagerScript.mInstance.bgmAudioSource.volume -= Time.deltaTime * 0.5f; // This works for now (Creates the crossfade sound effect) // is set 0.5f
         }
     }
 
