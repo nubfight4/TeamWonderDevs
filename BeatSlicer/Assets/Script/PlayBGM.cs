@@ -10,6 +10,8 @@ public class PlayBGM : MonoBehaviour {
     */
     private void Awake()
     {
-        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME);
+        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
     }
+
+    // Possibly move to thr Sound Manager in the future?
 }

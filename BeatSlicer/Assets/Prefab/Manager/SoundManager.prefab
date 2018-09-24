@@ -303,10 +303,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmVolume: 1
   sfxVolume: 1
-  brightness: 1
   audioClipInfoList:
   - audioClipID: 1
-    audioClip: {fileID: 8300000, guid: d10eb49caf1ffc246aa38cc281569f72, type: 3}
+    audioClip: {fileID: 8300000, guid: 49dce927104eba04f86bba9e8c9019ae, type: 3}
   - audioClipID: 101
     audioClip: {fileID: 8300000, guid: 9c6902afd1b713b41b98d88d8d666148, type: 3}
   - audioClipID: 102
@@ -315,8 +314,9 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: 0bdabd6a7d9c9284db49e1863a00d048, type: 3}
   - audioClipID: 105
     audioClip: {fileID: 8300000, guid: 7fb2415cfae872a489ea92363579e053, type: 3}
+  - audioClipID: 2
+    audioClip: {fileID: 8300000, guid: d10eb49caf1ffc246aa38cc281569f72, type: 3}
   bgmAudioSource: {fileID: 82196635567275634}
   sfxAudioSource: {fileID: 82270118015193982}
-  brightnessMask: {fileID: 0}
   sfxAudioSourceList: []
   bgmAudioSourceList: []
