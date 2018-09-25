@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     public bool onBeat;
     public bool missBeat;
+    public bool swordOnBeat;
+    public bool swordMissBeat;
     float onBeatCharge;
 
     public Transform pivot;
@@ -56,20 +58,20 @@ public class PlayerController : MonoBehaviour
         //isPlayerMoving = false;
 
         //New Rhythm Bar Functions
-        if (onBeat)
+        if (swordOnBeat)
         {
             moveSpeed = setBonusSpeed;
             bonusTime = bonusTimer;
             onBeatCharge++;
-            onBeat = false;
+            swordOnBeat = false;
         }
 
-        if (missBeat)
+        if (swordMissBeat)
         {
             moveSpeed = setOffbeatSpeed;
             bonusTime = bonusTimer;
             onBeatCharge = 0;
-            missBeat = false;
+            swordMissBeat = false;
         }
 
         if(onBeatCharge >= 5)
