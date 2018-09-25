@@ -549,6 +549,8 @@ MonoBehaviour:
   gravityScale: 10
   onBeat: 0
   missBeat: 0
+  swordOnBeat: 0
+  swordMissBeat: 0
   pivot: {fileID: 0}
   playerModel: {fileID: 1809103693922398}
   player: {fileID: 114613364609263278}
@@ -587,6 +589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 114613364609263278}
+  playerController: {fileID: 114104074605698232}
   boss: {fileID: 0}
 --- !u!114 &114895957581757154
 MonoBehaviour:

@@ -5,6 +5,7 @@ using UnityEngine;
 public class SwordScript : MonoBehaviour {
 
     public PlayerModelScript player;
+    public PlayerController playerController;
     public BossAIScript boss;
 
     private void OnTriggerEnter(Collider collision)
@@ -13,6 +14,18 @@ public class SwordScript : MonoBehaviour {
         {
             player.charge++;
             SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_HIT_BY_PLAYER_ONBEAT);
+
+            if (playerController.onBeat)
+            {
+                playerController.swordOnBeat = true;
+                playerController.onBeat = false;
+            }
+
+            if (playerController.missBeat)
+            {
+                playerController.swordMissBeat = true;
+                playerController.missBeat = false;
+            }
         }
     }
 }
