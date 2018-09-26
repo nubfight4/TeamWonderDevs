@@ -171,6 +171,14 @@ public class BossShootingScript : MonoBehaviour
                     bulletPattern.selfDestructTimer = 5f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.TURNING_RIGHT;
                     redBullet.SetActive(true);
+
+                    if(i == 0)
+                    {
+                        //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().enabled = true;
+                        //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
+
+                        SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+                    }
                 }
             }
             currentBulletPattern = BulletPatternType.TURNING_LEFT;
@@ -196,6 +204,14 @@ public class BossShootingScript : MonoBehaviour
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.TURNING_LEFT;
                     blueBullet.SetActive(true);
                 }
+
+                if(i == 0)
+                {
+                    //blueBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().enabled = true;
+                    //blueBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
+
+                    SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+                }
             }
             currentBulletPattern = BulletPatternType.TURNING_RIGHT;
             waveCount++;
@@ -219,6 +235,14 @@ public class BossShootingScript : MonoBehaviour
                     bulletPattern.selfDestructTimer = 5f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.TURNING_RIGHT;
                     redBullet.SetActive(true);
+                }
+
+                if(i == 0)
+                {
+                    //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().enabled = true;
+                    //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
+
+                    SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
                 }
 
                 GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); // Non-Rhythm Bullet (Non-Rhythm Bullet - Actual)
@@ -264,7 +288,7 @@ public class BossShootingScript : MonoBehaviour
                 bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
                 blueBullet.SetActive(true);
 
-                blueBullet.GetComponent<BulletPattern>().playBombDropSound = true;
+                blueBullet.GetComponent<BulletPattern>().playBulletDroppingSound = true;
             }
 
             currentBulletPattern = BulletPatternType.REST;
@@ -288,6 +312,15 @@ public class BossShootingScript : MonoBehaviour
                     bulletPattern.rainFallTimer = 2.25f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.RAIN;
                     redBullet.SetActive(true);
+
+                    if(i == 0)
+                    {
+                        //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().enabled = true;
+                        //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
+
+                        redBullet.GetComponent<BulletPattern>().isCircleRainTriggerSound = true;
+                        SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+                    }
                 }
             }
             waveCount++;
@@ -311,8 +344,15 @@ public class BossShootingScript : MonoBehaviour
                     bulletPattern.aimPlayerTimer = 1f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.AIM_PLAYER;
                     redBullet.SetActive(true);
+
+                    if(i == 9)
+                    {
+                        redBullet.GetComponent<BulletPattern>().isConeShotTrigger = true;
+                    }
                 }
             }
+
+            SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
             waveCount++;
         }
         /*

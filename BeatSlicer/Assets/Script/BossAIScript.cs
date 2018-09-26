@@ -12,9 +12,9 @@ public class BossAIScript : MonoBehaviour
     public enum MovementPattern
     {
         MOVE_PATTERN_1 = 0,
-        MOVE_PATTERN_2, // Circle Rain
+        MOVE_PATTERN_2, // Bombing Run & Circle Rain
         MOVE_PATTERN_3A,
-        MOVE_PATTERN_3B, // Cone Shot
+        MOVE_PATTERN_3B, // Bombing Run & Cone Shot
         BOSS_STUN,
         SET_MOVE_PATTERN
     };
@@ -34,8 +34,11 @@ public class BossAIScript : MonoBehaviour
     private bool bulletPatternReady = true;
     private bool isOutside = false;
 
-    private float tempNum = 0.0f; // Temporary
-    private bool tempTimerHasStarted = false; // Temporary
+    private float randNum;
+    private float patternTimer = 0.0f;
+    private float multiTimer = 0.0f;
+    private float bossStunTimer = 0.0f;
+    private bool multiTimerHasStarted = false;
 
     public List<GameObject> StageOnePoints;
     public List<GameObject> StageTwoPoints;
@@ -58,8 +61,6 @@ public class BossAIScript : MonoBehaviour
     public float health;
     private readonly float maxHealth = 1; // Was 5, set to 1
 
-    public AudioClip bossWooshSound; // Sound used for Boss Appearing -TEST-
-
 
     void Awake()
 	{
@@ -81,11 +82,9 @@ public class BossAIScript : MonoBehaviour
 
         navMeshAgent.baseOffset = 2.0f; // Move Boss to starting floating height
 
-        StartCoroutine(TempMovePatternTimer()); // To be removed, edited or refined later
+        randNum = Random.Range(6.0f,8.0f);
 
-        //Debug.Log("Current Move Pattern = " + currentMovementPattern);
-        //Debug.Log("Temporary Movement Pattern Change Button 'J'");
-        //Debug.Log("Temporary Boss Stunner (& Unstunner) Button 'K'");
+        //StartCoroutine(TempMovePatternTimer()); // To be removed, edited or refined later -- Commented 25/9/2018
     }
 
 
@@ -93,12 +92,12 @@ public class BossAIScript : MonoBehaviour
 	{
         healthBar.fillAmount = health / maxHealth;
 
-        BossHealthStunnerAndPatternChanger(); // Boss Health, Stunner and Movement Pattern Changer Function
+        BossHealthStunnerAndPatternChanger();
         LookAtPlayerFunction();
         BossMovementFunction();
         BulletPatternSetterFunction();
+        MultiTimerFunction();
 
-        TempMultiTimerFunction();
         //TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J' // To disable by Public Playtest
         //TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K' // To disable by Public Playtest
     }
@@ -122,8 +121,8 @@ public class BossAIScript : MonoBehaviour
         transform.rotation = Quaternion.Euler(eulerAngles);
     }
 
-	
-	void BossMovementFunction()
+    #region Boss Movement Function
+    void BossMovementFunction()
 	{
         if(currentMovementPattern == MovementPattern.BOSS_STUN || currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
         {
@@ -176,8 +175,9 @@ public class BossAIScript : MonoBehaviour
             }
         }
     }
+    #endregion
 
-
+    #region Boss Floating Function
     void BossFloatingFunction()
     {
         if(isVanishingAndReappearing == true)
@@ -190,7 +190,7 @@ public class BossAIScript : MonoBehaviour
                 }
 
                 transform.position = StageOnePoints[selectedDestination].transform.position;
-                gameObject.GetComponent<AudioSource>().PlayOneShot(bossWooshSound,1.0f);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BOSS_APPEARING),1.0f);
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
             {
@@ -211,7 +211,7 @@ public class BossAIScript : MonoBehaviour
                 }
 
                 transform.position = StageOnePoints[bossStageThreeMovement[selectedDestination]].transform.position;
-                gameObject.GetComponent<AudioSource>().PlayOneShot(bossWooshSound,1.0f);
+                gameObject.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BOSS_APPEARING),1.0f);
             }
 
             isVanishingAndReappearing = false;
@@ -293,8 +293,9 @@ public class BossAIScript : MonoBehaviour
             }
         }
     }
+    #endregion
 
-
+    #region Bullet Pattern Setter Function
     void BulletPatternSetterFunction()
     {
         if(currentMovementPattern == MovementPattern.BOSS_STUN)
@@ -315,7 +316,7 @@ public class BossAIScript : MonoBehaviour
                     BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.TURNING_LEFT;
 
                     bulletPatternReady = false;
-                    tempTimerHasStarted = true; // Temporary Timer to re-enable attack after 4.0f seconds
+                    multiTimerHasStarted = true;
                 }
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
@@ -329,7 +330,7 @@ public class BossAIScript : MonoBehaviour
                             BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.CONE_SHOT;
 
                             bulletPatternReady = false;
-                            tempTimerHasStarted = true; // Temporary Timer to re-enable Cone Shot after 4.5f seconds
+                            multiTimerHasStarted = true;
                         }
                     }
                     else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
@@ -339,7 +340,7 @@ public class BossAIScript : MonoBehaviour
                             BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.CIRCLE_RAIN;
 
                             bulletPatternReady = false;
-                            tempTimerHasStarted = true; // Temporary Timer to re-enable Circle Rain after 4.5f seconds
+                            multiTimerHasStarted = true;
                         }
                     }
                 }
@@ -350,14 +351,15 @@ public class BossAIScript : MonoBehaviour
                         BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.BOMBING_RUN;
 
                         bulletPatternReady = false;
-                        tempTimerHasStarted = true; // Temporary Timer to re-enable Bombing Run after 1.5f seconds
+                        multiTimerHasStarted = true;
                     }
                 }
             }
         }
     }
+    #endregion
 
-
+    #region Boss Stunner & Pattern Changer Function
     void BossHealthStunnerAndPatternChanger()
     {
         if(health <= 0)
@@ -374,7 +376,7 @@ public class BossAIScript : MonoBehaviour
                     isOutside = false;
                 }
 
-                tempTimerHasStarted = true;
+                multiTimerHasStarted = false;
 
                 //Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
@@ -382,85 +384,17 @@ public class BossAIScript : MonoBehaviour
             SoundManagerScript.mInstance.bgmAudioSource.volume -= Time.deltaTime * 0.5f; // This works for now (Creates the crossfade sound effect) // is set 0.5f
         }
     }
+    #endregion
 
-
-    void OnTriggerEnter(Collider other) // For isOutside boolean usage & Boss Health/Stun
+    #region Multi Function & Multi Timer Function
+    void MultiTimerFunction()
     {
-        if(other.tag == "ChargeSlashProjectile")
+        if(currentMovementPattern == MovementPattern.BOSS_STUN) // 4.0 seconds of the BOSS_STUN state before resuming previous state // May adjust values later
         {
-            if(health <= 0)
+            bossStunTimer += Time.deltaTime;
+
+            if(bossStunTimer >= 4.0f)
             {
-                health = 0;
-            }
-            else
-            {
-                health--;
-            }
-        }
-
-        if(other.tag == "Boundary")
-        {
-            isOutside = false;
-        }
-    }
-
-
-    void OnTriggerStay(Collider other) // For isOutside boolean usage
-    {
-        if(other.tag == "Boundary")
-        {
-            isOutside = false;
-        }
-        else
-        {
-            isOutside = false;
-        }
-    }
-
-
-    void OnTriggerExit(Collider other) // For isOutside boolean usage
-    {
-        if(other.tag == "Boundary")
-        {
-            isOutside = true;
-        }
-    }
-
-
-    /// Temporary Functions Below
-
-
-    void TempMultiTimerFunction() // To re-enable bulletPatternReady boolean and other IMPORTANT functions // To be edited and refined later
-    {
-        if(tempTimerHasStarted == true)
-        {
-            tempNum += Time.deltaTime;
-
-            if(tempNum >= 4.5f && (currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)) // For Left, Right, Both Attacks
-            {
-                tempNum = 0.0f;
-
-                bulletPatternReady = true;
-                tempTimerHasStarted = false;
-            }
-            else if(tempNum >= 1.5f && (currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B) && selectedDestination != 5) // For Bombing Run
-            {
-                tempNum = 0.0f;
-
-                bulletPatternReady = true;
-                tempTimerHasStarted = false;
-            }
-            else if(tempNum >= 4.5f && (currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B) && selectedDestination == 5) // For Cone Shot or Circle Rain
-            {
-                tempNum = 0.0f;
-
-                bulletPatternReady = true;
-                tempTimerHasStarted = false;
-            }
-            else if(tempNum >= 6.0f && currentMovementPattern == MovementPattern.BOSS_STUN) // 6 seconds of the BOSS_STUN state before resuming previous state // May adjust values later
-            {
-                tempNum = 0.0f;
-
                 if(previousMovementPattern == MovementPattern.MOVE_PATTERN_1)
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
@@ -504,12 +438,12 @@ public class BossAIScript : MonoBehaviour
                         SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
                     }
                 }
-                else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+                else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B) // Might need to adjust this to transition to 'Win Scene' more smoothly
                 {
                     previousDestination = 99; // Reset to number other than 0
 
                     bulletPatternReady = true;
-                    tempTimerHasStarted = false;
+                    multiTimerHasStarted = false;
 
                     if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1)) // For BGM Change
                     {
@@ -534,16 +468,145 @@ public class BossAIScript : MonoBehaviour
                 health = maxHealth;
 
                 bulletPatternReady = true;
-                tempTimerHasStarted = false;
+                multiTimerHasStarted = false;
+
+                bossStunTimer = 0.0f;
             }
         }
-        else if(tempTimerHasStarted == false)
+
+        if(multiTimerHasStarted == true)
         {
-            tempNum = 0.0f;
+            multiTimer += Time.deltaTime;
+
+            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A) // For Left, Right, Both Attacks
+            {
+                if(multiTimer >= 4.5f)
+                {
+                    bulletPatternReady = true;
+                    multiTimerHasStarted = false;
+
+                    multiTimer = 0.0f;
+                }
+            }
+            else if((currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B) && selectedDestination != 5) // For Bombing Run
+            {
+                if(multiTimer >= 1.5f)
+                {
+                    bulletPatternReady = true;
+                    multiTimerHasStarted = false;
+
+                    multiTimer = 0.0f;
+                }
+            }
+            else if((currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B) && selectedDestination == 5) // For Cone Shot or Circle Rain
+            {
+                if(multiTimer >= 4.5f)
+                {
+                    bulletPatternReady = true;
+                    multiTimerHasStarted = false;
+
+                    multiTimer = 0.0f;
+                }
+            }
+        }
+        else if(multiTimerHasStarted == false)
+        {
+            multiTimer = 0.0f;
+        }
+
+        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
+        {
+            patternTimer += Time.deltaTime;
+
+            if(patternTimer >= randNum)
+            {
+                if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
+                {
+                    do
+                    {
+                        selectedDestination = bossStageOneMovement[Random.Range(0,bossStageOneMovement.Length)];
+
+                    } while(selectedDestination == previousDestination); // Will repeat randomization until selectedDestination != previousDestination
+
+                    navMeshAgent.SetDestination(StageOnePoints[selectedDestination].transform.position);
+
+                    previousDestination = selectedDestination;
+
+                    isVanishingAndReappearing = true;
+                }
+                else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
+                {
+                    navMeshAgent.SetDestination(StageOnePoints[selectedDestination].transform.position);
+
+                    selectedDestination = selectedDestination + 1;
+
+                    if(selectedDestination == 5)
+                    {
+                        currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
+                    }
+
+                    isVanishingAndReappearing = true;
+                }
+
+                patternTimer = 0.0f;
+                randNum = Random.Range(6.0f,8.0f);
+            }
+        }
+        else
+        {
+            patternTimer = 0.0f;
+        }
+    }
+    #endregion
+
+    #region Collider Checkers
+    void OnTriggerEnter(Collider other) // For isOutside boolean usage & Boss Health/Stun
+    {
+        if(other.tag == "ChargeSlashProjectile")
+        {
+            if(health <= 0)
+            {
+                health = 0;
+            }
+            else
+            {
+                health--;
+            }
+        }
+
+        if(other.tag == "Boundary")
+        {
+            isOutside = false;
         }
     }
 
 
+    void OnTriggerStay(Collider other) // For isOutside boolean usage
+    {
+        if(other.tag == "Boundary")
+        {
+            isOutside = false;
+        }
+        else
+        {
+            isOutside = false;
+        }
+    }
+
+
+    void OnTriggerExit(Collider other) // For isOutside boolean usage
+    {
+        if(other.tag == "Boundary")
+        {
+            isOutside = true;
+        }
+    }
+    #endregion
+
+
+    /// Temporary Functions Below
+
+    
     void TempMovePatternChangeButton() // Press 'J' To Change Between Movement Patterns // To be edited or removed in later builds
     {
         if(Input.GetKeyDown(KeyCode.J))
@@ -560,7 +623,7 @@ public class BossAIScript : MonoBehaviour
                 isMoving = false;
 
                 bulletPatternReady = true;
-                tempTimerHasStarted = false;
+                multiTimerHasStarted = false;
 
                 previousDestination = 99; // Reset to number other than 0
 
@@ -578,7 +641,7 @@ public class BossAIScript : MonoBehaviour
                 isMoving = false;
 
                 bulletPatternReady = true;
-                tempTimerHasStarted = false;
+                multiTimerHasStarted = false;
 
                 selectedDestination = 0; // Reset to 0
 
@@ -596,7 +659,7 @@ public class BossAIScript : MonoBehaviour
                 isMoving = false;
 
                 bulletPatternReady = true;
-                tempTimerHasStarted = false;
+                multiTimerHasStarted = false;
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
@@ -612,7 +675,7 @@ public class BossAIScript : MonoBehaviour
                 isMoving = false;
 
                 bulletPatternReady = true;
-                tempTimerHasStarted = false;
+                multiTimerHasStarted = false;
 
                 previousDestination = 99; // Reset to number other than 0
 
@@ -622,7 +685,7 @@ public class BossAIScript : MonoBehaviour
     }
 
 
-    void TempBossStunnerButton() // Press 'K' To Stun (& Unstun) The Boss // To be removed in later builds
+    void TempBossStunnerButton() // Press 'K' To Stun (& Unstun) Boss // To be edited or removed in later builds
     {
         if(Input.GetKeyDown(KeyCode.K))
         {
@@ -638,7 +701,7 @@ public class BossAIScript : MonoBehaviour
                     isOutside = false;
                 }
 
-                tempTimerHasStarted = true;
+                multiTimerHasStarted = true;
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
             else
@@ -646,14 +709,14 @@ public class BossAIScript : MonoBehaviour
                 currentMovementPattern = previousMovementPattern;
 
                 bulletPatternReady = true;
-                tempTimerHasStarted = false;
+                multiTimerHasStarted = false;
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
         }
     }
 
 
-    private IEnumerator TempMovePatternTimer() // Old Temporary Movement Pattern Timer & Setter // To be refined, edited (or removed) later
+    private IEnumerator TempMovePatternTimer() // Old Temporary Movement Pattern Timer & Setter // To be removed later
     {
         while(true) // Currently randomizes Boss position during Move Pattern 1 & Move Pattern 3A
         {
@@ -683,7 +746,9 @@ public class BossAIScript : MonoBehaviour
 
                     if(selectedDestination == 5)
                     {
-                        selectedDestination = 0;
+                        currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
+
+                        //selectedDestination = 0;
                     }
 
                     isVanishingAndReappearing = true;

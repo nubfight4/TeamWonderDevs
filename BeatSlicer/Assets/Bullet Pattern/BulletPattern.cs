@@ -53,9 +53,10 @@ public class BulletPattern : MonoBehaviour {
 
     public BulletPatternType currentBulletPattern = BulletPatternType.SET_TYPE;
 
-    public AudioClip bulletBoomSound;
-    public AudioClip bombDropSound;
-    public bool playBombDropSound = false;
+    public bool playBulletDroppingSound = false;
+    public bool isCircleRainTriggerSound = false;
+    public bool isConeShotTrigger = false;
+
     public GameObject bulletDestroyedVFX;
 
     void Awake()
@@ -63,7 +64,7 @@ public class BulletPattern : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         bulletRigidbody = GetComponent<Rigidbody>();
         bulletTransform = GetComponent<Transform>();
-        tempSelfDestructTimer = selfDestructTimer; 
+        tempSelfDestructTimer = selfDestructTimer;
     }
 
 
@@ -134,6 +135,14 @@ public class BulletPattern : MonoBehaviour {
                 fallen = true;
                 transform.rotation = Quaternion.Euler(90, 0, 0);
                 bulletRigidbody.velocity = transform.forward * bulletSpeed;
+
+                if(isCircleRainTriggerSound == true)
+                {
+                    this.GetComponent<AudioSource>().enabled = true;
+                    this.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
+
+                    isCircleRainTriggerSound = false;
+                }
             }
         }
 
@@ -149,6 +158,13 @@ public class BulletPattern : MonoBehaviour {
                 {
                     transform.LookAt(player.transform);
                     aimed = true;
+
+                    if(isConeShotTrigger == true)
+                    {
+                        SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+
+                        isConeShotTrigger = false;
+                    }
                 }
             }
         }
@@ -166,12 +182,12 @@ public class BulletPattern : MonoBehaviour {
             isToBeDestroyed = false;
         }
 
-        if(playBombDropSound == true)
+        if(playBulletDroppingSound == true) // Plays the 'Dropping' sound
         {
             this.GetComponent<AudioSource>().enabled = true;
-            this.GetComponent<AudioSource>().PlayOneShot(bombDropSound, 1.0f);
+            this.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_DROPPING), 1.0f);
 
-            playBombDropSound = false;
+            playBulletDroppingSound = false;
         }
     }
 
@@ -235,10 +251,10 @@ public class BulletPattern : MonoBehaviour {
                         redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPatternType.STRAIGHT;
                         redBullet.SetActive(true);
 
-                        if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Boom' sound
+                        if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
                         {
                             redBullet.GetComponent<AudioSource>().enabled = true;
-                            redBullet.GetComponent<AudioSource>().PlayOneShot(bulletBoomSound,1.0f);
+                            redBullet.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
                         }
                     }
                 }
