@@ -15,10 +15,16 @@ public enum AudioClipID
     SFX_DETUNE = 104,
     SFX_PLAYER_HIT_BY_BULLET = 105,
 
-	TOTAL = 9001
+    SFX_BOSS_APPEARING = 106,
+
+    SFX_BULLET_BOMBING_RUN_DROPPING = 107,
+    SFX_BULLET_BOMBING_RUN_TOUCHDOWN = 108,
+
+    TOTAL = 9001
 }
 
 [System.Serializable]
+
 public class AudioClipInfo
 {
 	public AudioClipID audioClipID;
@@ -60,13 +66,11 @@ public class SoundManagerScript : MonoBehaviour
     
 	public float bgmVolume = 1.0f;
 	public float sfxVolume = 1.0f;
-    //public float brightness = 1.0f; // Not sure what this is for, commenting for now.
 
 	public List<AudioClipInfo> audioClipInfoList = new List<AudioClipInfo>();
 
 	public AudioSource bgmAudioSource;
 	public AudioSource sfxAudioSource;
-    //public Image brightnessMask; // Not sure what this is for, commenting for now.
 
     public List<AudioSource> sfxAudioSourceList = new List<AudioSource>();
 	public List<AudioSource> bgmAudioSourceList = new List<AudioSource>();
@@ -230,13 +234,4 @@ public class SoundManagerScript : MonoBehaviour
 		sfxVolume = value;
 		sfxAudioSource.volume = sfxVolume;
 	}
-
-    // Not sure what this is for, commenting for now.
-    /*
-	public void SetBrightness(float value)
-	{
-		brightness = value;
-		brightnessMask.color = new Color(0, 0, 0, 1 - brightness);
-    }
-    */
 }

@@ -311,11 +311,17 @@ MonoBehaviour:
   - audioClipID: 102
     audioClip: {fileID: 8300000, guid: 54483ba1ca1b0e843a4e5b4e12910537, type: 3}
   - audioClipID: 103
-    audioClip: {fileID: 8300000, guid: 0bdabd6a7d9c9284db49e1863a00d048, type: 3}
+    audioClip: {fileID: 8300000, guid: 3706ee863a46c8a4f964e14942c87947, type: 3}
   - audioClipID: 105
     audioClip: {fileID: 8300000, guid: 7fb2415cfae872a489ea92363579e053, type: 3}
   - audioClipID: 2
     audioClip: {fileID: 8300000, guid: d10eb49caf1ffc246aa38cc281569f72, type: 3}
+  - audioClipID: 106
+    audioClip: {fileID: 8300000, guid: 60f752619e8daeb45a579a8075cdbc4f, type: 3}
+  - audioClipID: 107
+    audioClip: {fileID: 8300000, guid: c6eda11d52d22cd478794399b42acc74, type: 3}
+  - audioClipID: 108
+    audioClip: {fileID: 8300000, guid: 3aabb4ced82d0e0418db04653e949dda, type: 3}
   bgmAudioSource: {fileID: 82196635567275634}
   sfxAudioSource: {fileID: 82270118015193982}
   sfxAudioSourceList: []

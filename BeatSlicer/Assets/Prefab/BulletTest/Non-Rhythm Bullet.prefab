@@ -228,9 +228,11 @@ MonoBehaviour:
   aimPlayerTimer: 0
   aimPlayerCountdown: 0
   currentBulletPattern: 5
-  bulletBoomSound: {fileID: 8300000, guid: 3aabb4ced82d0e0418db04653e949dda, type: 3}
-  bombDropSound: {fileID: 8300000, guid: c6eda11d52d22cd478794399b42acc74, type: 3}
+  bulletDroppingSound: {fileID: 8300000, guid: c6eda11d52d22cd478794399b42acc74, type: 3}
+  bulletTouchdownSound: {fileID: 8300000, guid: 3aabb4ced82d0e0418db04653e949dda,
+    type: 3}
   playBombDropSound: 0
+  bulletDestroyedVFX: {fileID: 0}
 --- !u!114 &114286394893461926
 MonoBehaviour:
   m_ObjectHideFlags: 1
