@@ -36,6 +36,7 @@ public class BulletPattern : MonoBehaviour {
     public BulletType bulletType = BulletType.SET_TYPE;
     public bool isToBeDestroyed = false;
     public bool isBomb = false;
+    public bool isSuperUltraMegaDeathBomb = false;
     bool rainFall = false;
     bool fallen = false;
     bool aimed = false;
@@ -262,6 +263,75 @@ public class BulletPattern : MonoBehaviour {
                 isBomb = false;
                 selfDestructTimer = 0f;
             }
+
+            if (other.tag == "PlaneHitbox" && isSuperUltraMegaDeathBomb)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+
+                //insert bomb script
+                //1st wave
+                for (int i = 0; i < 16; i++)
+                {
+                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                    redBullet.GetComponent(typeof(BulletPattern));
+                    if (redBullet != null)
+                    {
+                        redBullet.transform.position = transform.position;
+                        redBullet.transform.rotation = transform.rotation;
+                        redBullet.transform.rotation *= Quaternion.Euler(0, i * 22.5f, 0);
+                        redBullet.GetComponent<BulletPattern>().bulletSpeed = 15f;
+                        redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                        //redBullet.GetComponent<BulletPattern>().turningAngle = i * 22.5f;
+                        //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
+                        currentBulletPattern = BulletPatternType.STRAIGHT;
+                        redBullet.SetActive(true);
+                    }
+                }
+
+                //2nd wave
+                for (int i = 0; i < 24; i++)
+                {
+                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                    redBullet.GetComponent(typeof(BulletPattern));
+                    if (redBullet != null)
+                    {
+                        redBullet.transform.position = transform.position;
+                        redBullet.transform.rotation = transform.rotation;
+                        redBullet.transform.rotation *= Quaternion.Euler(0, i * 15, 0);
+                        redBullet.GetComponent<BulletPattern>().bulletSpeed = 12f;
+                        //redBullet.GetComponent<BulletPattern>().turningAngle = i * 15;
+                        //.GetComponent<BulletPattern>().smoothing = 2f;
+                        redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                        currentBulletPattern = BulletPatternType.STRAIGHT;
+                        redBullet.SetActive(true);
+                    }
+                }
+
+                //3rd wave
+                for (int i = 0; i < 32; i++)
+                {
+                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                    redBullet.GetComponent(typeof(BulletPattern));
+                    if (redBullet != null)
+                    {
+                        redBullet.transform.position = transform.position;
+                        redBullet.transform.rotation = transform.rotation;
+                        redBullet.transform.rotation *= Quaternion.Euler(0, i * 11.25f, 0);
+                        redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
+                        //redBullet.GetComponent<BulletPattern>().turningAngle = i * 11.25f;
+                        //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
+                        redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                        currentBulletPattern = BulletPatternType.STRAIGHT;
+                        redBullet.SetActive(true);
+                    }
+                }
+
+                isSuperUltraMegaDeathBomb = false;
+                //turningAngle = 0f;
+                //smoothing = 0f;
+                selfDestructTimer = 0f;
+            }
+
         }
     }
 
