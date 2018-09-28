@@ -1027,6 +1027,11 @@ Prefab:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 949575137}
+    - target: {fileID: 114591055903484350, guid: c572ec21b0bd39c49b6c06fdc972734a,
+        type: 2}
+      propertyPath: playerModelScript
+      value: 
+      objectReference: {fileID: 1031308736}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c572ec21b0bd39c49b6c06fdc972734a, type: 2}
   m_IsPrefabAsset: 0

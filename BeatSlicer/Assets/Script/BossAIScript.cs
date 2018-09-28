@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class BossAIScript : MonoBehaviour
+public class BossAIScript:MonoBehaviour
 {
     [SerializeField]
 
@@ -14,12 +14,15 @@ public class BossAIScript : MonoBehaviour
         MOVE_PATTERN_1 = 0,
         MOVE_PATTERN_2, // Bombing Run & Circle Rain
         MOVE_PATTERN_3A,
-        MOVE_PATTERN_3B, // Bombing Run & Cone Shot
+        MOVE_PATTERN_3B, // Bombing Run, Cone Shot & Ultimate Attack
         BOSS_STUN,
         SET_MOVE_PATTERN
     };
 
     private GameObject player;
+
+    private AudioSource bossAudioSource;
+    private AudioClip bossAppearingSound;
 
     private bool isVanishingAndReappearing = false;
     private bool isFlyingUp = false;
@@ -47,19 +50,39 @@ public class BossAIScript : MonoBehaviour
     private int previousDestination;
     NavMeshAgent navMeshAgent;
 
-    private readonly int[] bossStageOneMovement = new int[] {0, 1, 4};
-    private readonly int[] bossStageTwoMovementStart = new int[] {0, 2, 4, 6, 7, 8};
-    private readonly int[] bossStageTwoMovementEnd = new int[] {1, 3, 5, 7, 6, 8};
-    private readonly int[] bossStageThreeMovement = new int[] {4, 2, 3, 1, 5};
+    private readonly int[] bossStageOneMovement = new int[] { 0,1,4 };
+    private readonly int[] bossStageTwoMovementStart = new int[] { 0,2,4,6,7,8 };
+    private readonly int[] bossStageTwoMovementEnd = new int[] { 1,3,5,7,6,8 };
+    private readonly int[] bossStageThreeMovement = new int[] { 4,2,3,1,5 };
 
     public MovementPattern currentMovementPattern = MovementPattern.SET_MOVE_PATTERN;
     private MovementPattern previousMovementPattern = MovementPattern.SET_MOVE_PATTERN;
 
-    /// Boss Parameters
-    public Image healthBar;
+    private int stageThreePatternCount = 0;
+    private bool ultimateHasStarted = false;
+    private bool ultimateTimerHasStarted = false;
+    private float ultimateTimer = 0.0f;
 
+    public Image healthBar; /// Boss Parameters
+
+    public PlayerModelScript playerModelScript;
     public float health;
     private readonly float maxHealth = 1; // Was 5, set to 1
+
+    #region Public Variable Settings -- For Development Use
+    [Header("Ultimate Timer Values")]
+    public float ultimateOneTimerValue = 3.0f;
+    public float ultimateTwoTimerValue = 6.0f;
+    public float ultimateThreeTimerValue = 10.0f;
+
+    [Header("Boss Stun Timer Value")]
+    public float bossStunTimerValue = 4.0f;
+
+    [Header("Miscellaneous Values")]
+    public float soundCrossfadeEffectValue = 0.5f;
+    [Space(10)]
+    public bool developmentSettingsEnabled = false;
+    #endregion
 
 
     void Awake()
@@ -67,6 +90,7 @@ public class BossAIScript : MonoBehaviour
 		player = GameObject.FindGameObjectWithTag("Player");
         movementTimerTemp = movementTimer;
         navMeshAgent = this.GetComponent<NavMeshAgent>();
+        bossAudioSource = GetComponent<AudioSource>();
     }
 
 
@@ -82,9 +106,10 @@ public class BossAIScript : MonoBehaviour
 
         navMeshAgent.baseOffset = 2.0f; // Move Boss to starting floating height
 
-        randNum = Random.Range(6.0f,8.0f);
+        randNum = Random.Range(6.0f, 8.0f);
 
-        //StartCoroutine(TempMovePatternTimer()); // To be removed, edited or refined later -- Commented 25/9/2018
+        bossAppearingSound = SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BOSS_APPEARING);
+        bossAudioSource.PlayOneShot(bossAppearingSound, 1.0f);
     }
 
 
@@ -98,8 +123,15 @@ public class BossAIScript : MonoBehaviour
         BulletPatternSetterFunction();
         MultiTimerFunction();
 
-        //TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J' // To disable by Public Playtest
-        //TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K' // To disable by Public Playtest
+        #region This Checks If Development Settings Is Enabled
+        if(developmentSettingsEnabled == true)
+        {
+            playerModelScript.health = 9999;
+
+            TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
+            TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K'
+        }
+        #endregion
     }
 
 
@@ -120,6 +152,7 @@ public class BossAIScript : MonoBehaviour
         eulerAngles = new Vector3(0,eulerAngles.y,0);
         transform.rotation = Quaternion.Euler(eulerAngles);
     }
+
 
     #region Boss Movement Function
     void BossMovementFunction()
@@ -177,6 +210,7 @@ public class BossAIScript : MonoBehaviour
     }
     #endregion
 
+
     #region Boss Floating Function
     void BossFloatingFunction()
     {
@@ -190,7 +224,7 @@ public class BossAIScript : MonoBehaviour
                 }
 
                 transform.position = StageOnePoints[selectedDestination].transform.position;
-                gameObject.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BOSS_APPEARING),1.0f);
+                bossAudioSource.PlayOneShot(bossAppearingSound,1.0f);
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
             {
@@ -211,7 +245,7 @@ public class BossAIScript : MonoBehaviour
                 }
 
                 transform.position = StageOnePoints[bossStageThreeMovement[selectedDestination]].transform.position;
-                gameObject.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BOSS_APPEARING),1.0f);
+                bossAudioSource.PlayOneShot(bossAppearingSound,1.0f);
             }
 
             isVanishingAndReappearing = false;
@@ -295,6 +329,7 @@ public class BossAIScript : MonoBehaviour
     }
     #endregion
 
+
     #region Bullet Pattern Setter Function
     void BulletPatternSetterFunction()
     {
@@ -327,10 +362,19 @@ public class BossAIScript : MonoBehaviour
                     {
                         if(bulletPatternReady == true)
                         {
-                            BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.CONE_SHOT;
+                            if(ultimateHasStarted != true)
+                            {
+                                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.CONE_SHOT;
 
-                            bulletPatternReady = false;
-                            multiTimerHasStarted = true;
+                                bulletPatternReady = false;
+                                multiTimerHasStarted = true;
+                            }
+                            else
+                            {
+                                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.ULTIMATE_ATTACK;
+
+                                ultimateTimerHasStarted = true;
+                            }
                         }
                     }
                     else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
@@ -359,7 +403,8 @@ public class BossAIScript : MonoBehaviour
     }
     #endregion
 
-    #region Boss Stunner & Pattern Changer Function
+
+    #region Boss Stunner & Phase Changer Function
     void BossHealthStunnerAndPatternChanger()
     {
         if(health <= 0)
@@ -381,25 +426,26 @@ public class BossAIScript : MonoBehaviour
                 //Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
 
-            SoundManagerScript.mInstance.bgmAudioSource.volume -= Time.deltaTime * 0.5f; // This works for now (Creates the crossfade sound effect) // is set 0.5f
+            SoundManagerScript.mInstance.bgmAudioSource.volume -= Time.deltaTime * soundCrossfadeEffectValue; // This works for now (Creates the crossfade sound effect) // is set 0.5f
         }
     }
     #endregion
 
-    #region Multi Function & Multi Timer Function
+
+    #region MultiFunction & MultiTimer Function
     void MultiTimerFunction()
     {
-        if(currentMovementPattern == MovementPattern.BOSS_STUN) // 4.0 seconds of the BOSS_STUN state before resuming previous state // May adjust values later
+        if(currentMovementPattern == MovementPattern.BOSS_STUN)
         {
             bossStunTimer += Time.deltaTime;
 
-            if(bossStunTimer >= 4.0f)
+            if(bossStunTimer >= bossStunTimerValue)
             {
                 if(previousMovementPattern == MovementPattern.MOVE_PATTERN_1)
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
 
-                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1)) // For BGM Change
+                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1))
                     {
                         SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
                     }
@@ -414,7 +460,7 @@ public class BossAIScript : MonoBehaviour
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_3A;
 
-                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1)) // For BGM Change
+                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1))
                     {
                         SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
                     }
@@ -429,7 +475,7 @@ public class BossAIScript : MonoBehaviour
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
 
-                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1)) // For BGM Change
+                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1))
                     {
                         SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
                     }
@@ -445,7 +491,7 @@ public class BossAIScript : MonoBehaviour
                     bulletPatternReady = true;
                     multiTimerHasStarted = false;
 
-                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1)) // For BGM Change
+                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1))
                     {
                         SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
                     }
@@ -456,8 +502,6 @@ public class BossAIScript : MonoBehaviour
 
                     SceneManager.LoadScene("Win Screen"); // Loads Win Scene
                 }
-
-                //Debug.Log("Current Move Pattern = " + currentMovementPattern);
 
                 BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
 
@@ -480,7 +524,7 @@ public class BossAIScript : MonoBehaviour
 
             if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A) // For Left, Right, Both Attacks
             {
-                if(multiTimer >= 4.5f)
+                if(multiTimer >= 4.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true)
                 {
                     bulletPatternReady = true;
                     multiTimerHasStarted = false;
@@ -490,7 +534,7 @@ public class BossAIScript : MonoBehaviour
             }
             else if((currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B) && selectedDestination != 5) // For Bombing Run
             {
-                if(multiTimer >= 1.5f)
+                if(multiTimer >= 1.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true)
                 {
                     bulletPatternReady = true;
                     multiTimerHasStarted = false;
@@ -498,12 +542,29 @@ public class BossAIScript : MonoBehaviour
                     multiTimer = 0.0f;
                 }
             }
-            else if((currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B) && selectedDestination == 5) // For Cone Shot or Circle Rain
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 && selectedDestination == 5) // Circle Rain
             {
-                if(multiTimer >= 4.5f)
+                if(multiTimer >= 4.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true)
                 {
                     bulletPatternReady = true;
                     multiTimerHasStarted = false;
+
+                    multiTimer = 0.0f;
+                }
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B && selectedDestination == 5) // For Cone Shot and then Ultimate Attack
+            {
+                if(multiTimer >= 4.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true && ultimateHasStarted == false)
+                {
+                    bulletPatternReady = true;
+                    multiTimerHasStarted = false;
+
+                    stageThreePatternCount++;
+
+                    if(stageThreePatternCount >= 4)
+                    {
+                        ultimateHasStarted = true;
+                    }
 
                     multiTimer = 0.0f;
                 }
@@ -549,15 +610,48 @@ public class BossAIScript : MonoBehaviour
                 }
 
                 patternTimer = 0.0f;
-                randNum = Random.Range(6.0f,8.0f);
+                randNum = Random.Range(6.0f, 8.0f);
             }
         }
         else
         {
             patternTimer = 0.0f;
         }
+
+        if(ultimateTimerHasStarted == true)
+        {
+            ultimateTimer += Time.deltaTime;
+
+            if((ultimateTimer >= (ultimateOneTimerValue - 0.5f) && ultimateTimer <= ultimateOneTimerValue || ultimateTimer >= (ultimateOneTimerValue + 2.5f) && ultimateTimer <= (ultimateOneTimerValue + 3.0f)) && BossShootingScript.Instance.ultimateOneReadyCheck == true)
+            {
+                if(BossShootingScript.Instance.ultimateOneReadyCheck == true)
+                {
+                    BossShootingScript.Instance.ultimate1 = true;
+                }
+            }
+
+            if((ultimateTimer >= (ultimateTwoTimerValue - 0.5f) && ultimateTimer <= ultimateTwoTimerValue) && BossShootingScript.Instance.ultimateTwoReadyCheck == true)
+            {
+                if(BossShootingScript.Instance.ultimateTwoReadyCheck == true)
+                {
+                    BossShootingScript.Instance.ultimate2 = true;
+                }
+            }
+
+            if(ultimateTimer >= ultimateThreeTimerValue && BossShootingScript.Instance.ultimateThreeReadyCheck == true)
+            {
+                BossShootingScript.Instance.ultimate3 = true;
+
+                ultimateTimer = 0.0f;
+            }
+        }
+        else
+        {
+            ultimateTimer = 0.0f;
+        }
     }
     #endregion
+
 
     #region Collider Checkers
     void OnTriggerEnter(Collider other) // For isOutside boolean usage & Boss Health/Stun
@@ -604,9 +698,10 @@ public class BossAIScript : MonoBehaviour
     #endregion
 
 
-    /// Temporary Functions Below
+    /// Development Settings Functions Below
 
-    
+
+    #region Development Settings Functions
     void TempMovePatternChangeButton() // Press 'J' To Change Between Movement Patterns // To be edited or removed in later builds
     {
         if(Input.GetKeyDown(KeyCode.J))
@@ -714,46 +809,5 @@ public class BossAIScript : MonoBehaviour
             }
         }
     }
-
-
-    private IEnumerator TempMovePatternTimer() // Old Temporary Movement Pattern Timer & Setter // To be removed later
-    {
-        while(true) // Currently randomizes Boss position during Move Pattern 1 & Move Pattern 3A
-        {
-            yield return new WaitForSeconds(Random.Range(5,11));
-
-            if(currentMovementPattern != MovementPattern.BOSS_STUN)
-            {
-                if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
-                {
-                    do
-                    {
-                        selectedDestination = bossStageOneMovement[Random.Range(0,bossStageOneMovement.Length)];
-
-                    } while(selectedDestination == previousDestination); // Will repeat randomization until selectedDestination != previousDestination
-
-                    navMeshAgent.SetDestination(StageOnePoints[selectedDestination].transform.position);
-
-                    previousDestination = selectedDestination;
-
-                    isVanishingAndReappearing = true;
-                }
-                else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
-                {
-                    navMeshAgent.SetDestination(StageOnePoints[selectedDestination].transform.position);
-
-                    selectedDestination = selectedDestination + 1;
-
-                    if(selectedDestination == 5)
-                    {
-                        currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
-
-                        //selectedDestination = 0;
-                    }
-
-                    isVanishingAndReappearing = true;
-                }
-            }
-        }
-    }
+    #endregion
 }
