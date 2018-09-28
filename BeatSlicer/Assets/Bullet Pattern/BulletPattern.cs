@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletPattern : MonoBehaviour {
+public class BulletPattern:MonoBehaviour {
     public enum BulletType
     {
         RED_BULLET = 0,
@@ -54,11 +54,16 @@ public class BulletPattern : MonoBehaviour {
 
     public BulletPatternType currentBulletPattern = BulletPatternType.SET_TYPE;
 
+    public GameObject bulletDestroyedVFX;
+
     public bool playBulletDroppingSound = false;
+    public bool playBulletTouchdownSound = false;
     public bool isCircleRainTriggerSound = false;
     public bool isConeShotTrigger = false;
 
-    public GameObject bulletDestroyedVFX;
+    private AudioSource bulletAudioSource;
+    private AudioClip bombTouchdownSound;
+    private AudioClip bombDroppingSound;
 
     void Awake()
     {
@@ -66,6 +71,11 @@ public class BulletPattern : MonoBehaviour {
         bulletRigidbody = GetComponent<Rigidbody>();
         bulletTransform = GetComponent<Transform>();
         tempSelfDestructTimer = selfDestructTimer;
+        bulletAudioSource = GetComponent<AudioSource>();
+
+        //For Caching Purposes
+        bombTouchdownSound = SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+        bombDroppingSound = SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_DROPPING);
     }
 
 
@@ -139,8 +149,8 @@ public class BulletPattern : MonoBehaviour {
 
                 if(isCircleRainTriggerSound == true)
                 {
-                    this.GetComponent<AudioSource>().enabled = true;
-                    this.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
+                    bulletAudioSource.enabled = true;
+                    bulletAudioSource.PlayOneShot(bombTouchdownSound, 1.0f);
 
                     isCircleRainTriggerSound = false;
                 }
@@ -178,17 +188,26 @@ public class BulletPattern : MonoBehaviour {
 
         if (isToBeDestroyed == true)
         {
-            this.GetComponent<AudioSource>().enabled = false;
+            bulletAudioSource.enabled = false;
+
             gameObject.SetActive(false);
             isToBeDestroyed = false;
         }
 
         if(playBulletDroppingSound == true) // Plays the 'Dropping' sound
         {
-            this.GetComponent<AudioSource>().enabled = true;
-            this.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_DROPPING), 1.0f);
+            bulletAudioSource.enabled = true;
+            bulletAudioSource.PlayOneShot(bombDroppingSound, 1.0f);
 
             playBulletDroppingSound = false;
+        }
+
+        if(playBulletTouchdownSound == true) // Plays the 'Touchdown' sound
+        {
+            bulletAudioSource.enabled = true;
+            bulletAudioSource.PlayOneShot(bombTouchdownSound,1.0f);
+
+            playBulletTouchdownSound = false;
         }
     }
 
@@ -254,8 +273,7 @@ public class BulletPattern : MonoBehaviour {
 
                         if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
                         {
-                            redBullet.GetComponent<AudioSource>().enabled = true;
-                            redBullet.GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
+                            redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
                         }
                     }
                 }
@@ -272,7 +290,7 @@ public class BulletPattern : MonoBehaviour {
                 //1st wave
                 for (int i = 0; i < 16; i++)
                 {
-                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                     redBullet.GetComponent(typeof(BulletPattern));
                     if (redBullet != null)
                     {
@@ -286,12 +304,17 @@ public class BulletPattern : MonoBehaviour {
                         currentBulletPattern = BulletPatternType.STRAIGHT;
                         redBullet.SetActive(true);
                     }
+
+                    if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                    {
+                        redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+                    }
                 }
 
                 //2nd wave
                 for (int i = 0; i < 24; i++)
                 {
-                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                     redBullet.GetComponent(typeof(BulletPattern));
                     if (redBullet != null)
                     {
@@ -305,12 +328,17 @@ public class BulletPattern : MonoBehaviour {
                         currentBulletPattern = BulletPatternType.STRAIGHT;
                         redBullet.SetActive(true);
                     }
+
+                    if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                    {
+                        redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+                    }
                 }
 
                 //3rd wave
                 for (int i = 0; i < 32; i++)
                 {
-                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                     redBullet.GetComponent(typeof(BulletPattern));
                     if (redBullet != null)
                     {
@@ -323,6 +351,11 @@ public class BulletPattern : MonoBehaviour {
                         redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
                         currentBulletPattern = BulletPatternType.STRAIGHT;
                         redBullet.SetActive(true);
+                    }
+
+                    if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                    {
+                        redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
                     }
                 }
 

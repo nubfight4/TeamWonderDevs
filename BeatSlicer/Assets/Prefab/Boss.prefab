@@ -971,7 +971,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 45
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -1059,6 +1059,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPattern: {fileID: 0}
   currentBulletPattern: 7
+  ultimate1: 0
+  ultimate2: 0
+  ultimate3: 0
+  bulletPatternReadyCheck: 1
+  ultimateOneReadyCheck: 1
+  ultimateTwoReadyCheck: 1
+  ultimateThreeReadyCheck: 1
 --- !u!114 &114591055903484350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1090,10 +1097,14 @@ MonoBehaviour:
   - {fileID: 0}
   currentMovementPattern: 5
   healthBar: {fileID: 0}
+  playerModelScript: {fileID: 0}
   health: 0
-  bossWooshSound: {fileID: 8300000, guid: 60f752619e8daeb45a579a8075cdbc4f, type: 3}
-  bossDamagedVFX: {fileID: 1388135650671020, guid: 124463a081c0f9249889e520dd0f4c91,
-    type: 2}
+  ultimateOneTimerValue: 3
+  ultimateTwoTimerValue: 6
+  ultimateThreeTimerValue: 10
+  bossStunTimerValue: 4
+  soundCrossfadeEffectValue: 0.5
+  developmentSettingsEnabled: 0
 --- !u!136 &136749890439549308
 CapsuleCollider:
   m_ObjectHideFlags: 1

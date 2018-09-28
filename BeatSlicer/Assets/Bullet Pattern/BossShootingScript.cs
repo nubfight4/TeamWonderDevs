@@ -29,6 +29,7 @@ public class BossShootingScript : MonoBehaviour
         CONE_SHOT,
 
         // Ultimate Bullet Pattern //
+        ULTIMATE_ATTACK,
         CHAOS_VORTEX,
         SUPER_MEGA_ULTRA_DEATH_BOMB,
 
@@ -41,6 +42,7 @@ public class BossShootingScript : MonoBehaviour
     float rest;
     float restCountdown;
     float waveCount;
+    float vortexWaveCount;
     float bombingTimer;
     float bombingTimerCountdown;
     float circleRainTimer;
@@ -61,6 +63,17 @@ public class BossShootingScript : MonoBehaviour
 
     public BulletPatternType currentBulletPattern = BulletPatternType.REST;
 
+    [Space(10)] // Just to look nice
+    public bool ultimate1 = false;
+    public bool ultimate2 = false;
+    public bool ultimate3 = false;
+
+    [Space(10)] // Just to look nice
+    public bool bulletPatternReadyCheck = true;
+    public bool ultimateOneReadyCheck = true;
+    public bool ultimateTwoReadyCheck = true;
+    public bool ultimateThreeReadyCheck = true;
+
     //For Singleton usage
     void Awake()
     {
@@ -80,6 +93,7 @@ public class BossShootingScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         timer = 1f;
         waveCount = 0;
+        vortexWaveCount = 0;
         rest = 2f;
         bombingTimer = 0.8f;
         circleRainTimer = 0.5f;
@@ -96,6 +110,8 @@ public class BossShootingScript : MonoBehaviour
     {
         if (currentBulletPattern == BulletPatternType.TURNING_LEFT || currentBulletPattern == BulletPatternType.TURNING_RIGHT)
         {
+            bulletPatternReadyCheck = false;
+
             timerCountdown += Time.deltaTime;
 
             if (timerCountdown >= timer)
@@ -107,12 +123,15 @@ public class BossShootingScript : MonoBehaviour
                     currentBulletPattern = BulletPatternType.BOTH_TURNS;
                     SetBulletPattern();
                 }
+
                 timerCountdown = 0;
             }
         }
 
-        else if (currentBulletPattern == BulletPatternType.BOMBING_RUN)
+        if (currentBulletPattern == BulletPatternType.BOMBING_RUN)
         {
+            bulletPatternReadyCheck = false;
+
             bombingTimerCountdown += Time.deltaTime;
             if (bombingTimerCountdown >= bombingTimer)
             {
@@ -121,8 +140,10 @@ public class BossShootingScript : MonoBehaviour
             }
         }
 
-        else if (currentBulletPattern == BulletPatternType.CIRCLE_RAIN)
+        if (currentBulletPattern == BulletPatternType.CIRCLE_RAIN)
         {
+            bulletPatternReadyCheck = false;
+
             circleRainTimerCountdown += Time.deltaTime;
             if (circleRainTimerCountdown >= circleRainTimer)
             {
@@ -138,41 +159,123 @@ public class BossShootingScript : MonoBehaviour
             }
         }
 
-        else if (currentBulletPattern == BulletPatternType.CONE_SHOT)
+        if (currentBulletPattern == BulletPatternType.CONE_SHOT || (currentBulletPattern == BulletPatternType.ULTIMATE_ATTACK && ultimate3 == true))
         {
+            if(currentBulletPattern == BulletPatternType.CONE_SHOT)
+            {
+                bulletPatternReadyCheck = false;
+            }
+            else if((currentBulletPattern == BulletPatternType.ULTIMATE_ATTACK && ultimate3 == true))
+            {
+                ultimateThreeReadyCheck = false;
+            }
+
             coneShotTimerCountdown += Time.deltaTime;
+
             if (coneShotTimerCountdown >= coneShotTimer)
             {
                 SetBulletPattern();
+
                 if (waveCount >= 5)
                 {
                     //SetBulletPattern();
-                    currentBulletPattern = BulletPatternType.REST;
+
+                    if(currentBulletPattern == BulletPatternType.ULTIMATE_ATTACK)
+                    {
+                        ultimate3 = false;
+                        ultimateThreeReadyCheck = true;
+                    }
+                    else if(currentBulletPattern == BulletPatternType.CONE_SHOT)
+                    {
+                        currentBulletPattern = BulletPatternType.REST;
+                    }
+
                     SetBulletPattern();
                     waveCount = 0;
                 }
+
                 coneShotTimerCountdown = 0;
             }
         }
 
-        else if (currentBulletPattern == BulletPatternType.CHAOS_VORTEX)
+        if(currentBulletPattern == BulletPatternType.ULTIMATE_ATTACK) // CHAOS_VORTEX
+        {
+            if(ultimate1 == true)
+            {
+                ultimateOneReadyCheck = false;
+
+                chaosVortexTimerCountdown += Time.deltaTime;
+                if(chaosVortexTimerCountdown >= chaosVortexTimer)
+                {
+                    //SetBulletPattern();
+                    UltimatePatternOne();
+
+                    if(vortexWaveCount >= 15)
+                    {
+                        //SetBulletPattern();
+                        //currentBulletPattern = BulletPatternType.REST;
+                        //SetBulletPattern();
+
+                        ultimate1 = false;
+                        ultimateOneReadyCheck = true;
+                        vortexWaveCount = 0;
+                    }
+
+                    chaosVortexTimerCountdown = 0;
+                }
+            }
+
+            if(ultimate2 == true) // SUPER_MEGA_ULTRA_DEATH_BOMB <- Why the fancy name? XD
+            {
+                ultimateTwoReadyCheck = false;
+
+                superMegaUltraDeathBombTimerCountdown += Time.deltaTime;
+                superBombTimerCountdown += Time.deltaTime;
+
+                if(superBombTimerCountdown >= superBombTimer && superMegaUltraDeathBombTimerCountdown < superMegaUltraDeathBombTimer)
+                {
+                    //SetBulletPattern();
+                    UltimatePatternTwo();
+                    superBombTimerCountdown = 0;
+                }
+
+                if(superMegaUltraDeathBombTimerCountdown >= superMegaUltraDeathBombTimer)
+                {
+                    dropSuperMegaUltraDeathBomb = true;
+                    UltimatePatternTwo();
+
+                    //SetBulletPattern();
+                    //currentBulletPattern = BulletPatternType.REST;
+                    //SetBulletPattern();
+
+                    ultimate2 = false;
+                    ultimateTwoReadyCheck = true;
+
+                    superMegaUltraDeathBombTimerCountdown = 0;
+                }
+            }
+        }
+
+        #region Commented #1
+        /*
+        if (currentBulletPattern == BulletPatternType.CHAOS_VORTEX)
         {
             chaosVortexTimerCountdown += Time.deltaTime;
             if (chaosVortexTimerCountdown >= chaosVortexTimer)
             {
                 SetBulletPattern();
-                if (waveCount >= 15)
+                if (vortexWaveCount >= 15)
                 {
                     //SetBulletPattern();
                     currentBulletPattern = BulletPatternType.REST;
                     SetBulletPattern();
-                    waveCount = 0;
+                    vortexWaveCount = 0;
                 }
                 chaosVortexTimerCountdown = 0;
             }
         }
 
-        else if (currentBulletPattern == BulletPatternType.SUPER_MEGA_ULTRA_DEATH_BOMB)
+        if (currentBulletPattern == BulletPatternType.SUPER_MEGA_ULTRA_DEATH_BOMB)
         {
             superMegaUltraDeathBombTimerCountdown += Time.deltaTime;
             superBombTimerCountdown += Time.deltaTime;
@@ -192,10 +295,13 @@ public class BossShootingScript : MonoBehaviour
                 superMegaUltraDeathBombTimerCountdown = 0;
             }
         }
+        */
+        #endregion
 
-        else if (currentBulletPattern == BulletPatternType.REST)
+        if(currentBulletPattern == BulletPatternType.REST)
         {
             // Hi! I AM REST
+            bulletPatternReadyCheck = true;
         }
 
 
@@ -230,9 +336,6 @@ public class BossShootingScript : MonoBehaviour
 
                     if(i == 0)
                     {
-                        //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().enabled = true;
-                        //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
-
                         SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
                     }
                 }
@@ -263,9 +366,6 @@ public class BossShootingScript : MonoBehaviour
 
                 if(i == 0)
                 {
-                    //blueBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().enabled = true;
-                    //blueBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
-
                     SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
                 }
             }
@@ -293,18 +393,8 @@ public class BossShootingScript : MonoBehaviour
                     redBullet.SetActive(true);
                 }
 
-                if(i == 0)
-                {
-                    //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().enabled = true;
-                    //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
-
-                    SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
-                }
-
                 GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); // Non-Rhythm Bullet (Non-Rhythm Bullet - Actual)
                 bulletPattern = (BulletPattern)blueBullet.GetComponent(typeof(BulletPattern));
-
-
 
                 if (blueBullet != null)
                 {
@@ -317,6 +407,11 @@ public class BossShootingScript : MonoBehaviour
                     bulletPattern.selfDestructTimer = 5f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.TURNING_LEFT;
                     blueBullet.SetActive(true);
+                }
+
+                if(i == 0)
+                {
+                    SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
                 }
             }
 
@@ -371,9 +466,6 @@ public class BossShootingScript : MonoBehaviour
 
                     if(i == 0)
                     {
-                        //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().enabled = true;
-                        //redBullet.GetComponent<BulletPattern>().GetComponent<AudioSource>().PlayOneShot(SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN),1.0f);
-
                         redBullet.GetComponent<BulletPattern>().isCircleRainTriggerSound = true;
                         SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
                     }
@@ -383,7 +475,7 @@ public class BossShootingScript : MonoBehaviour
         }
 
         //Third Stage Bullet
-        else if(currentBulletPattern == BulletPatternType.CONE_SHOT)
+        if(currentBulletPattern == BulletPatternType.CONE_SHOT || (currentBulletPattern == BulletPatternType.ULTIMATE_ATTACK && ultimate3 == true))
         {
             for (int i = 0; i < 10; i++)
             {
@@ -411,51 +503,54 @@ public class BossShootingScript : MonoBehaviour
             SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
             waveCount++;
         }
+
+        #region Commented #2 -- Moved to its own function below
         // Ultimate Attack
-        else if (currentBulletPattern == BulletPatternType.CHAOS_VORTEX)
+        /*
+        if (currentBulletPattern == BulletPatternType.ULTIMATE_ATTACK && ultimate1 == true)
         {
             for (int i = 0; i < 8; i++)
             {
-                GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
-                bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
+                GameObject redBullet2 = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
+                bulletPattern = (BulletPattern)redBullet2.GetComponent(typeof(BulletPattern));
 
-                if (redBullet != null)
+                if (redBullet2 != null)
                 {
-                    redBullet.transform.position = player.transform.position;
-                    redBullet.transform.rotation = transform.rotation;
-                    redBullet.transform.rotation *= Quaternion.Euler(0, i * 45, 0);
+                    redBullet2.transform.position = player.transform.position;
+                    redBullet2.transform.rotation = transform.rotation;
+                    redBullet2.transform.rotation *= Quaternion.Euler(0, i * 45, 0);
                     switch (i)
                     {
                         case 0:
-                            redBullet.transform.localPosition += new Vector3(0.0f, 0.0f, 5.0f);
+                            redBullet2.transform.localPosition += new Vector3(0.0f, 0.0f, 5.0f);
                             break;
 
                         case 1:
-                            redBullet.transform.localPosition += new Vector3(3.5f, 0.0f, 3.5f);
+                            redBullet2.transform.localPosition += new Vector3(3.5f, 0.0f, 3.5f);
                             break;
 
                         case 2:
-                            redBullet.transform.localPosition += new Vector3(5.0f, 0.0f, 0.0f);
+                            redBullet2.transform.localPosition += new Vector3(5.0f, 0.0f, 0.0f);
                             break;
 
                         case 3:
-                            redBullet.transform.localPosition += new Vector3(3.5f, 0.0f, -3.5f);
+                            redBullet2.transform.localPosition += new Vector3(3.5f, 0.0f, -3.5f);
                             break;
 
                         case 4:
-                            redBullet.transform.localPosition += new Vector3(0.0f, 0.0f, -5.0f);
+                            redBullet2.transform.localPosition += new Vector3(0.0f, 0.0f, -5.0f);
                             break;
 
                         case 5:
-                            redBullet.transform.localPosition += new Vector3(-3.5f, 0.0f, -3.5f);
+                            redBullet2.transform.localPosition += new Vector3(-3.5f, 0.0f, -3.5f);
                             break;
 
                         case 6:
-                            redBullet.transform.localPosition += new Vector3(-5.0f, 0.0f, 0.0f);
+                            redBullet2.transform.localPosition += new Vector3(-5.0f, 0.0f, 0.0f);
                             break;
 
                         case 7:
-                            redBullet.transform.localPosition += new Vector3(-3.5f, 0.0f, 3.5f);
+                            redBullet2.transform.localPosition += new Vector3(-3.5f, 0.0f, 3.5f);
                             break;
                     }
 
@@ -465,32 +560,38 @@ public class BossShootingScript : MonoBehaviour
                     bulletPattern.selfDestructTimer = 6f;
                     bulletPattern.aimPlayerTimer = 0.05f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.AIM_PLAYER;
-                    redBullet.SetActive(true);
+                    redBullet2.SetActive(true);
                 }
             }
-            waveCount++;
+            vortexWaveCount++;
         }
+        */
+        #endregion
 
-        else if (currentBulletPattern == BulletPatternType.SUPER_MEGA_ULTRA_DEATH_BOMB)
+        #region Commented #3 -- Moved to its own function below
+        /*
+        if(currentBulletPattern == BulletPatternType.ULTIMATE_ATTACK && ultimate2 == true)
         {
-            if (!dropSuperMegaUltraDeathBomb)
+            if(!dropSuperMegaUltraDeathBomb)
             {
-                float randomAngle = Random.Range(-180, 180);
+                float randomAngle = Random.Range(-180,180);
                 GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); //Non rhythm Bullet Please
 
                 bulletPattern = (BulletPattern)blueBullet.GetComponent(typeof(BulletPattern));
 
-                if (blueBullet != null)
+                if(blueBullet != null)
                 {
                     blueBullet.transform.position = transform.position;
                     blueBullet.transform.rotation = transform.rotation;
-                    blueBullet.transform.rotation *= Quaternion.Euler(0, randomAngle, 0);
+                    blueBullet.transform.rotation *= Quaternion.Euler(0,randomAngle,0);
                     bulletPattern.isBomb = true;
-                    bulletPattern.turningAngle = Random.Range(80, 100);
+                    bulletPattern.turningAngle = Random.Range(80,100);
                     bulletPattern.smoothing = 2f;
                     bulletPattern.selfDestructTimer = 10f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
                     blueBullet.SetActive(true);
+
+                    blueBullet.GetComponent<BulletPattern>().playBulletDroppingSound = true;
                 }
             }
 
@@ -499,18 +600,22 @@ public class BossShootingScript : MonoBehaviour
                 GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); //Non rhythm Bullet Please
                 bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
 
-                if (redBullet != null)
+                if(redBullet != null)
                 {
                     redBullet.transform.position = transform.position;
-                    redBullet.transform.localRotation = Quaternion.Euler(90, 0, 0);
+                    redBullet.transform.localRotation = Quaternion.Euler(90,0,0);
                     bulletPattern.isSuperUltraMegaDeathBomb = true;
                     bulletPattern.bulletSpeed = 10f;
                     bulletPattern.selfDestructTimer = 20f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
                     redBullet.SetActive(true);
+
+                    redBullet.GetComponent<BulletPattern>().playBulletDroppingSound = true;
                 }
             }
         }
+        */
+        #endregion
 
         /*
         void function(GameObject bulletType)
@@ -527,5 +632,120 @@ public class BossShootingScript : MonoBehaviour
             bulletType.SetActive(true);
         }
         */
+    }
+
+
+    void UltimatePatternOne() // CHAOS_VORTEX
+    // Moved this to its own function to allow simultaneous execution with the other patterns
+    {
+        for(int a = 0; a < 8; a++)
+        {
+            GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
+            bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
+
+            if(redBullet != null)
+            {
+                redBullet.transform.position = player.transform.position;
+                redBullet.transform.rotation = transform.rotation;
+                redBullet.transform.rotation *= Quaternion.Euler(0, a * 45, 0);
+
+                switch(a)
+                {
+                    case 0:
+                        redBullet.transform.localPosition += new Vector3(0.0f,0.0f,5.0f);
+                        break;
+
+                    case 1:
+                        redBullet.transform.localPosition += new Vector3(3.5f,0.0f,3.5f);
+                        break;
+
+                    case 2:
+                        redBullet.transform.localPosition += new Vector3(5.0f,0.0f,0.0f);
+                        break;
+
+                    case 3:
+                        redBullet.transform.localPosition += new Vector3(3.5f,0.0f,-3.5f);
+                        break;
+
+                    case 4:
+                        redBullet.transform.localPosition += new Vector3(0.0f,0.0f,-5.0f);
+                        break;
+
+                    case 5:
+                        redBullet.transform.localPosition += new Vector3(-3.5f,0.0f,-3.5f);
+                        break;
+
+                    case 6:
+                        redBullet.transform.localPosition += new Vector3(-5.0f,0.0f,0.0f);
+                        break;
+
+                    case 7:
+                        redBullet.transform.localPosition += new Vector3(-3.5f,0.0f,3.5f);
+                        break;
+                }
+
+
+
+                bulletPattern.bulletSpeed = 10f;
+                bulletPattern.selfDestructTimer = 6f;
+                bulletPattern.aimPlayerTimer = 0.05f;
+                bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.AIM_PLAYER;
+                redBullet.SetActive(true);
+
+                if(a == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                {
+                    redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+                }
+            }
+        }
+
+        vortexWaveCount++;
+    }
+
+
+    void UltimatePatternTwo() // SUPER_MEGA_ULTRA_DEATH_BOMB
+    // Moved this to its own function to allow simultaneous execution with the other patterns 
+    {
+        if(!dropSuperMegaUltraDeathBomb)
+        {
+            float randomAngle = Random.Range(-180,180);
+            GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); //Non rhythm Bullet Please
+
+            bulletPattern = (BulletPattern)blueBullet.GetComponent(typeof(BulletPattern));
+
+            if(blueBullet != null)
+            {
+                blueBullet.transform.position = transform.position;
+                blueBullet.transform.rotation = transform.rotation;
+                blueBullet.transform.rotation *= Quaternion.Euler(0,randomAngle,0);
+                bulletPattern.isBomb = true;
+                bulletPattern.turningAngle = Random.Range(80,100);
+                bulletPattern.smoothing = 2f;
+                bulletPattern.selfDestructTimer = 10f;
+                bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
+                blueBullet.SetActive(true);
+
+                blueBullet.GetComponent<BulletPattern>().playBulletDroppingSound = true;
+            }
+        }
+
+        else
+        {
+            GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); //Non rhythm Bullet Please
+            bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
+
+            if(redBullet != null)
+            {
+                redBullet.transform.position = transform.position;
+                redBullet.transform.localRotation = Quaternion.Euler(90,0,0);
+                bulletPattern.isSuperUltraMegaDeathBomb = true;
+                bulletPattern.bulletSpeed = 10f;
+                bulletPattern.selfDestructTimer = 20f;
+                bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
+                redBullet.SetActive(true);
+
+                redBullet.GetComponent<BulletPattern>().playBulletDroppingSound = true;
+            }
+        }
     }
 }

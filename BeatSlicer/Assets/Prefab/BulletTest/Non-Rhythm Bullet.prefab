@@ -123,7 +123,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 45
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -217,6 +217,7 @@ MonoBehaviour:
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
+  isSuperUltraMegaDeathBomb: 0
   stop: 0
   m_EulerAngleVelocity: {x: 0, y: 0, z: 0}
   turningAngle: 0
@@ -228,11 +229,11 @@ MonoBehaviour:
   aimPlayerTimer: 0
   aimPlayerCountdown: 0
   currentBulletPattern: 5
-  bulletDroppingSound: {fileID: 8300000, guid: c6eda11d52d22cd478794399b42acc74, type: 3}
-  bulletTouchdownSound: {fileID: 8300000, guid: 3aabb4ced82d0e0418db04653e949dda,
-    type: 3}
-  playBombDropSound: 0
   bulletDestroyedVFX: {fileID: 0}
+  playBulletDroppingSound: 0
+  playBulletTouchdownSound: 0
+  isCircleRainTriggerSound: 0
+  isConeShotTrigger: 0
 --- !u!114 &114286394893461926
 MonoBehaviour:
   m_ObjectHideFlags: 1
