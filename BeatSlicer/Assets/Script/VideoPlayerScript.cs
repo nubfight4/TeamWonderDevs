@@ -16,7 +16,7 @@ public class VideoPlayerScript : MonoBehaviour {
     IEnumerator PlayVideo()
     {
         videoPlayer.Prepare();
-        WaitForSeconds waitForSeconds = new WaitForSeconds(1);
+        WaitForSeconds waitForSeconds = new WaitForSeconds(0.3f);
         while (!videoPlayer.isPrepared)
         {
             yield return waitForSeconds;

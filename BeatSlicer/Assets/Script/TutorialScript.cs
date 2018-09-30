@@ -7,22 +7,17 @@ public class TutorialScript : MonoBehaviour {
     public GameObject TutorialScreen02;
     bool Tutorial01isDone = false;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
 	void Update () {
-		if(Tutorial01isDone && Input.anyKey)
-        {
-            SceneManager.LoadScene("BeatSlicerTestScene");
-        }
-        else if (!Tutorial01isDone && Input.anyKey)
+        if (!Tutorial01isDone && Input.anyKeyDown)
         {
             TutorialScreen01.SetActive(false);
             TutorialScreen02.SetActive(true);
             Tutorial01isDone = true;
         }
-	}
+
+        else if (Input.anyKeyDown)
+        {
+            SceneManager.LoadScene("BeatSlicerTestScene");
+        }
+    }
 }
