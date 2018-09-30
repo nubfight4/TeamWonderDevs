@@ -21,6 +21,7 @@ TagManager:
   - PausePanel
   - Sword
   - ChargeSlashAura
+  - PlayerDamagedVFX
   layers:
   - Default
   - TransparentFX
@@ -32,7 +33,7 @@ TagManager:
   - 
   - PostProcessing
   - wall
-  - 
+  - Particles
   - 
   - 
   - 
@@ -55,6 +56,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2925936673
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 282776059
     locked: 0
