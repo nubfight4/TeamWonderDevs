@@ -506,6 +506,28 @@ Prefab:
       propertyPath: m_CullTransparentMesh
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 223886847389564560, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
+        type: 2}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 223886847389564560, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
+        type: 2}
+      propertyPath: m_SortingLayerID
+      value: 1965293943
+      objectReference: {fileID: 0}
+    - target: {fileID: 1892382791483420, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1041520804814100, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1772150529411218, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
   m_IsPrefabAsset: 0
@@ -1030,6 +1052,11 @@ Prefab:
         type: 2}
       propertyPath: volumeLayer.m_Bits
       value: 768
+      objectReference: {fileID: 0}
+    - target: {fileID: 114328399996561800, guid: ce17ebedeeff28f43b65211a21233a3e,
+        type: 2}
+      propertyPath: minDistance
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce17ebedeeff28f43b65211a21233a3e, type: 2}
