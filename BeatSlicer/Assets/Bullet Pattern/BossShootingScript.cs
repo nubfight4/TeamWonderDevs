@@ -250,7 +250,7 @@ public class BossShootingScript : MonoBehaviour
 
                     ultimate2 = false;
                     ultimateTwoReadyCheck = true;
-
+                    dropSuperMegaUltraDeathBomb = false;
                     superMegaUltraDeathBombTimerCountdown = 0;
                 }
             }

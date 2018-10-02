@@ -305,7 +305,7 @@ MonoBehaviour:
   sfxVolume: 1
   audioClipInfoList:
   - audioClipID: 1
-    audioClip: {fileID: 8300000, guid: 49dce927104eba04f86bba9e8c9019ae, type: 3}
+    audioClip: {fileID: 8300000, guid: d10eb49caf1ffc246aa38cc281569f72, type: 3}
   - audioClipID: 101
     audioClip: {fileID: 8300000, guid: 9c6902afd1b713b41b98d88d8d666148, type: 3}
   - audioClipID: 102
