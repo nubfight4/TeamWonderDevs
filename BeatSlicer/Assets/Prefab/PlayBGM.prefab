@@ -9,58 +9,47 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1826267190246356}
+  m_RootGameObject: {fileID: 1429694109428420}
   m_IsPrefabAsset: 1
---- !u!1 &1826267190246356
+--- !u!1 &1429694109428420
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4257452837224406}
-  - component: {fileID: 114165185599255986}
+  - component: {fileID: 4297168470011140}
+  - component: {fileID: 114783884594133320}
   m_Layer: 0
-  m_Name: Object Pool Manager
+  m_Name: PlayBGM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4257452837224406
+--- !u!4 &4297168470011140
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1826267190246356}
+  m_GameObject: {fileID: 1429694109428420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.7392907, y: 5.6872234, z: 6.780754}
+  m_LocalPosition: {x: 906.8815, y: 760.2301, z: -78.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114165185599255986
+--- !u!114 &114783884594133320
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1826267190246356}
+  m_GameObject: {fileID: 1429694109428420}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43a1256f55de05b419240d920dc5b3a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b0aacfd9b2d9cf4aa36f86a32984097, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootPoolName: Pooled Objects
-  pooledObjects: []
-  itemsToPool:
-  - objectToPool: {fileID: 1532468161635432, guid: 6c0434a21dc71e344b7f4938a89e3ecd,
-      type: 2}
-    poolName: Rhythm Bullets
-    amountToPool: 2000
-    shouldExpand: 0
-  - objectToPool: {fileID: 1764944281241340, guid: 020abbb93a5d9f64cb7e6b8f84653fc9,
-      type: 2}
-    poolName: Non-Rhythm Bullets
-    amountToPool: 2000
-    shouldExpand: 0
+  bossAIScript: {fileID: 114591055903484350, guid: c572ec21b0bd39c49b6c06fdc972734a,
+    type: 2}
