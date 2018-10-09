@@ -36,6 +36,8 @@ public class BulletPattern : MonoBehaviour {
     public BulletType bulletType = BulletType.SET_TYPE;
     public bool isToBeDestroyed = false;
     public bool isBomb = false;
+    [SerializeField]
+    public bool bounceWall = false;
     public bool isSuperUltraMegaDeathBomb = false;
     bool rainFall = false;
     bool fallen = false;
@@ -174,10 +176,12 @@ public class BulletPattern : MonoBehaviour {
             {
                 rainFallTimerCountdown = 0f;
                 rainFallStopTimerCountdown = 0f;
-                aimPlayerCountdown = 0f;
+                aimPlayerCountdown = 0.000f;
                 fallen = false;
                 stop = false;
                 aimed = false;
+                bounceWall = false;
+                currentBulletPattern = BulletPatternType.SET_TYPE;
                 isToBeDestroyed = true;
             }
         }
@@ -210,8 +214,10 @@ public class BulletPattern : MonoBehaviour {
                         redBullet.transform.rotation = transform.rotation;
                         redBullet.transform.rotation *= Quaternion.Euler(0, i * 45, 0);
                         redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
-                        redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
-                        currentBulletPattern = BulletPatternType.STRAIGHT;
+                        redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
+                        redBullet.GetComponent<BulletPattern>().bounceWall = true;
+                        redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPatternType.STRAIGHT;
+                        
                         redBullet.SetActive(true);
                     }
                 }
@@ -220,7 +226,15 @@ public class BulletPattern : MonoBehaviour {
                 selfDestructTimer = 0f;
             }
 
-            if(other.tag == "PlaneHitbox" && isSuperUltraMegaDeathBomb)
+            if (other.tag == "Wall" && bounceWall)
+            {
+                //fix
+                currentBulletPattern = BulletPatternType.AIM_PLAYER;
+                aimPlayerTimer = 0.1f;
+                bounceWall = false;
+            }
+
+            if (other.tag == "PlaneHitbox" && isSuperUltraMegaDeathBomb)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
 

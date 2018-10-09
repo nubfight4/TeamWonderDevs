@@ -66,7 +66,7 @@ public class BossShootingScript : MonoBehaviour
         superBombTimer = 0.4f;
         superMegaUltraDeathBombTimer = 4.0f;
         dropSuperMegaUltraDeathBomb = false;
-        currentBulletPattern = BulletPatternType.SUPER_MEGA_ULTRA_DEATH_BOMB;
+        currentBulletPattern = BulletPatternType.BOMBING_RUN;
     }
 
     // Update is called once per frame
