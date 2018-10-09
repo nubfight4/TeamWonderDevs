@@ -22,6 +22,7 @@ TagManager:
   - Sword
   - ChargeSlashAura
   - PlayerDamagedVFX
+  - Wall
   layers:
   - Default
   - TransparentFX
