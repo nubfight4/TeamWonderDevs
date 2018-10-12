@@ -1078,7 +1078,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d8b728bafc3bd4ab31973294323e86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementTimer: 8
   StageOnePoints:
   - {fileID: 0}
   - {fileID: 0}
@@ -1097,14 +1096,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   currentMovementPattern: 5
-  ultimateMusicHasStarted: 0
   healthBar: {fileID: 0}
   playerModelScript: {fileID: 0}
+  bossShootingScript: {fileID: 114309032372947740}
   health: 0
   ultimateOneTimerValue: 3
   ultimateTwoTimerValue: 6
   ultimateThreeTimerValue: 10
   bossStunTimerValue: 4
+  ultimateMusicHasStarted: 0
   soundCrossfadeEffectValue: 0.5
   developmentSettingsEnabled: 0
 --- !u!136 &136749890439549308
