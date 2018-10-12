@@ -61,6 +61,7 @@ public class BulletPattern:MonoBehaviour {
     public bool playBulletTouchdownSound = false;
     public bool isCircleRainTriggerSound = false;
     public bool isConeShotTrigger = false;
+    public bool bounceWall = false;
 
     private AudioSource bulletAudioSource;
     private AudioClip bombTouchdownSound;
@@ -227,6 +228,8 @@ public class BulletPattern:MonoBehaviour {
                 fallen = false;
                 stop = false;
                 aimed = false;
+                bounceWall = false;
+                currentBulletPattern = BulletPatternType.SET_TYPE;
                 isToBeDestroyed = true;
             }
         }
@@ -272,8 +275,9 @@ public class BulletPattern:MonoBehaviour {
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 45,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
-                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
                             redBullet.GetComponent<BulletPattern>().smoothing = 0f;
+                            redBullet.GetComponent<BulletPattern>().bounceWall = true;
                             redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPatternType.STRAIGHT;
                             redBullet.SetActive(true);
 
@@ -287,6 +291,14 @@ public class BulletPattern:MonoBehaviour {
 
                 isBomb = false;
                 selfDestructTimer = 0f;
+            }
+
+            if(other.tag == "Wall" && bounceWall)
+            {
+                //fix
+                currentBulletPattern = BulletPatternType.AIM_PLAYER;
+                aimPlayerTimer = 0.1f;
+                bounceWall = false;
             }
 
             if(other.tag == "PlaneHitbox" && isSuperUltraMegaDeathBomb)

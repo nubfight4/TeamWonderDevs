@@ -50,6 +50,9 @@ public class BossAIScript:MonoBehaviour
     private int previousDestination;
     NavMeshAgent navMeshAgent;
 
+    private int bombingRunCounter = 0;
+    private int bombingRunRandNum;
+
     private readonly int[] bossStageOneMovement = new int[] { 0,1,4 };
     private readonly int[] bossStageTwoMovementStart = new int[] { 0,2,4,6,7,8 };
     private readonly int[] bossStageTwoMovementEnd = new int[] { 1,3,5,7,6,8 };
@@ -107,6 +110,7 @@ public class BossAIScript:MonoBehaviour
         navMeshAgent.baseOffset = 2.0f; // Move Boss to starting floating height
 
         randNum = Random.Range(6.0f, 8.0f);
+        bombingRunRandNum = Random.Range(0,5);
 
         bossAppearingSound = SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BOSS_APPEARING);
         bossAudioSource.PlayOneShot(bossAppearingSound, 1.0f);
@@ -198,7 +202,30 @@ public class BossAIScript:MonoBehaviour
 
                 if(distance <= 3.0f)
                 {
-                    selectedDestination = selectedDestination + 1;
+                    if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+                    {
+                        bombingRunCounter++;
+
+                        if(bombingRunCounter >= 2)
+                        {
+                            selectedDestination = 5;
+
+                            bombingRunCounter = 0;
+                            previousDestination = 99;
+                        }
+                        else
+                        {
+                            do
+                            {
+                                selectedDestination = Random.Range(0,5);
+
+                            } while(selectedDestination == previousDestination); // Will repeat randomization until selectedDestination != previousDestination
+                        }
+                    }
+                    else
+                    {
+                        selectedDestination = selectedDestination + 1;
+                    }
 
                     if(selectedDestination == 5)
                     {
@@ -236,7 +263,15 @@ public class BossAIScript:MonoBehaviour
                     navMeshAgent.baseOffset = 4.0f;
                 }
 
-                selectedDestination = 0;
+                if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+                {
+                    selectedDestination = bombingRunRandNum;
+                    previousDestination = selectedDestination;
+                }
+                else
+                {
+                    selectedDestination = 0;
+                }
                 
                 transform.position = StageTwoPoints[selectedDestination].transform.position;
             }
