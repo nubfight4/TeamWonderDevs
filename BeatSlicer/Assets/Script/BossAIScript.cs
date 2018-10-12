@@ -50,6 +50,9 @@ public class BossAIScript:MonoBehaviour
     private int previousDestination;
     NavMeshAgent navMeshAgent;
 
+    private int bombingRunCounter = 0;
+    private int bombingRunRandNum;
+
     private readonly int[] bossStageOneMovement = new int[] { 0,1,4 };
     private readonly int[] bossStageTwoMovementStart = new int[] { 0,2,4,6,7,8 };
     private readonly int[] bossStageTwoMovementEnd = new int[] { 1,3,5,7,6,8 };
@@ -79,6 +82,7 @@ public class BossAIScript:MonoBehaviour
     public float bossStunTimerValue = 4.0f;
 
     [Header("Miscellaneous Values")]
+    public bool ultimateMusicHasStarted = false;
     public float soundCrossfadeEffectValue = 0.5f;
     [Space(10)]
     public bool developmentSettingsEnabled = false;
@@ -107,6 +111,7 @@ public class BossAIScript:MonoBehaviour
         navMeshAgent.baseOffset = 2.0f; // Move Boss to starting floating height
 
         randNum = Random.Range(6.0f, 8.0f);
+        bombingRunRandNum = Random.Range(0,5);
 
         bossAppearingSound = SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BOSS_APPEARING);
         bossAudioSource.PlayOneShot(bossAppearingSound, 1.0f);
@@ -198,7 +203,30 @@ public class BossAIScript:MonoBehaviour
 
                 if(distance <= 3.0f)
                 {
-                    selectedDestination = selectedDestination + 1;
+                    if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+                    {
+                        bombingRunCounter++;
+
+                        if(bombingRunCounter >= 2)
+                        {
+                            selectedDestination = 5;
+
+                            bombingRunCounter = 0;
+                            previousDestination = 99;
+                        }
+                        else
+                        {
+                            do
+                            {
+                                selectedDestination = Random.Range(0,5);
+
+                            } while(selectedDestination == previousDestination); // Will repeat randomization until selectedDestination != previousDestination
+                        }
+                    }
+                    else
+                    {
+                        selectedDestination = selectedDestination + 1;
+                    }
 
                     if(selectedDestination == 5)
                     {
@@ -236,7 +264,15 @@ public class BossAIScript:MonoBehaviour
                     navMeshAgent.baseOffset = 4.0f;
                 }
 
-                selectedDestination = 0;
+                if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+                {
+                    selectedDestination = bombingRunRandNum;
+                    previousDestination = selectedDestination;
+                }
+                else
+                {
+                    selectedDestination = 0;
+                }
                 
                 transform.position = StageTwoPoints[selectedDestination].transform.position;
             }
@@ -341,7 +377,7 @@ public class BossAIScript:MonoBehaviour
             BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
         }
 
-        if(isFlyingUp == true || isOutside == true)
+        if(isFlyingUp == true /*|| isOutside == true*/)
         {
             BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
         }
@@ -393,12 +429,15 @@ public class BossAIScript:MonoBehaviour
                 }
                 else if(selectedDestination != 5)
                 {
-                    if(bulletPatternReady == true)
+                    if(isOutside != true)
                     {
-                        BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.BOMBING_RUN;
+                        if(bulletPatternReady == true)
+                        {
+                            BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.BOMBING_RUN;
 
-                        bulletPatternReady = false;
-                        multiTimerHasStarted = true;
+                            bulletPatternReady = false;
+                            multiTimerHasStarted = true;
+                        }
                     }
                 }
             }
@@ -424,7 +463,13 @@ public class BossAIScript:MonoBehaviour
                     isOutside = false;
                 }
 
+                if(isFlyingUp == true)
+                {
+                    isFlyingUp = false;
+                }
+
                 multiTimerHasStarted = false;
+                bulletPatternReady = false;
 
                 //Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
@@ -448,14 +493,9 @@ public class BossAIScript:MonoBehaviour
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
 
-                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1))
-                    {
-                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
-                    }
-                    else
-                    {
-                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
-                    }
+                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_INTRO);
+                    SoundManagerScript.mInstance.bgmAudioSource.loop = false;
+                    SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
 
                     previousDestination = 99; // Reset to number other than 0
                 }
@@ -463,14 +503,9 @@ public class BossAIScript:MonoBehaviour
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_3A;
 
-                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1))
-                    {
-                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
-                    }
-                    else
-                    {
-                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
-                    }
+                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_1_INTRO);
+                    SoundManagerScript.mInstance.bgmAudioSource.loop = false;
+                    SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
 
                     selectedDestination = 0; // Reset to 0
                 }
@@ -478,14 +513,9 @@ public class BossAIScript:MonoBehaviour
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
 
-                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1))
-                    {
-                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
-                    }
-                    else
-                    {
-                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
-                    }
+                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
+                    //SoundManagerScript.mInstance.bgmAudioSource.loop = false;
+                    //SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
                 }
                 else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B) // Might need to adjust this to transition to 'Win Scene' more smoothly
                 {
@@ -494,14 +524,7 @@ public class BossAIScript:MonoBehaviour
                     bulletPatternReady = true;
                     multiTimerHasStarted = false;
 
-                    if(SoundManagerScript.mInstance.bgmAudioSource.clip == SoundManagerScript.mInstance.FindAudioClip(AudioClipID.BGM_INGAME_1))
-                    {
-                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
-                    }
-                    else
-                    {
-                        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
-                    }
+                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
 
                     SceneManager.LoadScene("Win Screen"); // Loads Win Scene
                 }
@@ -652,6 +675,16 @@ public class BossAIScript:MonoBehaviour
         {
             ultimateTimer = 0.0f;
         }
+
+        if(SoundManagerScript.mInstance.bgmAudioSource.volume <= 1.0f && currentMovementPattern != MovementPattern.BOSS_STUN)
+        {
+            SoundManagerScript.mInstance.bgmAudioSource.volume += Time.deltaTime * 0.2f; // Test Value - 8/10/2018
+        }
+
+        if(ultimateHasStarted == true & ultimateMusicHasStarted == false)
+        {
+            SoundManagerScript.mInstance.bgmAudioSource.volume -= Time.deltaTime * 0.7f;
+        }
     }
     #endregion
 
@@ -686,7 +719,7 @@ public class BossAIScript:MonoBehaviour
         }
         else
         {
-            isOutside = false;
+            isOutside = true;
         }
     }
 
@@ -705,7 +738,7 @@ public class BossAIScript:MonoBehaviour
 
 
     #region Development Settings Functions
-    void TempMovePatternChangeButton() // Press 'J' To Change Between Movement Patterns // To be edited or removed in later builds
+    void TempMovePatternChangeButton() // Press 'J' To Change Between Movement Patterns
     {
         if(Input.GetKeyDown(KeyCode.J))
         {
@@ -715,6 +748,10 @@ public class BossAIScript:MonoBehaviour
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
 
                 BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
+
+                SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_INTRO);
+                SoundManagerScript.mInstance.bgmAudioSource.loop = false;
+                SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
 
                 isVanishingAndReappearing = true;
                 isFlyingUp = false;
@@ -734,6 +771,10 @@ public class BossAIScript:MonoBehaviour
 
                 BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
 
+                SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_1_INTRO);
+                SoundManagerScript.mInstance.bgmAudioSource.loop = false;
+                SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
+
                 isVanishingAndReappearing = true;
                 isFlyingUp = false;
                 isMoving = false;
@@ -752,6 +793,10 @@ public class BossAIScript:MonoBehaviour
 
                 BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
 
+                SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
+                //SoundManagerScript.mInstance.bgmAudioSource.loop = false;
+                //SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
+
                 isVanishingAndReappearing = true;
                 isFlyingUp = false;
                 isMoving = false;
@@ -768,10 +813,16 @@ public class BossAIScript:MonoBehaviour
 
                 BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
 
+                SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_1_INTRO);
+                SoundManagerScript.mInstance.bgmAudioSource.loop = false;
+                SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
+
                 isVanishingAndReappearing = true;
                 isFlyingUp = false;
                 isMoving = false;
 
+                ultimateHasStarted = false;
+                ultimateMusicHasStarted = false;
                 bulletPatternReady = true;
                 multiTimerHasStarted = false;
 
@@ -783,7 +834,7 @@ public class BossAIScript:MonoBehaviour
     }
 
 
-    void TempBossStunnerButton() // Press 'K' To Stun (& Unstun) Boss // To be edited or removed in later builds
+    void TempBossStunnerButton() // Press 'K' To Stun (& Unstun) Boss
     {
         if(Input.GetKeyDown(KeyCode.K))
         {

@@ -228,6 +228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1902837072406284, guid: 294a728be3fd12e41ae5bd8882913947, type: 2}
+  centerpointChecker: {fileID: 4249089662511370, guid: 43aa85be3222a1742a85a053bc6ffdf1,
+    type: 2}
   bossShootingSpot: {fileID: 4987120324112630, guid: dc04a2f79f6e1b84f801fdb1b12d98bb,
     type: 2}
   bulletSpeed: 10

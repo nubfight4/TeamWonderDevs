@@ -23,6 +23,7 @@ public class BulletPattern:MonoBehaviour {
 
 
     public GameObject player;
+    public Transform centerpointChecker;
 
     public Transform bossShootingSpot;
 
@@ -56,6 +57,7 @@ public class BulletPattern:MonoBehaviour {
 
     public GameObject bulletDestroyedVFX;
 
+    private bool playBulletReflectSound = false;
     public bool playBulletDroppingSound = false;
     public bool playBulletTouchdownSound = false;
     public bool isCircleRainTriggerSound = false;
@@ -65,6 +67,7 @@ public class BulletPattern:MonoBehaviour {
     private AudioSource bulletAudioSource;
     private AudioClip bombTouchdownSound;
     private AudioClip bombDroppingSound;
+    private AudioClip bulletReflectSound;
 
     void Awake()
     {
@@ -77,6 +80,7 @@ public class BulletPattern:MonoBehaviour {
         //For Caching Purposes
         bombTouchdownSound = SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
         bombDroppingSound = SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_BOMBING_RUN_DROPPING);
+        bulletReflectSound = SoundManagerScript.mInstance.FindAudioClip(AudioClipID.SFX_BULLET_REFLECT_WALL);
     }
 
 
@@ -210,6 +214,15 @@ public class BulletPattern:MonoBehaviour {
 
             playBulletTouchdownSound = false;
         }
+
+        if(playBulletReflectSound == true)
+        {
+            bulletAudioSource.enabled = true;
+            bulletAudioSource.spatialBlend = 0.5f;
+            bulletAudioSource.PlayOneShot(bulletReflectSound,1.0f);
+
+            playBulletReflectSound = false;
+        }
     }
 
 
@@ -234,9 +247,10 @@ public class BulletPattern:MonoBehaviour {
         }
     }
 
+
     void OnTriggerEnter(Collider other)
     {
-        if (gameObject.activeSelf == true)
+        if(gameObject.activeSelf == true)
         {
             if (bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
             {
@@ -257,27 +271,32 @@ public class BulletPattern:MonoBehaviour {
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
 
-                //insert bomb script
-                for (int i = 0; i < 8; i++)
-                {
-                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
-                    redBullet.GetComponent(typeof(BulletPattern));
-                    if(redBullet != null)
-                    {
-                        turningAngle = 0f;
-                        redBullet.transform.position = transform.position;
-                        redBullet.transform.rotation = transform.rotation;
-                        redBullet.transform.rotation *= Quaternion.Euler(0, i * 45, 0);
-                        redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
-                        redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
-                        redBullet.GetComponent<BulletPattern>().smoothing = 0f;
-                        redBullet.GetComponent<BulletPattern>().bounceWall = true;
-                        redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPatternType.STRAIGHT;
-                        redBullet.SetActive(true);
+                float centerpointDistanceChecker = Vector3.Distance(centerpointChecker.position, transform.position);
 
-                        if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                if(centerpointDistanceChecker <= 104.5f)
+                {
+                    //insert bomb script
+                    for(int i = 0;i < 8;i++)
+                    {
+                        GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
+                        redBullet.GetComponent(typeof(BulletPattern));
+                        if(redBullet != null)
                         {
-                            redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+                            turningAngle = 0f;
+                            redBullet.transform.position = transform.position;
+                            redBullet.transform.rotation = transform.rotation;
+                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 45,0);
+                            redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
+                            redBullet.GetComponent<BulletPattern>().smoothing = 0f;
+                            redBullet.GetComponent<BulletPattern>().bounceWall = true;
+                            redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPatternType.STRAIGHT;
+                            redBullet.SetActive(true);
+
+                            if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                            {
+                                redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+                            }
                         }
                     }
                 }
@@ -286,88 +305,95 @@ public class BulletPattern:MonoBehaviour {
                 selfDestructTimer = 0f;
             }
 
-            if (other.tag == "Wall" && bounceWall)
+            if(other.tag == "Wall" && bounceWall)
             {
                 //fix
                 currentBulletPattern = BulletPatternType.AIM_PLAYER;
                 aimPlayerTimer = 0.1f;
                 bounceWall = false;
+
+                playBulletReflectSound = true;
             }
 
-            if (other.tag == "PlaneHitbox" && isSuperUltraMegaDeathBomb)
+            if(other.tag == "PlaneHitbox" && isSuperUltraMegaDeathBomb)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
 
-                //insert bomb script
-                //1st wave
-                for (int i = 0; i < 16; i++)
+                float centerpointDistanceChecker = Vector3.Distance(centerpointChecker.position,transform.position);
+
+                if(centerpointDistanceChecker <= 104.5f)
                 {
-                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
-                    redBullet.GetComponent(typeof(BulletPattern));
-                    if (redBullet != null)
+                    //insert bomb script
+                    //1st wave
+                    for(int i = 0;i < 16;i++)
                     {
-                        redBullet.transform.position = transform.position;
-                        redBullet.transform.rotation = transform.rotation;
-                        redBullet.transform.rotation *= Quaternion.Euler(0, i * 22.5f, 0);
-                        redBullet.GetComponent<BulletPattern>().bulletSpeed = 15f;
-                        redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
-                        //redBullet.GetComponent<BulletPattern>().turningAngle = i * 22.5f;
-                        //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
-                        currentBulletPattern = BulletPatternType.STRAIGHT;
-                        redBullet.SetActive(true);
+                        GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
+                        redBullet.GetComponent(typeof(BulletPattern));
+                        if(redBullet != null)
+                        {
+                            redBullet.transform.position = transform.position;
+                            redBullet.transform.rotation = transform.rotation;
+                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 22.5f,0);
+                            redBullet.GetComponent<BulletPattern>().bulletSpeed = 15f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                            //redBullet.GetComponent<BulletPattern>().turningAngle = i * 22.5f;
+                            //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
+                            currentBulletPattern = BulletPatternType.STRAIGHT;
+                            redBullet.SetActive(true);
+                        }
+
+                        if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                        {
+                            redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+                        }
                     }
 
-                    if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                    //2nd wave
+                    for(int i = 0;i < 24;i++)
                     {
-                        redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
-                    }
-                }
+                        GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
+                        redBullet.GetComponent(typeof(BulletPattern));
+                        if(redBullet != null)
+                        {
+                            redBullet.transform.position = transform.position;
+                            redBullet.transform.rotation = transform.rotation;
+                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 15,0);
+                            redBullet.GetComponent<BulletPattern>().bulletSpeed = 12f;
+                            //redBullet.GetComponent<BulletPattern>().turningAngle = i * 15;
+                            //.GetComponent<BulletPattern>().smoothing = 2f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                            currentBulletPattern = BulletPatternType.STRAIGHT;
+                            redBullet.SetActive(true);
+                        }
 
-                //2nd wave
-                for (int i = 0; i < 24; i++)
-                {
-                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
-                    redBullet.GetComponent(typeof(BulletPattern));
-                    if (redBullet != null)
-                    {
-                        redBullet.transform.position = transform.position;
-                        redBullet.transform.rotation = transform.rotation;
-                        redBullet.transform.rotation *= Quaternion.Euler(0, i * 15, 0);
-                        redBullet.GetComponent<BulletPattern>().bulletSpeed = 12f;
-                        //redBullet.GetComponent<BulletPattern>().turningAngle = i * 15;
-                        //.GetComponent<BulletPattern>().smoothing = 2f;
-                        redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
-                        currentBulletPattern = BulletPatternType.STRAIGHT;
-                        redBullet.SetActive(true);
-                    }
-
-                    if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
-                    {
-                        redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
-                    }
-                }
-
-                //3rd wave
-                for (int i = 0; i < 32; i++)
-                {
-                    GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
-                    redBullet.GetComponent(typeof(BulletPattern));
-                    if (redBullet != null)
-                    {
-                        redBullet.transform.position = transform.position;
-                        redBullet.transform.rotation = transform.rotation;
-                        redBullet.transform.rotation *= Quaternion.Euler(0, i * 11.25f, 0);
-                        redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
-                        //redBullet.GetComponent<BulletPattern>().turningAngle = i * 11.25f;
-                        //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
-                        redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
-                        currentBulletPattern = BulletPatternType.STRAIGHT;
-                        redBullet.SetActive(true);
+                        if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                        {
+                            redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+                        }
                     }
 
-                    if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                    //3rd wave
+                    for(int i = 0;i < 32;i++)
                     {
-                        redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+                        GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
+                        redBullet.GetComponent(typeof(BulletPattern));
+                        if(redBullet != null)
+                        {
+                            redBullet.transform.position = transform.position;
+                            redBullet.transform.rotation = transform.rotation;
+                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 11.25f,0);
+                            redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
+                            //redBullet.GetComponent<BulletPattern>().turningAngle = i * 11.25f;
+                            //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                            currentBulletPattern = BulletPatternType.STRAIGHT;
+                            redBullet.SetActive(true);
+                        }
+
+                        if(i == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
+                        {
+                            redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+                        }
                     }
                 }
 

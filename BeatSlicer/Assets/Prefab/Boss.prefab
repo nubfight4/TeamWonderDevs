@@ -1057,6 +1057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 541f42abe9da58a418066c8b1d52b457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossAIScript: {fileID: 114591055903484350}
   bulletPattern: {fileID: 0}
   currentBulletPattern: 7
   ultimate1: 0
@@ -1096,6 +1097,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   currentMovementPattern: 5
+  ultimateMusicHasStarted: 0
   healthBar: {fileID: 0}
   playerModelScript: {fileID: 0}
   health: 0

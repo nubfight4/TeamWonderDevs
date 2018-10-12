@@ -58,6 +58,7 @@ public class BossShootingScript : MonoBehaviour
 
     bool dropSuperMegaUltraDeathBomb;
 
+    public BossAIScript bossAIScript;
     public BulletPattern bulletPattern;
     GameObject player;
 
@@ -695,6 +696,23 @@ public class BossShootingScript : MonoBehaviour
                 if(a == 0) // Activates the Audio Source component for only one Bullet and plays the 'Touchdown' sound
                 {
                     redBullet.GetComponent<BulletPattern>().playBulletTouchdownSound = true;
+
+                    if(bossAIScript.ultimateMusicHasStarted == false)
+                    {
+                        if(bossAIScript.developmentSettingsEnabled == true)
+                        {
+                            SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_ULTIMATE_ATTACK);
+                        }
+                        else
+                        {
+                            SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_LOOP);
+                        }
+                        
+                        SoundManagerScript.mInstance.bgmAudioSource.loop = true;
+                        SoundManagerScript.mInstance.bgmAudioSource.volume = 1.0f;
+
+                        bossAIScript.ultimateMusicHasStarted = true;
+                    }
                 }
             }
         }
