@@ -247,7 +247,7 @@ MonoBehaviour:
   aimPlayerTimer: 0
   aimPlayerCountdown: 0
   currentBulletPattern: 5
-  bulletDestroyedVFX: {fileID: 1754754949281932, guid: ee5fccb6fbb26094f89b42d31cd40d01,
+  bulletDestroyedVFX: {fileID: 1438237891324044, guid: 380453e9a296e2648bfd7654b05e415d,
     type: 2}
   playBulletDroppingSound: 0
   playBulletTouchdownSound: 0

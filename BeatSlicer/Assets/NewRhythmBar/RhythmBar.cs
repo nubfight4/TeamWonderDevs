@@ -12,7 +12,7 @@ public class RhythmBar : MonoBehaviour {
     public float maxReq;
 
     private Animator anim;
-    public PlayerController playerController;
+    public PlayerModelScript player;
 
     float bpmMultipler;
 
@@ -75,14 +75,14 @@ public class RhythmBar : MonoBehaviour {
             {
                 beats++;
                 onBeat = true;
-                playerController.onBeat = true;
+                player.onBeat = true;
             }
 
             else
             {
                 beats--;
                 missBeat = true;
-                playerController.missBeat = true;
+                player.missBeat = true;
             }
         }
     }
