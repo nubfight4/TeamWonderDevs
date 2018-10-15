@@ -64,6 +64,8 @@ public class BulletPattern:MonoBehaviour {
     public bool isConeShotTrigger = false;
     public bool bounceWall = false;
 
+    public float bulletStandardHeight = 2.3f;
+
     private AudioSource bulletAudioSource;
     private AudioClip bombTouchdownSound;
     private AudioClip bombDroppingSound;
@@ -283,7 +285,7 @@ public class BulletPattern:MonoBehaviour {
                         if(redBullet != null)
                         {
                             turningAngle = 0f;
-                            redBullet.transform.position = transform.position;
+                            redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 45,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
@@ -331,7 +333,7 @@ public class BulletPattern:MonoBehaviour {
                         redBullet.GetComponent(typeof(BulletPattern));
                         if(redBullet != null)
                         {
-                            redBullet.transform.position = transform.position;
+                            redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 22.5f,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 15f;
@@ -355,7 +357,7 @@ public class BulletPattern:MonoBehaviour {
                         redBullet.GetComponent(typeof(BulletPattern));
                         if(redBullet != null)
                         {
-                            redBullet.transform.position = transform.position;
+                            redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 15,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 12f;
@@ -379,7 +381,7 @@ public class BulletPattern:MonoBehaviour {
                         redBullet.GetComponent(typeof(BulletPattern));
                         if(redBullet != null)
                         {
-                            redBullet.transform.position = transform.position;
+                            redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 11.25f,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;

@@ -75,6 +75,9 @@ public class BossShootingScript : MonoBehaviour
     public bool ultimateTwoReadyCheck = true;
     public bool ultimateThreeReadyCheck = true;
 
+    [Space(10)] // Just to look nice
+    public float bulletStandardHeight = 2.3f;
+
     //For Singleton usage
     void Awake()
     {
@@ -325,7 +328,7 @@ public class BossShootingScript : MonoBehaviour
 
                 if (redBullet != null)
                 {
-                    redBullet.transform.position = transform.position;
+                    redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                     redBullet.transform.rotation = transform.rotation;
                     redBullet.transform.rotation *= Quaternion.Euler(0, i * 10, 0);
                     bulletPattern.bulletSpeed = 10f;
@@ -354,7 +357,7 @@ public class BossShootingScript : MonoBehaviour
 
                 if (blueBullet != null)
                 {
-                    blueBullet.transform.position = transform.position;
+                    blueBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                     blueBullet.transform.rotation = transform.rotation;
                     blueBullet.transform.rotation *= Quaternion.Euler(0, i * 10, 0);
                     bulletPattern.bulletSpeed = 10f;
@@ -383,7 +386,7 @@ public class BossShootingScript : MonoBehaviour
 
                 if (redBullet != null)
                 {
-                    redBullet.transform.position = transform.position;
+                    redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                     redBullet.transform.rotation = transform.rotation;
                     redBullet.transform.rotation *= Quaternion.Euler(0, i * 10, 0);
                     bulletPattern.bulletSpeed = 10f;
@@ -399,7 +402,7 @@ public class BossShootingScript : MonoBehaviour
 
                 if (blueBullet != null)
                 {
-                    blueBullet.transform.position = transform.position;
+                    blueBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                     blueBullet.transform.rotation = transform.rotation;
                     blueBullet.transform.rotation *= Quaternion.Euler(0, i * 10, 0);
                     bulletPattern.bulletSpeed = 10f;

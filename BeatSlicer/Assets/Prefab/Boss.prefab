@@ -1067,6 +1067,7 @@ MonoBehaviour:
   ultimateOneReadyCheck: 1
   ultimateTwoReadyCheck: 1
   ultimateThreeReadyCheck: 1
+  bulletStandardHeight: 2.3
 --- !u!114 &114591055903484350
 MonoBehaviour:
   m_ObjectHideFlags: 1

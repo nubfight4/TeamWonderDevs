@@ -695,12 +695,12 @@ public class BossAIScript:MonoBehaviour
             ultimateTimer = 0.0f;
         }
 
-        if(SoundManagerScript.mInstance.bgmAudioSource.volume <= 1.0f && currentMovementPattern != MovementPattern.BOSS_STUN && currentMovementPattern != MovementPattern.BOSS_ULTIMATE_PHASE)
+        if(SoundManagerScript.mInstance.bgmAudioSource.volume <= 1.0f && currentMovementPattern != MovementPattern.BOSS_STUN && currentMovementPattern != MovementPattern.BOSS_ULTIMATE_PHASE && playerModelScript.health != 0)
         {
             SoundManagerScript.mInstance.bgmAudioSource.volume += Time.deltaTime * 0.2f; // Test Value - 8/10/2018
         }
 
-        if(ultimateHasStarted == true & ultimateMusicHasStarted == false)
+        if(ultimateHasStarted == true & ultimateMusicHasStarted == false || playerModelScript.health <= 0)
         {
             SoundManagerScript.mInstance.bgmAudioSource.volume -= Time.deltaTime * 0.7f;
         }
