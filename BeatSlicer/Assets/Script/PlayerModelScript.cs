@@ -5,42 +5,91 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerModelScript : MonoBehaviour {
-    //Delete this script when done and unnecessary, better to keep one player script only if possible. - Kevin
 
+    //Player Variables
     public float health;
     public float charge;
     public float maxHealth;
     public float maxCharge;
-
+    public float moveSpeed;
+    public float gravityScale;
     public float attackSpeedTimer;
-    public float countdown;
 
+    float countdown;
     public bool isPlayerAttacking = false;
     public bool isPlayerChargeSlashing = false;
+    public bool isPlayerDamaged = false;
     Animator animator;
+    float originalSpeed;
+    private Vector3 moveInput;
 
+    //Gameobjects
+    private CharacterController characterController;
     GameObject chargeSlashAura;
+    GameObject rhythmBarUI;
     public Image healthBar;
     public Image chargeBar;
     public GameObject chargeSlashProjectile;
+    public GameObject playerDamagedVFX;
 
-    // Use this for initialization
+    //Rhythm Bar variables
+    // bonusTimer is to adjust how long the timer is
+    public bool onBeat;
+    public bool missBeat;
+    public bool swordOnBeat;
+    public bool swordMissBeat;
+    float onBeatCharge;
+    public float bonusTimer;
+    public float bonusTime;
+    public float setBonusSpeed = 15;
+    public float setOffbeatSpeed = 7;
+
     void Start() {
         health = maxHealth;
         chargeSlashAura = GameObject.FindGameObjectWithTag("ChargeSlashAura");
         animator = GetComponent<Animator>();
+        originalSpeed = moveSpeed;
+        characterController = GetComponent<CharacterController>();
+        rhythmBarUI = GameObject.FindGameObjectWithTag("Rhythm Bar");
     }
 
-    // Update is called once per frame
     void Update() {
         healthBar.fillAmount = health / maxHealth;
         chargeBar.fillAmount = charge / maxCharge;
-      
-        #region Attack Function
+        animator.SetBool("isPlayerDamaged", isPlayerDamaged);
         animator.SetBool("isPlayerAttacking", isPlayerAttacking);
         animator.SetBool("isPlayerChargeSlashing", isPlayerChargeSlashing);
+        animator.SetFloat("VelX", Input.GetAxisRaw("Horizontal"));
+        animator.SetFloat("VelY",Input.GetAxisRaw("Vertical"));
+        animator.SetFloat("playerHealth", health);
 
-        if(countdown <= 0)
+        if (isPlayerDamaged)
+        {
+            isPlayerDamaged = false;
+            animator.Play("DamagedAnimationClip");
+        }
+
+        #region Movement Function
+        if(health >= 1 && !isPlayerAttacking)
+        {
+            float yStore = moveInput.y;
+            moveInput = (transform.forward * Input.GetAxisRaw("Vertical") * moveSpeed) + (transform.right * Input.GetAxisRaw("Horizontal") * moveSpeed);
+            moveInput = moveInput.normalized * moveSpeed;
+            moveInput.y = yStore;
+
+            if (characterController.isGrounded)
+            {
+                moveInput.y = 0f;
+            }
+
+            moveInput.y = moveInput.y + (Physics.gravity.y * gravityScale * Time.deltaTime);
+            characterController.Move(moveInput * Time.deltaTime);
+        }
+        #endregion
+
+        #region Attack Function
+        /*
+        if (countdown <= 0)
         {
             countdown = 0;
         }
@@ -65,10 +114,48 @@ public class PlayerModelScript : MonoBehaviour {
                 isPlayerAttacking = false;
             }
         }
+        */
 
-        if(health <= 0)
+        if (Input.GetButtonDown("Attack"))
         {
-            SceneManager.LoadScene("Defeat Screen");
+            {
+                countdown = attackSpeedTimer;
+                isPlayerAttacking = true;
+            }
+        }
+        #endregion
+
+        #region Rhythm Bar Functions
+        if (swordOnBeat)
+        {
+            moveSpeed = setBonusSpeed;
+            bonusTime = bonusTimer;
+            onBeatCharge++;
+            swordOnBeat = false;
+        }
+
+        if (swordMissBeat)
+        {
+            moveSpeed = setOffbeatSpeed;
+            bonusTime = bonusTimer;
+            onBeatCharge = 0;
+            swordMissBeat = false;
+        }
+
+        if (onBeatCharge >= 5)
+        {
+            charge++;
+            onBeatCharge = 0;
+        }
+
+        if (bonusTime >= 0)
+        {
+            bonusTime -= Time.deltaTime;
+        }
+
+        else
+        {
+            moveSpeed = originalSpeed;
         }
         #endregion
 
@@ -92,5 +179,20 @@ public class PlayerModelScript : MonoBehaviour {
             }
         }
         #endregion
+    }
+
+    public void StopPlayerDamagedAnim()
+    {
+        isPlayerDamaged = false;
+    }
+
+    public void StopAttackAnim()
+    {
+        isPlayerAttacking = false;
+    }
+
+    public void DeathTransition()
+    {
+        SceneManager.LoadScene("Defeat Screen");
     }
 }

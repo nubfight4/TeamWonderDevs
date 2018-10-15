@@ -4,101 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // bonusTimer is to adjust how long the timer is
-    public float bonusTimer;
-    public float bonusTime;
-    float originalSpeed;
-    public float setBonusSpeed = 15;
-    public float setOffbeatSpeed = 7;
-
-    public float moveSpeed;
     public float attackTimer;
     private float attackTimeCounter;
-    public float rotationSpeed;
     public float gravityScale;
 
-    public bool onBeat;
-    public bool missBeat;
-    public bool swordOnBeat;
-    public bool swordMissBeat;
-    float onBeatCharge;
-
     public Transform pivot;
-
-    //public RhythmBarUIScript rhythmBarUIScript;
     public GameObject playerModel;
     public PlayerModelScript player;
-
-    //private Transform player;
-    private CharacterController characterController;
     private Animator anim;
 
-    //private bool isPlayerMoving;
-    //private bool isPlayerAttacking;
-
-    private Vector3 moveInput;
-
-    // Use this for initialization
-    void Start()
-    {
-        GameObject rhythmBarUI = GameObject.FindGameObjectWithTag("Rhythm Bar");
-        //rhythmBarUIScript = rhythmBarUI.GetComponent<RhythmBarUIScript>();
-        originalSpeed = moveSpeed;
-
-        //player = GetComponent<Transform>();
-        characterController = GetComponent<CharacterController>();
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        //isPlayerMoving = false;
-
-        //New Rhythm Bar Functions
-        if (swordOnBeat)
-        {
-            moveSpeed = setBonusSpeed;
-            bonusTime = bonusTimer;
-            onBeatCharge++;
-            swordOnBeat = false;
-        }
-
-        if (swordMissBeat)
-        {
-            moveSpeed = setOffbeatSpeed;
-            bonusTime = bonusTimer;
-            onBeatCharge = 0;
-            swordMissBeat = false;
-        }
-
-        if (onBeatCharge >= 5)
-        {
-            player.charge++;
-            onBeatCharge = 0;
-        }
-
-        if (bonusTime >= 0)
-        {
-            bonusTime -= Time.deltaTime;
-        }
-
-        else
-        {
-            moveSpeed = originalSpeed;
-        }
-
-        float yStore = moveInput.y;
-        moveInput = (transform.forward * Input.GetAxisRaw("Vertical") * moveSpeed) + (transform.right * Input.GetAxisRaw("Horizontal") * moveSpeed);
-        moveInput = moveInput.normalized * moveSpeed;
-        moveInput.y = yStore;
-
-        if (characterController.isGrounded)
-        {
-            moveInput.y = 0f;
-        }
-
-        moveInput.y = moveInput.y + (Physics.gravity.y * gravityScale * Time.deltaTime);
-        characterController.Move(moveInput * Time.deltaTime);
 
         //Move the player in different direction based on camera
         /*

@@ -80,7 +80,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1243213435828358
 GameObject:
   m_ObjectHideFlags: 1
@@ -184,7 +184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1829991061823062
 GameObject:
   m_ObjectHideFlags: 1
@@ -252,7 +252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1895866410160016
 GameObject:
   m_ObjectHideFlags: 1
@@ -791,7 +791,7 @@ MonoBehaviour:
   beats: 0
   minReq: 0.4
   maxReq: 0.6
-  playerController: {fileID: 0}
+  playerModel: {fileID: 0}
   onBeat: 0
   missBeat: 0
 --- !u!114 &114874706004590196
@@ -861,7 +861,7 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1204298999060492}
-  m_CullTransparentMesh: 0
+  m_CullTransparentMesh: 1
 --- !u!222 &222162463221842524
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -947,7 +947,7 @@ Canvas:
   m_GameObject: {fileID: 1346915066362842}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 1
   m_PixelPerfect: 0
@@ -956,7 +956,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 1965293943
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &224004173319328540
