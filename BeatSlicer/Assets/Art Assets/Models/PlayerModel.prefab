@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 114128802117815398}
   m_Layer: 0
   m_Name: Hitbox
-  m_TagString: Untagged
+  m_TagString: PlayerHitbox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1750,8 +1750,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.5758597, y: 7.0204215, z: 5.9516253}
-  m_Center: {x: -1.8290594, y: -0.35769644, z: 5.7138953}
+  m_Size: {x: 0.57585984, y: 8.990818, z: 5.9516263}
+  m_Center: {x: -1.8290594, y: -0.70791334, z: 5.7138953}
 --- !u!65 &65324642954209140
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1762,8 +1762,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.985146, y: 1, z: 1}
-  m_Center: {x: -0.11844475, y: 0, z: 0}
+  m_Size: {x: 1.985146, y: 8.578521, z: 1.1576257}
+  m_Center: {x: -0.11844471, y: 0.06927192, z: -0.07881267}
 --- !u!95 &95039798154130054
 Animator:
   serializedVersion: 3

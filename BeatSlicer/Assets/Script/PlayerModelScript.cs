@@ -194,5 +194,6 @@ public class PlayerModelScript : MonoBehaviour {
     public void DeathTransition()
     {
         SceneManager.LoadScene("Defeat Screen");
+        SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_LOSE_SCENE); // Play Lose BGM? <- Possible? 15-10-2018
     }
 }

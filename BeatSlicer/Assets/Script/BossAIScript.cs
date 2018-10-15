@@ -14,7 +14,8 @@ public class BossAIScript:MonoBehaviour
         MOVE_PATTERN_1 = 0,
         MOVE_PATTERN_2, // Bombing Run & Circle Rain
         MOVE_PATTERN_3A,
-        MOVE_PATTERN_3B, // Bombing Run, Cone Shot & Ultimate Attack
+        MOVE_PATTERN_3B, // Bombing Run & Cone Shot
+        BOSS_ULTIMATE_PHASE,
         BOSS_STUN,
         SET_MOVE_PATTERN
     };
@@ -29,7 +30,7 @@ public class BossAIScript:MonoBehaviour
 
     private bool bossFloatingBool;
 
-    public float movementTimer;
+    private float movementTimer;
     private float movementTimerTemp;
 
     private bool isMoving = false;
@@ -69,6 +70,7 @@ public class BossAIScript:MonoBehaviour
     public Image healthBar; /// Boss Parameters
 
     public PlayerModelScript playerModelScript;
+    public BossShootingScript bossShootingScript;
     public float health;
     private readonly float maxHealth = 1; // Was 5, set to 1
 
@@ -81,8 +83,9 @@ public class BossAIScript:MonoBehaviour
     [Header("Boss Stun Timer Value")]
     public float bossStunTimerValue = 4.0f;
 
-    [Header("Miscellaneous Values")]
+    [Header("Miscellaneous Settings")]
     public bool ultimateMusicHasStarted = false;
+    [Space(10)]
     public float soundCrossfadeEffectValue = 0.5f;
     [Space(10)]
     public bool developmentSettingsEnabled = false;
@@ -100,6 +103,8 @@ public class BossAIScript:MonoBehaviour
 
 	void Start()
 	{
+        movementTimer = 8.0f;
+
         health = maxHealth;
 
         previousDestination = 99; // Initializing with a number that is not 0
@@ -286,6 +291,18 @@ public class BossAIScript:MonoBehaviour
                 transform.position = StageOnePoints[bossStageThreeMovement[selectedDestination]].transform.position;
                 bossAudioSource.PlayOneShot(bossAppearingSound,1.0f);
             }
+            else if(currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
+            {
+                if(navMeshAgent.baseOffset <= 3.7f || navMeshAgent.baseOffset >= 4.2f)
+                {
+                    navMeshAgent.baseOffset = 4.0f;
+                }
+
+                selectedDestination = 5;
+
+                navMeshAgent.SetDestination(StageTwoPoints[bossStageTwoMovementEnd[selectedDestination]].transform.position);
+                transform.position = StageTwoPoints[bossStageTwoMovementEnd[selectedDestination]].transform.position;
+            }
 
             isVanishingAndReappearing = false;
         }
@@ -329,7 +346,7 @@ public class BossAIScript:MonoBehaviour
                         bossFloatingBool = true;
                     }
                 }
-                else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+                else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B || currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
                 {
                     if(navMeshAgent.baseOffset >= 4.2f)
                     {
@@ -343,7 +360,7 @@ public class BossAIScript:MonoBehaviour
 
                 if(bossFloatingBool == true)
                 {
-                    if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+                    if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B || currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
                     {
                         if(navMeshAgent.baseOffset < 3.7f)
                         {
@@ -401,19 +418,10 @@ public class BossAIScript:MonoBehaviour
                     {
                         if(bulletPatternReady == true)
                         {
-                            if(ultimateHasStarted != true)
-                            {
-                                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.CONE_SHOT;
+                            BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.CONE_SHOT;
 
-                                bulletPatternReady = false;
-                                multiTimerHasStarted = true;
-                            }
-                            else
-                            {
-                                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.ULTIMATE_ATTACK;
-
-                                ultimateTimerHasStarted = true;
-                            }
+                            bulletPatternReady = false;
+                            multiTimerHasStarted = true;
                         }
                     }
                     else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
@@ -439,6 +447,15 @@ public class BossAIScript:MonoBehaviour
                             multiTimerHasStarted = true;
                         }
                     }
+                }
+            }
+            else if(currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
+            {
+                if(bulletPatternReady == true)
+                {
+                    BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.ULTIMATE_ATTACK;
+
+                    ultimateTimerHasStarted = true;
                 }
             }
         }
@@ -517,14 +534,15 @@ public class BossAIScript:MonoBehaviour
                     //SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                     //SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
                 }
-                else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B) // Might need to adjust this to transition to 'Win Scene' more smoothly
+                else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B || previousMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE) 
+                // Might need to adjust this to transition to 'Win Scene' more smoothly
                 {
                     previousDestination = 99; // Reset to number other than 0
 
                     bulletPatternReady = true;
                     multiTimerHasStarted = false;
 
-                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1);
+                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1); // <- To Change to Win BGM in future? - 12-10-2018
 
                     SceneManager.LoadScene("Win Screen"); // Loads Win Scene
                 }
@@ -578,17 +596,19 @@ public class BossAIScript:MonoBehaviour
                     multiTimer = 0.0f;
                 }
             }
-            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B && selectedDestination == 5) // For Cone Shot and then Ultimate Attack
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B && selectedDestination == 5) // For Cone Shot
             {
-                if(multiTimer >= 4.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true && ultimateHasStarted == false)
+                if(multiTimer >= 4.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true)
                 {
                     bulletPatternReady = true;
                     multiTimerHasStarted = false;
 
                     stageThreePatternCount++;
 
-                    if(stageThreePatternCount >= 4)
+                    if(stageThreePatternCount >= 3)
                     {
+                        currentMovementPattern = MovementPattern.BOSS_ULTIMATE_PHASE;
+
                         ultimateHasStarted = true;
                     }
 
@@ -667,7 +687,6 @@ public class BossAIScript:MonoBehaviour
             if(ultimateTimer >= ultimateThreeTimerValue && BossShootingScript.Instance.ultimateThreeReadyCheck == true)
             {
                 BossShootingScript.Instance.ultimate3 = true;
-
                 ultimateTimer = 0.0f;
             }
         }
@@ -676,12 +695,12 @@ public class BossAIScript:MonoBehaviour
             ultimateTimer = 0.0f;
         }
 
-        if(SoundManagerScript.mInstance.bgmAudioSource.volume <= 1.0f && currentMovementPattern != MovementPattern.BOSS_STUN)
+        if(SoundManagerScript.mInstance.bgmAudioSource.volume <= 1.0f && currentMovementPattern != MovementPattern.BOSS_STUN && currentMovementPattern != MovementPattern.BOSS_ULTIMATE_PHASE && playerModelScript.health != 0)
         {
             SoundManagerScript.mInstance.bgmAudioSource.volume += Time.deltaTime * 0.2f; // Test Value - 8/10/2018
         }
 
-        if(ultimateHasStarted == true & ultimateMusicHasStarted == false)
+        if(ultimateHasStarted == true & ultimateMusicHasStarted == false || playerModelScript.health <= 0)
         {
             SoundManagerScript.mInstance.bgmAudioSource.volume -= Time.deltaTime * 0.7f;
         }
@@ -807,6 +826,23 @@ public class BossAIScript:MonoBehaviour
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+            {
+                previousMovementPattern = currentMovementPattern;
+                currentMovementPattern = MovementPattern.BOSS_ULTIMATE_PHASE;
+
+                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
+
+                SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
+
+                isVanishingAndReappearing = true;
+                isFlyingUp = false;
+                isMoving = false;
+
+                previousDestination = 99; // Reset to number other than 0
+
+                Debug.Log("Current Move Pattern = " + currentMovementPattern);
+            }
+            else if(currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
             {
                 previousMovementPattern = currentMovementPattern;
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_1;

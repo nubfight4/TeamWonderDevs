@@ -63,6 +63,9 @@ public class BulletPattern:MonoBehaviour {
     public bool isCircleRainTriggerSound = false;
     public bool isConeShotTrigger = false;
     public bool bounceWall = false;
+    private bool isBounceWall = false;
+
+    public float bulletStandardHeight = 2.3f;
 
     private AudioSource bulletAudioSource;
     private AudioClip bombTouchdownSound;
@@ -170,7 +173,13 @@ public class BulletPattern:MonoBehaviour {
             {
                 aimPlayerCountdown += Time.deltaTime;
 
-                if(aimPlayerCountdown >= aimPlayerTimer)
+                if(aimPlayerCountdown >= aimPlayerTimer && isBounceWall == true)
+                {
+                    transform.LookAt(new Vector3(player.transform.position.x, 2.3f, player.transform.position.z));
+                    isBounceWall = false;
+                    aimed = true;
+                }
+                else if(aimPlayerCountdown >= aimPlayerTimer && isBounceWall == false)
                 {
                     transform.LookAt(player.transform);
                     aimed = true;
@@ -283,7 +292,7 @@ public class BulletPattern:MonoBehaviour {
                         if(redBullet != null)
                         {
                             turningAngle = 0f;
-                            redBullet.transform.position = transform.position;
+                            redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 45,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
@@ -311,6 +320,7 @@ public class BulletPattern:MonoBehaviour {
                 currentBulletPattern = BulletPatternType.AIM_PLAYER;
                 aimPlayerTimer = 0.1f;
                 bounceWall = false;
+                isBounceWall = true;
 
                 playBulletReflectSound = true;
             }
@@ -331,7 +341,7 @@ public class BulletPattern:MonoBehaviour {
                         redBullet.GetComponent(typeof(BulletPattern));
                         if(redBullet != null)
                         {
-                            redBullet.transform.position = transform.position;
+                            redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 22.5f,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 15f;
@@ -355,7 +365,7 @@ public class BulletPattern:MonoBehaviour {
                         redBullet.GetComponent(typeof(BulletPattern));
                         if(redBullet != null)
                         {
-                            redBullet.transform.position = transform.position;
+                            redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 15,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 12f;
@@ -379,7 +389,7 @@ public class BulletPattern:MonoBehaviour {
                         redBullet.GetComponent(typeof(BulletPattern));
                         if(redBullet != null)
                         {
-                            redBullet.transform.position = transform.position;
+                            redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 11.25f,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;

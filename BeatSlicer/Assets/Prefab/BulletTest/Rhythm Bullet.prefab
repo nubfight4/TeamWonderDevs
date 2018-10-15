@@ -255,6 +255,8 @@ MonoBehaviour:
   playBulletTouchdownSound: 0
   isCircleRainTriggerSound: 0
   isConeShotTrigger: 0
+  bounceWall: 0
+  bulletStandardHeight: 2.3
 --- !u!114 &114505551576633754
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -844,7 +844,7 @@ Prefab:
         type: 2}
       propertyPath: playerModelScript
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2117901922}
     - target: {fileID: 114591055903484350, guid: c572ec21b0bd39c49b6c06fdc972734a,
         type: 2}
       propertyPath: developmentSettingsEnabled
