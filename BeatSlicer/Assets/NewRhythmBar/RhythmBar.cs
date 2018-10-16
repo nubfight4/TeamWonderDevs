@@ -10,6 +10,8 @@ public class RhythmBar : MonoBehaviour {
     public float beats = 0;
     public float minReq;
     public float maxReq;
+    float beatTimer;
+    float beatCountdown;
 
     private Animator anim;
     public PlayerModelScript playerModel;
@@ -25,6 +27,7 @@ public class RhythmBar : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         time = 0.5f;
+        beatTimer = 0.6f;
         bpmMultipler = bpm / 60;
         anim = GetComponent<Animator>();
 	}
@@ -59,12 +62,18 @@ public class RhythmBar : MonoBehaviour {
         anim.SetBool("OnBeat", onBeat);
         anim.SetBool("MissBeat", missBeat);
 
-        if(time <= minReq || time >= maxReq)
+        if (onBeat || missBeat)
+        {
+            beatCountdown += Time.deltaTime;
+
+            if (beatCountdown >= beatTimer)
             {
-            onBeat = false;
+                onBeat = false;
+                missBeat = false;
+                beatCountdown = 0;
+            }
         }
 
-        missBeat = false;
     }
 
     void beatsTicker()
