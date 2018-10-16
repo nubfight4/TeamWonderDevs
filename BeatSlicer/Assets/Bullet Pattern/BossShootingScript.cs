@@ -19,6 +19,10 @@ public class BossShootingScript : MonoBehaviour
         // 3rd Bullet Pattern //
         CONE_SHOT,
 
+        // 4th Bullet Pattern //
+        WAIL_OF_THE_BANSHEE,
+        WAIL_RANDOM_SHOT,
+
         // Ultimate Bullet Pattern //
         CHAOS_VORTEX,
         SUPER_MEGA_ULTRA_DEATH_BOMB,
@@ -38,6 +42,11 @@ public class BossShootingScript : MonoBehaviour
     float circleRainTimerCountdown;
     float coneShotTimer;
     float coneShotTimerCountdown;
+    float wailOfTheBansheeTimer;
+    float wailOfTheBansheeTimerCountdown;
+    float wailOfTheBansheeRandomShotTimer;
+    float wailOfTheBansheeRandomShotCountdown;
+    float wailOfTheBansheeTurning;
     float chaosVortexTimer;
     float chaosVortexTimerCountdown;
     float superBombTimer;
@@ -62,11 +71,13 @@ public class BossShootingScript : MonoBehaviour
         bombingTimer = 0.8f;
         circleRainTimer = 0.5f;
         coneShotTimer = 0.2f;
+        wailOfTheBansheeTimer = 0.1f;
+        wailOfTheBansheeRandomShotTimer = 1.0f;
         chaosVortexTimer = 2.0f;
         superBombTimer = 0.4f;
         superMegaUltraDeathBombTimer = 4.0f;
         dropSuperMegaUltraDeathBomb = false;
-        currentBulletPattern = BulletPatternType.BOMBING_RUN;
+        currentBulletPattern = BulletPatternType.WAIL_OF_THE_BANSHEE;
     }
 
     // Update is called once per frame
@@ -130,6 +141,28 @@ public class BossShootingScript : MonoBehaviour
                     waveCount = 0;
                 }
                 coneShotTimerCountdown = 0;
+            }
+        }
+
+        else if (currentBulletPattern == BulletPatternType.WAIL_OF_THE_BANSHEE)
+        {
+            wailOfTheBansheeTurning += Time.deltaTime * 20;
+            wailOfTheBansheeRandomShotTimer += Time.deltaTime;
+            wailOfTheBansheeTimerCountdown += Time.deltaTime;
+            if(wailOfTheBansheeTimerCountdown >= wailOfTheBansheeTimer)
+            {
+                SetBulletPattern();
+                wailOfTheBansheeTimerCountdown = 0;
+            }
+        }
+
+        else if (currentBulletPattern == BulletPatternType.WAIL_RANDOM_SHOT)
+        {
+            wailOfTheBansheeRandomShotCountdown += Time.deltaTime;
+            if (wailOfTheBansheeRandomShotCountdown >= wailOfTheBansheeRandomShotTimer)
+            {
+                SetBulletPattern();
+                wailOfTheBansheeRandomShotCountdown = 0;
             }
         }
 
@@ -344,6 +377,53 @@ public class BossShootingScript : MonoBehaviour
                 }
             }
             waveCount++;
+        }
+        
+        //Forth Stage Bullet
+        else if (currentBulletPattern == BulletPatternType.WAIL_OF_THE_BANSHEE)
+        {
+            float rotatingAngle = wailOfTheBansheeTurning;
+            //float randomShot = wailOfTheBansheeRandomShotTimer;
+
+            for (int i = 0; i < 8; i++)
+            {
+                GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                redBullet.GetComponent(typeof(BulletPattern));
+                if (redBullet != null)
+                {
+                    redBullet.transform.position = transform.position;
+                    redBullet.transform.rotation = transform.rotation;
+                    redBullet.transform.rotation *= Quaternion.Euler(0, (i * 45) + rotatingAngle, 0);
+                    redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
+                    redBullet.GetComponent<BulletPattern>().selfDestructTimer = 2f;
+                    redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
+
+                    redBullet.SetActive(true);
+                }
+            }
+        }
+
+        else if (currentBulletPattern == BulletPatternType.WAIL_RANDOM_SHOT)
+        {
+            
+
+            for (int i = 0; i < 16; i++)
+            {
+                float randomAngle = Random.Range(-180, 180);
+                GameObject redBullet = ObjectPooler.Instance.getPooledObject("Bullet Red");
+                redBullet.GetComponent(typeof(BulletPattern));
+                if (redBullet != null)
+                {
+                    redBullet.transform.position = transform.position;
+                    redBullet.transform.rotation = transform.rotation;
+                    redBullet.transform.rotation *= Quaternion.Euler(0, randomAngle, 0);
+                    redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
+                    redBullet.GetComponent<BulletPattern>().selfDestructTimer = 2f;
+                    redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
+
+                    redBullet.SetActive(true);
+                }
+            }
         }
 
         // Ultimate Attack
