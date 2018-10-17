@@ -70,7 +70,7 @@ public class PlayerModelScript : MonoBehaviour {
         }
 
         #region Movement Function
-        if(health >= 1 && !isPlayerAttacking)
+        if(health >= 1 && !isPlayerAttacking && !isPlayerChargeSlashing)
         {
             float yStore = moveInput.y;
             moveInput = (transform.forward * Input.GetAxisRaw("Vertical") * moveSpeed) + (transform.right * Input.GetAxisRaw("Horizontal") * moveSpeed);
@@ -173,12 +173,23 @@ public class PlayerModelScript : MonoBehaviour {
         if (Input.GetButton("ChargeSlash") && charge >= maxCharge)
         {
             {
-                SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_CHARGE_SLASH);
-                Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), Quaternion.Euler(0.0f, 0.0f, 0.0f));
-                charge = 0;            
+                isPlayerChargeSlashing = true;
+                animator.Play("CrescendoAnimationClip");                    
             }
         }
         #endregion
+    }
+
+    public void ChargeSlashAnim()
+    {
+        SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_CHARGE_SLASH);
+        Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), Quaternion.Euler(0.0f, 0.0f, 0.0f));
+        charge = 0;
+    }
+
+    public void StopChargeSlashAnim()
+    {
+        isPlayerChargeSlashing = false;
     }
 
     public void StopPlayerDamagedAnim()
