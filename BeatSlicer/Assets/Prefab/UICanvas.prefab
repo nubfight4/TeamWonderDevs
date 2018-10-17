@@ -783,7 +783,7 @@ MonoBehaviour:
   time: 0
   bpm: 76
   beats: 0
-  minReq: 0.4
+  minReq: 0.35
   maxReq: 0.6
   playerModel: {fileID: 0}
   onBeat: 0
