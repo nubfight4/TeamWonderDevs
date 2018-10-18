@@ -374,10 +374,18 @@ public class BossShootingScript : MonoBehaviour
                     if(i == 0)
                     {
                         SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+
+                        if(bossAIScript.playBossAttackingAnimation == false)
+                        {
+                            bossAIScript.bossAnimator.Play("BossAttackAnimation", -1, 0.0f);
+
+                            bossAIScript.playBossAttackingAnimation = true;
+                        }
                     }
                 }
             }
             currentBulletPattern = BulletPatternType.TURNING_LEFT;
+            bossAIScript.playBossAttackingAnimation = false;
             waveCount++;
         }
 
@@ -404,9 +412,17 @@ public class BossShootingScript : MonoBehaviour
                 if(i == 0)
                 {
                     SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+
+                    if(bossAIScript.playBossAttackingAnimation == false)
+                    {
+                        bossAIScript.bossAnimator.Play("BossAttackAnimation", -1, 0.0f);
+
+                        bossAIScript.playBossAttackingAnimation = true;
+                    }
                 }
             }
             currentBulletPattern = BulletPatternType.TURNING_RIGHT;
+            bossAIScript.playBossAttackingAnimation = false;
             waveCount++;
         }
 
@@ -449,11 +465,19 @@ public class BossShootingScript : MonoBehaviour
                 if(i == 0)
                 {
                     SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+
+                    if(bossAIScript.playBossAttackingAnimation == false)
+                    {
+                        bossAIScript.bossAnimator.Play("BossAttackAnimation", -1, 0.0f);
+
+                        bossAIScript.playBossAttackingAnimation = true;
+                    }
                 }
             }
 
             waveCount = 0;
             currentBulletPattern = BulletPatternType.REST;
+            bossAIScript.playBossAttackingAnimation = false;
         }
 
         //2nd stage bullet pattern
@@ -477,9 +501,17 @@ public class BossShootingScript : MonoBehaviour
                 blueBullet.SetActive(true);
 
                 blueBullet.GetComponent<BulletPattern>().playBulletDroppingSound = true;
+
+                if(bossAIScript.playBossAttackingAnimation == false)
+                {
+                    bossAIScript.bossAnimator.Play("BossAttackAnimation",-1,0.0f);
+
+                    bossAIScript.playBossAttackingAnimation = true;
+                }
             }
 
             currentBulletPattern = BulletPatternType.REST;
+            bossAIScript.playBossAttackingAnimation = false;
         }
 
         else if (currentBulletPattern == BulletPatternType.CIRCLE_RAIN)
@@ -729,7 +761,7 @@ public class BossShootingScript : MonoBehaviour
 
             if(redBullet != null)
             {
-                redBullet.transform.position = player.transform.position;
+                redBullet.transform.position = new Vector3(player.transform.position.x, bulletStandardHeight, player.transform.position.z);
                 redBullet.transform.rotation = transform.rotation;
                 redBullet.transform.rotation *= Quaternion.Euler(0, a * 45, 0);
 

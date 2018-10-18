@@ -74,6 +74,12 @@ public class BossAIScript:MonoBehaviour
     public float health;
     private readonly float maxHealth = 1; // Was 5, set to 1
 
+    public Animator bossAnimator;
+    public bool playBossAttackingAnimation = false;
+    public bool playBossUltimateAnimation = false;
+    public bool playBossStunAnimation = false;
+    public bool playBossDeathAnimation = false;
+
     #region Public Variable Settings -- For Development Use
     [Header("Ultimate Timer Values")]
     public float ultimateOneTimerValue = 3.0f;
@@ -81,7 +87,7 @@ public class BossAIScript:MonoBehaviour
     public float ultimateThreeTimerValue = 10.0f;
 
     [Header("Boss Stun Timer Value")]
-    public float bossStunTimerValue = 4.0f;
+    public float bossStunTimerValue = 8.0f;
 
     [Header("Miscellaneous Settings")]
     public bool ultimateMusicHasStarted = false;
@@ -98,6 +104,7 @@ public class BossAIScript:MonoBehaviour
         movementTimerTemp = movementTimer;
         navMeshAgent = this.GetComponent<NavMeshAgent>();
         bossAudioSource = GetComponent<AudioSource>();
+        bossAnimator = GetComponentInChildren<Animator>();
     }
 
 
@@ -242,6 +249,11 @@ public class BossAIScript:MonoBehaviour
                     isMoving = false;
                 }
             }
+        }
+
+        if(isMoving == true)
+        {
+            //bossAnimator.Play("BossMoveForwardAnimation", -1, 0.0f);
         }
     }
     #endregion
@@ -485,6 +497,21 @@ public class BossAIScript:MonoBehaviour
                     isFlyingUp = false;
                 }
 
+                if(playBossStunAnimation == false && (previousMovementPattern != MovementPattern.BOSS_ULTIMATE_PHASE || previousMovementPattern != MovementPattern.MOVE_PATTERN_3B))
+                {
+                    bossAnimator.Play("BossDownAnimation", -1, 0.0f);
+
+                    playBossStunAnimation = true;
+                }
+                else if(playBossDeathAnimation == false && (previousMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE || previousMovementPattern == MovementPattern.MOVE_PATTERN_3B))
+                {
+                    bossAnimator.Play("BossDeathAnimation",-1 , 0.0f);
+
+                    bossAnimator.SetBool("HasRecovered", false);
+
+                    playBossDeathAnimation = true;
+                }
+
                 multiTimerHasStarted = false;
                 bulletPatternReady = false;
 
@@ -503,6 +530,11 @@ public class BossAIScript:MonoBehaviour
         if(currentMovementPattern == MovementPattern.BOSS_STUN)
         {
             bossStunTimer += Time.deltaTime;
+
+            if(bossStunTimer >= (bossStunTimerValue - 4.0f) && ultimateHasStarted == false)
+            {
+                bossAnimator.SetBool("HasRecovered", true);
+            }
 
             if(bossStunTimer >= bossStunTimerValue)
             {
@@ -534,7 +566,7 @@ public class BossAIScript:MonoBehaviour
                     //SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                     //SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
                 }
-                else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B || previousMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE) 
+                else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B || previousMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
                 // Might need to adjust this to transition to 'Win Scene' more smoothly
                 {
                     previousDestination = 99; // Reset to number other than 0
@@ -559,7 +591,18 @@ public class BossAIScript:MonoBehaviour
                 multiTimerHasStarted = false;
 
                 bossStunTimer = 0.0f;
+
+                if(previousMovementPattern != MovementPattern.MOVE_PATTERN_3B || previousMovementPattern != MovementPattern.BOSS_ULTIMATE_PHASE)
+                {
+                    playBossStunAnimation = false;
+                }
+
+                bossAnimator.SetBool("HasRecovered", false);
             }
+        }
+        else
+        {
+            bossStunTimer = 0.0f;
         }
 
         if(multiTimerHasStarted == true)
@@ -666,6 +709,13 @@ public class BossAIScript:MonoBehaviour
 
         if(ultimateTimerHasStarted == true)
         {
+            if(playBossUltimateAnimation == false)
+            {
+                bossAnimator.Play("BossUltimateAnimation", -1, 0.0f);
+
+                playBossUltimateAnimation = true;
+            }
+
             ultimateTimer += Time.deltaTime;
 
             if((ultimateTimer >= (ultimateOneTimerValue - 0.5f) && ultimateTimer <= ultimateOneTimerValue || ultimateTimer >= (ultimateOneTimerValue + 2.5f) && ultimateTimer <= (ultimateOneTimerValue + 3.0f)) && BossShootingScript.Instance.ultimateOneReadyCheck == true)
@@ -751,6 +801,7 @@ public class BossAIScript:MonoBehaviour
         }
     }
     #endregion
+
 
 
     /// Development Settings Functions Below
