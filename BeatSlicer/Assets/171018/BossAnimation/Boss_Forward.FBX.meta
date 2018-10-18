@@ -166,7 +166,12 @@ ModelImporter:
     7400000: Take 001
     9500000: //RootNode
     13700000: boss_low
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 'Material #62'
+    second: {fileID: 2100000, guid: afcc8d3e99248b54aa017841c2ca7468, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
