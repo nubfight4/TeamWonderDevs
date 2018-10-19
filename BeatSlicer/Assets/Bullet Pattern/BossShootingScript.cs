@@ -123,24 +123,30 @@ public class BossShootingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentBulletPattern == BulletPatternType.TURNING_LEFT || currentBulletPattern == BulletPatternType.TURNING_RIGHT)
+        if(currentBulletPattern == BulletPatternType.TURNING_LEFT || currentBulletPattern == BulletPatternType.TURNING_RIGHT)
         {
             bulletPatternReadyCheck = false;
 
             timerCountdown += Time.deltaTime;
 
-            if (timerCountdown >= timer)
+            if(timerCountdown >= timer)
             {
+                bossAIScript.playBossAttackingAnimation = true;
                 SetBulletPattern();
 
-                if (waveCount >= 4)
+                if(waveCount >= 4)
                 {
                     currentBulletPattern = BulletPatternType.BOTH_TURNS;
+                    bossAIScript.playBossAttackingAnimation = true;
                     SetBulletPattern();
                 }
 
                 timerCountdown = 0;
             }
+        }
+        else if(currentBulletPattern != BulletPatternType.TURNING_LEFT || currentBulletPattern != BulletPatternType.TURNING_RIGHT || currentBulletPattern != BulletPatternType.BOTH_TURNS)
+        {
+            timerCountdown = 0;
         }
 
         if (currentBulletPattern == BulletPatternType.BOMBING_RUN)
@@ -150,9 +156,14 @@ public class BossShootingScript : MonoBehaviour
             bombingTimerCountdown += Time.deltaTime;
             if (bombingTimerCountdown >= bombingTimer)
             {
+                bossAIScript.playBossAttackingAnimation = true;
                 SetBulletPattern();
                 bombingTimerCountdown = 0;
             }
+        }
+        else
+        {
+            bombingTimerCountdown = 0.0f;
         }
 
         if (currentBulletPattern == BulletPatternType.CIRCLE_RAIN)
@@ -172,6 +183,10 @@ public class BossShootingScript : MonoBehaviour
                 }
                 circleRainTimerCountdown = 0;
             }
+        }
+        else
+        {
+            circleRainTimerCountdown = 0.0f;
         }
 
         if (currentBulletPattern == BulletPatternType.CONE_SHOT || (currentBulletPattern == BulletPatternType.ULTIMATE_ATTACK && ultimate3 == true))
@@ -212,8 +227,12 @@ public class BossShootingScript : MonoBehaviour
                 coneShotTimerCountdown = 0;
             }
         }
+        else
+        {
+            coneShotTimerCountdown = 0.0f;
+        }
 
-        else if (currentBulletPattern == BulletPatternType.WAIL_OF_THE_BANSHEE)
+        if (currentBulletPattern == BulletPatternType.WAIL_OF_THE_BANSHEE)
         {
             wailOfTheBansheeTurning += Time.deltaTime * 20;
             wailOfTheBansheeRandomShotTimer += Time.deltaTime;
@@ -225,7 +244,7 @@ public class BossShootingScript : MonoBehaviour
             }
         }
 
-        else if (currentBulletPattern == BulletPatternType.WAIL_RANDOM_SHOT)
+        if (currentBulletPattern == BulletPatternType.WAIL_RANDOM_SHOT)
         {
             wailOfTheBansheeRandomShotCountdown += Time.deltaTime;
             if (wailOfTheBansheeRandomShotCountdown >= wailOfTheBansheeRandomShotTimer)
@@ -272,6 +291,7 @@ public class BossShootingScript : MonoBehaviour
                 if(superBombTimerCountdown >= superBombTimer && superMegaUltraDeathBombTimerCountdown < superMegaUltraDeathBombTimer)
                 {
                     //SetBulletPattern();
+                    bossAIScript.playBossAttackingAnimation = true;
                     UltimatePatternTwo();
                     superBombTimerCountdown = 0;
                 }
@@ -279,6 +299,7 @@ public class BossShootingScript : MonoBehaviour
                 if(superMegaUltraDeathBombTimerCountdown >= superMegaUltraDeathBombTimer)
                 {
                     dropSuperMegaUltraDeathBomb = true;
+                    bossAIScript.playBossAttackingAnimation = true;
                     UltimatePatternTwo();
 
                     //SetBulletPattern();
@@ -374,6 +395,13 @@ public class BossShootingScript : MonoBehaviour
                     if(i == 0)
                     {
                         SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+
+                        if(bossAIScript.playBossAttackingAnimation == true)
+                        {
+                            bossAIScript.bossAnimator.Play("BossAttackAnimation", -1, 0.0f);
+
+                            bossAIScript.playBossAttackingAnimation = false;
+                        }
                     }
                 }
             }
@@ -404,6 +432,13 @@ public class BossShootingScript : MonoBehaviour
                 if(i == 0)
                 {
                     SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+
+                    if(bossAIScript.playBossAttackingAnimation == true)
+                    {
+                        bossAIScript.bossAnimator.Play("BossAttackAnimation", -1, 0.0f);
+
+                        bossAIScript.playBossAttackingAnimation = false;
+                    }
                 }
             }
             currentBulletPattern = BulletPatternType.TURNING_RIGHT;
@@ -449,6 +484,13 @@ public class BossShootingScript : MonoBehaviour
                 if(i == 0)
                 {
                     SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+
+                    if(bossAIScript.playBossAttackingAnimation == true)
+                    {
+                        bossAIScript.bossAnimator.Play("BossAttackAnimation", -1, 0.0f);
+
+                        bossAIScript.playBossAttackingAnimation = false;
+                    }
                 }
             }
 
@@ -477,6 +519,13 @@ public class BossShootingScript : MonoBehaviour
                 blueBullet.SetActive(true);
 
                 blueBullet.GetComponent<BulletPattern>().playBulletDroppingSound = true;
+
+                if(bossAIScript.playBossAttackingAnimation == true)
+                {
+                    bossAIScript.bossAnimator.Play("BossAttackAnimation", -1, 0.0f);
+
+                    bossAIScript.playBossAttackingAnimation = false;
+                }
             }
 
             currentBulletPattern = BulletPatternType.REST;
@@ -729,7 +778,7 @@ public class BossShootingScript : MonoBehaviour
 
             if(redBullet != null)
             {
-                redBullet.transform.position = player.transform.position;
+                redBullet.transform.position = new Vector3(player.transform.position.x, bulletStandardHeight, player.transform.position.z);
                 redBullet.transform.rotation = transform.rotation;
                 redBullet.transform.rotation *= Quaternion.Euler(0, a * 45, 0);
 
@@ -827,6 +876,13 @@ public class BossShootingScript : MonoBehaviour
                 blueBullet.SetActive(true);
 
                 blueBullet.GetComponent<BulletPattern>().playBulletDroppingSound = true;
+
+                if(bossAIScript.playBossAttackingAnimation == true)
+                {
+                    bossAIScript.bossAnimator.Play("BossAttackAnimation", -1, 0.0f);
+
+                    bossAIScript.playBossAttackingAnimation = false;
+                }
             }
         }
 
@@ -846,6 +902,13 @@ public class BossShootingScript : MonoBehaviour
                 redBullet.SetActive(true);
 
                 redBullet.GetComponent<BulletPattern>().playBulletDroppingSound = true;
+
+                if(bossAIScript.playBossAttackingAnimation == true)
+                {
+                    bossAIScript.bossAnimator.Play("BossAttackAnimation", -1, 0.0f);
+
+                    bossAIScript.playBossAttackingAnimation = false;
+                }
             }
         }
     }
