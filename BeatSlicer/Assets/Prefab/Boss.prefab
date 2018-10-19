@@ -3425,14 +3425,13 @@ MonoBehaviour:
   playBossAttackingAnimation: 0
   playBossUltimateAnimation: 0
   playBossStunAnimation: 0
-  playBossDeathAnimation: 0
   ultimateOneTimerValue: 3
   ultimateTwoTimerValue: 6
   ultimateThreeTimerValue: 10
   bossStunTimerValue: 8
   ultimateMusicHasStarted: 0
   soundCrossfadeEffectValue: 0.5
-  developmentSettingsEnabled: 0
+  developmentSettingsEnabled: 1
 --- !u!136 &136749890439549308
 CapsuleCollider:
   m_ObjectHideFlags: 1

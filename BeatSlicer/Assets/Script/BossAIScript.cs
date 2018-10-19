@@ -78,7 +78,7 @@ public class BossAIScript:MonoBehaviour
     public bool playBossAttackingAnimation = false;
     public bool playBossUltimateAnimation = false;
     public bool playBossStunAnimation = false;
-    public bool playBossDeathAnimation = false;
+    private bool lookAtPlayerAfterRecover = false;
 
     #region Public Variable Settings -- For Development Use
     [Header("Ultimate Timer Values")]
@@ -163,7 +163,7 @@ public class BossAIScript:MonoBehaviour
 
     void LookAtPlayerFunction()
     {
-        if(currentMovementPattern != MovementPattern.BOSS_STUN)
+        if(currentMovementPattern != MovementPattern.BOSS_STUN || (currentMovementPattern == MovementPattern.BOSS_STUN && lookAtPlayerAfterRecover == true))
         {
             transform.LookAt(player.transform);
         }
@@ -497,19 +497,16 @@ public class BossAIScript:MonoBehaviour
                     isFlyingUp = false;
                 }
 
-                if(playBossStunAnimation == false && (previousMovementPattern != MovementPattern.BOSS_ULTIMATE_PHASE || previousMovementPattern != MovementPattern.MOVE_PATTERN_3B))
+                if(playBossStunAnimation == false)
                 {
                     bossAnimator.Play("BossDownAnimation", -1, 0.0f);
 
+                    if(previousMovementPattern == MovementPattern.MOVE_PATTERN_3B || previousMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
+                    {
+                        bossAnimator.SetTrigger("IsDead");
+                    }
+
                     playBossStunAnimation = true;
-                }
-                else if(playBossDeathAnimation == false && (previousMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE || previousMovementPattern == MovementPattern.MOVE_PATTERN_3B))
-                {
-                    bossAnimator.Play("BossDeathAnimation",-1 , 0.0f);
-
-                    bossAnimator.SetBool("HasRecovered", false);
-
-                    playBossDeathAnimation = true;
                 }
 
                 multiTimerHasStarted = false;
@@ -531,9 +528,11 @@ public class BossAIScript:MonoBehaviour
         {
             bossStunTimer += Time.deltaTime;
 
-            if(bossStunTimer >= (bossStunTimerValue - 4.0f) && ultimateHasStarted == false)
+            if(bossStunTimer >= (bossStunTimerValue - 4.0f) && (previousMovementPattern != MovementPattern.BOSS_ULTIMATE_PHASE || previousMovementPattern != MovementPattern.MOVE_PATTERN_3B))
             {
-                bossAnimator.SetBool("HasRecovered", true);
+                bossAnimator.SetTrigger("HasRecovered");
+
+                lookAtPlayerAfterRecover = true;
             }
 
             if(bossStunTimer >= bossStunTimerValue)
@@ -592,12 +591,10 @@ public class BossAIScript:MonoBehaviour
 
                 bossStunTimer = 0.0f;
 
-                if(previousMovementPattern != MovementPattern.MOVE_PATTERN_3B || previousMovementPattern != MovementPattern.BOSS_ULTIMATE_PHASE)
-                {
-                    playBossStunAnimation = false;
-                }
+                playBossStunAnimation = false;
+                bossAnimator.ResetTrigger("HasRecovered");
 
-                bossAnimator.SetBool("HasRecovered", false);
+                lookAtPlayerAfterRecover = false;
             }
         }
         else
@@ -780,19 +777,6 @@ public class BossAIScript:MonoBehaviour
     }
 
 
-    void OnTriggerStay(Collider other) // For isOutside boolean usage
-    {
-        if(other.tag == "Boundary")
-        {
-            isOutside = false;
-        }
-        else
-        {
-            isOutside = true;
-        }
-    }
-
-
     void OnTriggerExit(Collider other) // For isOutside boolean usage
     {
         if(other.tag == "Boundary")
@@ -801,7 +785,6 @@ public class BossAIScript:MonoBehaviour
         }
     }
     #endregion
-
 
 
     /// Development Settings Functions Below
