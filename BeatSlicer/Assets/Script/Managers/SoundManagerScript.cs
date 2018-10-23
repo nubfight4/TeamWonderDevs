@@ -12,6 +12,8 @@ public enum AudioClipID
     BGM_SECTION_1_LOOP = 4,
     BGM_SECTION_2_INTRO = 5,
     BGM_SECTION_2_LOOP = 6,
+    BGM_SECTION_3_INTRO = 7,
+    BGM_SECTION_3_LOOP = 8,
 
     BGM_WIN_SCENE = 20,
     BGM_LOSE_SCENE = 21,

@@ -564,7 +564,7 @@ public class BossAIScript:MonoBehaviour
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
 
-                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
+                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_3_INTRO);
                     //SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                     //SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
                 }

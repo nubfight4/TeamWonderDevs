@@ -28,9 +28,9 @@ public class PlayBGM : MonoBehaviour
                 SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_LOOP);
                 SoundManagerScript.mInstance.bgmAudioSource.loop = true;
             }
-            else if(bossAIScript.currentMovementPattern == BossAIScript.MovementPattern.MOVE_PATTERN_3A && bossAIScript.currentMovementPattern != BossAIScript.MovementPattern.BOSS_STUN)
+            else if(bossAIScript.currentMovementPattern == BossAIScript.MovementPattern.MOVE_PATTERN_3A && bossAIScript.currentMovementPattern == BossAIScript.MovementPattern.MOVE_PATTERN_3B && bossAIScript.currentMovementPattern != BossAIScript.MovementPattern.BOSS_STUN)
             {
-                SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_1_LOOP);
+                SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_3_LOOP);
                 SoundManagerScript.mInstance.bgmAudioSource.loop = true;
             }
         }
