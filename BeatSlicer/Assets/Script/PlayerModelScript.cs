@@ -88,37 +88,10 @@ public class PlayerModelScript : MonoBehaviour {
         #endregion
 
         #region Attack Function
-        /*
-        if (countdown <= 0)
-        {
-            countdown = 0;
-        }
-        else
-        {
-            isPlayerAttacking = false;
-            countdown -= Time.deltaTime;
-        }
-
-        if (Input.GetButtonDown("Attack") && countdown <= 0)
+        if (Input.GetButtonDown("Attack") && !isPlayerChargeSlashing)
         {
             {
-                countdown = attackSpeedTimer;
-                isPlayerAttacking = true;
-            }
-        }
-
-        if (Input.GetButtonUp("Attack"))
-        {
-            {
-                countdown = 0;
-                isPlayerAttacking = false;
-            }
-        }
-        */
-
-        if (Input.GetButtonDown("Attack"))
-        {
-            {
+                animator.Play("AttackAnimationClip");
                 countdown = attackSpeedTimer;
                 isPlayerAttacking = true;
             }
