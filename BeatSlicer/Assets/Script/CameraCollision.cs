@@ -33,7 +33,7 @@ public class CameraCollision : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-		Vector3 desiredCameraPos = transform.parent.TransformPoint (dollyDir * maxDistance);
+		//Vector3 desiredCameraPos = transform.parent.TransformPoint (dollyDir * maxDistance);
 
         playerPos = player.transform.position;
 

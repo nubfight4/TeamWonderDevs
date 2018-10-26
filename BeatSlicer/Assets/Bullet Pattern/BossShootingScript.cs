@@ -375,7 +375,7 @@ public class BossShootingScript : MonoBehaviour
         // 1st stage bullet pattern
         if (currentBulletPattern == BulletPatternType.TURNING_RIGHT)
         {
-            for (int i = 0; i < 36; i++)
+            for (int i = 0; i < 45; i++)
             {
                 GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                 bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
@@ -384,11 +384,11 @@ public class BossShootingScript : MonoBehaviour
                 {
                     redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                     redBullet.transform.rotation = transform.rotation;
-                    redBullet.transform.rotation *= Quaternion.Euler(0, i * 10, 0);
+                    redBullet.transform.rotation *= Quaternion.Euler(0, i * (360f / 45f), 0);
                     bulletPattern.bulletSpeed = 10f;
-                    bulletPattern.turningAngle = i * 10;
+                    bulletPattern.turningAngle = i * (360f / 45f);
                     bulletPattern.smoothing = 2f;
-                    bulletPattern.selfDestructTimer = 5f;
+                    bulletPattern.selfDestructTimer = 10f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.TURNING_RIGHT;
                     redBullet.SetActive(true);
 
@@ -411,7 +411,7 @@ public class BossShootingScript : MonoBehaviour
 
         else if (currentBulletPattern == BulletPatternType.TURNING_LEFT)
         {
-            for (int i = 0; i < 36; i++)
+            for (int i = 0; i < 45; i++)
             {
                 GameObject blueBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet"); // Non-Rhythm Bullet (Non-Rhythm Bullet - Actual)
                 bulletPattern = (BulletPattern)blueBullet.GetComponent(typeof(BulletPattern));
@@ -420,11 +420,11 @@ public class BossShootingScript : MonoBehaviour
                 {
                     blueBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                     blueBullet.transform.rotation = transform.rotation;
-                    blueBullet.transform.rotation *= Quaternion.Euler(0, i * 10, 0);
+                    blueBullet.transform.rotation *= Quaternion.Euler(0, i * (360f / 45f), 0);
                     bulletPattern.bulletSpeed = 10f;
-                    bulletPattern.turningAngle = i * 10;
+                    bulletPattern.turningAngle = i * (360f / 45f);
                     bulletPattern.smoothing = 2f;
-                    bulletPattern.selfDestructTimer = 5f;
+                    bulletPattern.selfDestructTimer = 10f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.TURNING_LEFT;
                     blueBullet.SetActive(true);
                 }
@@ -447,7 +447,7 @@ public class BossShootingScript : MonoBehaviour
 
         else if (currentBulletPattern == BulletPatternType.BOTH_TURNS)
         {
-            for (int i = 0; i < 36; i++)
+            for (int i = 0; i < 45; i++)
             {
                 GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                 bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
@@ -456,9 +456,9 @@ public class BossShootingScript : MonoBehaviour
                 {
                     redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                     redBullet.transform.rotation = transform.rotation;
-                    redBullet.transform.rotation *= Quaternion.Euler(0, i * 10, 0);
+                    redBullet.transform.rotation *= Quaternion.Euler(0, i * (360f / 45f), 0);
                     bulletPattern.bulletSpeed = 10f;
-                    bulletPattern.turningAngle = i * 10;
+                    bulletPattern.turningAngle = i * (360f / 45f);
                     bulletPattern.smoothing = 2f;
                     bulletPattern.selfDestructTimer = 5f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.TURNING_RIGHT;
@@ -472,11 +472,11 @@ public class BossShootingScript : MonoBehaviour
                 {
                     blueBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                     blueBullet.transform.rotation = transform.rotation;
-                    blueBullet.transform.rotation *= Quaternion.Euler(0, i * 10, 0);
+                    blueBullet.transform.rotation *= Quaternion.Euler(0, i * (360f / 45f), 0);
                     bulletPattern.bulletSpeed = 10f;
-                    bulletPattern.turningAngle = i * 10;
+                    bulletPattern.turningAngle = i * (360f / 45f);
                     bulletPattern.smoothing = 2f;
-                    bulletPattern.selfDestructTimer = 5f;
+                    bulletPattern.selfDestructTimer = 10f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.TURNING_LEFT;
                     blueBullet.SetActive(true);
                 }
@@ -533,7 +533,7 @@ public class BossShootingScript : MonoBehaviour
 
         else if (currentBulletPattern == BulletPatternType.CIRCLE_RAIN)
         {
-            for (int i = 0; i < 18; i++)
+            for (int i = 0; i < 27; i++)
             {
                 GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                 bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
@@ -542,9 +542,9 @@ public class BossShootingScript : MonoBehaviour
                 {
                     redBullet.transform.position = transform.position;
                     redBullet.transform.rotation = transform.rotation;
-                    redBullet.transform.rotation *= Quaternion.Euler(0, i * 20, 0);
+                    redBullet.transform.rotation *= Quaternion.Euler(0, i * (360f / 27f), 0);
                     bulletPattern.bulletSpeed = 10f;
-                    bulletPattern.selfDestructTimer = 6f;
+                    bulletPattern.selfDestructTimer = 10f;
                     bulletPattern.rainFallStopTimer = 1.75f - (0.25f * waveCount);
                     bulletPattern.rainFallTimer = 2.25f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.RAIN;
@@ -563,7 +563,7 @@ public class BossShootingScript : MonoBehaviour
         //Third Stage Bullet
         if(currentBulletPattern == BulletPatternType.CONE_SHOT || (currentBulletPattern == BulletPatternType.ULTIMATE_ATTACK && ultimate3 == true))
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 15; i++)
             {
                 GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                 bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
@@ -572,9 +572,9 @@ public class BossShootingScript : MonoBehaviour
                 {
                     redBullet.transform.position = transform.position;
                     redBullet.transform.rotation = transform.rotation;
-                    redBullet.transform.rotation *= Quaternion.Euler(i * 36, 0, 0);
+                    redBullet.transform.rotation *= Quaternion.Euler(i * 24, 0, 0);
                     bulletPattern.bulletSpeed = 10f;
-                    bulletPattern.selfDestructTimer = 6f;
+                    bulletPattern.selfDestructTimer = 10f;
                     bulletPattern.aimPlayerTimer = 1f;
                     bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.AIM_PLAYER;
                     redBullet.SetActive(true);
@@ -709,7 +709,7 @@ public class BossShootingScript : MonoBehaviour
             float rotatingAngle = wailOfTheBansheeTurning;
             //float randomShot = wailOfTheBansheeRandomShotTimer;
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 12; i++)
             {
                 GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                 redBullet.GetComponent(typeof(BulletPattern));
@@ -717,7 +717,7 @@ public class BossShootingScript : MonoBehaviour
                 {
                     redBullet.transform.position = transform.position;
                     redBullet.transform.rotation = transform.rotation;
-                    redBullet.transform.rotation *= Quaternion.Euler(0, (i * 45) + rotatingAngle, 0);
+                    redBullet.transform.rotation *= Quaternion.Euler(0, (i * 30) + rotatingAngle, 0);
                     redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
                     redBullet.GetComponent<BulletPattern>().selfDestructTimer = 2f;
                     redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPattern.BulletPatternType.STRAIGHT;
@@ -731,7 +731,7 @@ public class BossShootingScript : MonoBehaviour
         {
 
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 24; i++)
             {
                 float randomAngle = Random.Range(-180, 180);
                 GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
@@ -785,42 +785,42 @@ public class BossShootingScript : MonoBehaviour
                 switch(a)
                 {
                     case 0:
-                        redBullet.transform.localPosition += new Vector3(0.0f,0.0f,5.0f);
+                        redBullet.transform.localPosition += new Vector3(0.0f,0.0f,8.0f);
                         break;
 
                     case 1:
-                        redBullet.transform.localPosition += new Vector3(3.5f,0.0f,3.5f);
+                        redBullet.transform.localPosition += new Vector3(6.5f, 0.0f, 6.5f);
                         break;
 
                     case 2:
-                        redBullet.transform.localPosition += new Vector3(5.0f,0.0f,0.0f);
+                        redBullet.transform.localPosition += new Vector3(8.0f,0.0f,0.0f);
                         break;
 
                     case 3:
-                        redBullet.transform.localPosition += new Vector3(3.5f,0.0f,-3.5f);
+                        redBullet.transform.localPosition += new Vector3(6.5f, 0.0f,-6.5f);
                         break;
 
                     case 4:
-                        redBullet.transform.localPosition += new Vector3(0.0f,0.0f,-5.0f);
+                        redBullet.transform.localPosition += new Vector3(0.0f,0.0f,-8.0f);
                         break;
 
                     case 5:
-                        redBullet.transform.localPosition += new Vector3(-3.5f,0.0f,-3.5f);
+                        redBullet.transform.localPosition += new Vector3(-6.5f,0.0f,-6.5f);
                         break;
 
                     case 6:
-                        redBullet.transform.localPosition += new Vector3(-5.0f,0.0f,0.0f);
+                        redBullet.transform.localPosition += new Vector3(-8.0f,0.0f,0.0f);
                         break;
 
                     case 7:
-                        redBullet.transform.localPosition += new Vector3(-3.5f,0.0f,3.5f);
+                        redBullet.transform.localPosition += new Vector3(-6.5f, 0.0f, 6.5f);
                         break;
                 }
 
 
 
                 bulletPattern.bulletSpeed = 10f;
-                bulletPattern.selfDestructTimer = 6f;
+                bulletPattern.selfDestructTimer = 10f;
                 bulletPattern.aimPlayerTimer = 0.05f;
                 bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.AIM_PLAYER;
                 redBullet.SetActive(true);
@@ -848,7 +848,6 @@ public class BossShootingScript : MonoBehaviour
                 }
             }
         }
-
         vortexWaveCount++;
     }
 

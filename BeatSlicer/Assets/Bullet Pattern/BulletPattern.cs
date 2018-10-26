@@ -38,7 +38,7 @@ public class BulletPattern:MonoBehaviour {
     public bool isToBeDestroyed = false;
     public bool isBomb = false;
     public bool isSuperUltraMegaDeathBomb = false;
-    bool rainFall = false;
+    //bool rainFall = false;
     bool fallen = false;
     bool aimed = false;
     public bool stop = false;
@@ -285,7 +285,7 @@ public class BulletPattern:MonoBehaviour {
                 if(centerpointDistanceChecker <= 104.5f)
                 {
                     //insert bomb script
-                    for(int i = 0;i < 8;i++)
+                    for(int i = 0;i < 12;i++)
                     {
                         GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                         redBullet.GetComponent(typeof(BulletPattern));
@@ -294,7 +294,7 @@ public class BulletPattern:MonoBehaviour {
                             turningAngle = 0f;
                             redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
-                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 45,0);
+                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 30,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
                             redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
                             redBullet.GetComponent<BulletPattern>().smoothing = 0f;
@@ -335,7 +335,7 @@ public class BulletPattern:MonoBehaviour {
                 {
                     //insert bomb script
                     //1st wave
-                    for(int i = 0;i < 16;i++)
+                    for(int i = 0;i < 24;i++)
                     {
                         GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                         redBullet.GetComponent(typeof(BulletPattern));
@@ -343,9 +343,9 @@ public class BulletPattern:MonoBehaviour {
                         {
                             redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
-                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 22.5f,0);
+                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 15f,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 15f;
-                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
                             //redBullet.GetComponent<BulletPattern>().turningAngle = i * 22.5f;
                             //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
                             currentBulletPattern = BulletPatternType.STRAIGHT;
@@ -359,7 +359,7 @@ public class BulletPattern:MonoBehaviour {
                     }
 
                     //2nd wave
-                    for(int i = 0;i < 24;i++)
+                    for(int i = 0;i < 36;i++)
                     {
                         GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                         redBullet.GetComponent(typeof(BulletPattern));
@@ -367,11 +367,11 @@ public class BulletPattern:MonoBehaviour {
                         {
                             redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
-                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 15,0);
+                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 10,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 12f;
                             //redBullet.GetComponent<BulletPattern>().turningAngle = i * 15;
                             //.GetComponent<BulletPattern>().smoothing = 2f;
-                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
                             currentBulletPattern = BulletPatternType.STRAIGHT;
                             redBullet.SetActive(true);
                         }
@@ -383,7 +383,7 @@ public class BulletPattern:MonoBehaviour {
                     }
 
                     //3rd wave
-                    for(int i = 0;i < 32;i++)
+                    for(int i = 0;i < 48;i++)
                     {
                         GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
                         redBullet.GetComponent(typeof(BulletPattern));
@@ -391,11 +391,11 @@ public class BulletPattern:MonoBehaviour {
                         {
                             redBullet.transform.position = new Vector3(transform.position.x, bulletStandardHeight, transform.position.z);
                             redBullet.transform.rotation = transform.rotation;
-                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 11.25f,0);
+                            redBullet.transform.rotation *= Quaternion.Euler(0,i * 7.5f,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
                             //redBullet.GetComponent<BulletPattern>().turningAngle = i * 11.25f;
                             //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
-                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 5f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
                             currentBulletPattern = BulletPatternType.STRAIGHT;
                             redBullet.SetActive(true);
                         }
