@@ -208,7 +208,7 @@ public class BossAIScript:MonoBehaviour
             }
             else if(isMoving == true)
             {
-                navMeshAgent.speed = 8;
+                navMeshAgent.speed = 12;
 
                 navMeshAgent.SetDestination(StageTwoPoints[bossStageTwoMovementEnd[selectedDestination]].transform.position);
 
@@ -267,9 +267,9 @@ public class BossAIScript:MonoBehaviour
         {
             if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
             {
-                if(navMeshAgent.baseOffset <= 1.7f || navMeshAgent.baseOffset >= 2.2f)
+                if(navMeshAgent.baseOffset <= 2.5f || navMeshAgent.baseOffset >= 3.0f)
                 {
-                    navMeshAgent.baseOffset = 2.0f;
+                    navMeshAgent.baseOffset = 2.8f;
                 }
 
                 transform.position = StageOnePoints[selectedDestination].transform.position;
@@ -277,9 +277,9 @@ public class BossAIScript:MonoBehaviour
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
             {
-                if(navMeshAgent.baseOffset <= 3.7f || navMeshAgent.baseOffset >= 4.2f)
+                if(navMeshAgent.baseOffset <= 4.5f || navMeshAgent.baseOffset >= 5.0f)
                 {
-                    navMeshAgent.baseOffset = 4.0f;
+                    navMeshAgent.baseOffset = 4.8f;
                 }
 
                 if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
@@ -296,9 +296,9 @@ public class BossAIScript:MonoBehaviour
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
             {
-                if(navMeshAgent.baseOffset <= 1.7f || navMeshAgent.baseOffset >= 2.2f)
+                if(navMeshAgent.baseOffset <= 2.5f || navMeshAgent.baseOffset >= 3.0f)
                 {
-                    navMeshAgent.baseOffset = 2.0f;
+                    navMeshAgent.baseOffset = 2.8f;
                 }
 
                 transform.position = StageOnePoints[bossStageThreeMovement[selectedDestination]].transform.position;
@@ -306,9 +306,9 @@ public class BossAIScript:MonoBehaviour
             }
             else if(currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
             {
-                if(navMeshAgent.baseOffset <= 3.7f || navMeshAgent.baseOffset >= 4.2f)
+                if(navMeshAgent.baseOffset <= 4.5f || navMeshAgent.baseOffset >= 5.0f)
                 {
-                    navMeshAgent.baseOffset = 4.0f;
+                    navMeshAgent.baseOffset = 4.8f;
                 }
 
                 selectedDestination = 5;
@@ -323,9 +323,9 @@ public class BossAIScript:MonoBehaviour
         {
             navMeshAgent.baseOffset += Time.deltaTime * 2.0f;
 
-            if(navMeshAgent.baseOffset >= 11.0f && selectedDestination == 5)
+            if(navMeshAgent.baseOffset >= 19.0f && selectedDestination == 5)
             {
-                navMeshAgent.baseOffset = 4.0f;
+                navMeshAgent.baseOffset = 4.8f;
                 selectedDestination = 0;
 
                 transform.position = StageTwoPoints[selectedDestination].transform.position;
@@ -350,22 +350,22 @@ public class BossAIScript:MonoBehaviour
             {
                 if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
                 {
-                    if(navMeshAgent.baseOffset >= 2.2f)
+                    if(navMeshAgent.baseOffset >= 3.0f)
                     {
                         bossFloatingBool = false;
                     }
-                    else if(navMeshAgent.baseOffset <= 1.7f)
+                    else if(navMeshAgent.baseOffset <= 2.5f)
                     {
                         bossFloatingBool = true;
                     }
                 }
                 else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B || currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
                 {
-                    if(navMeshAgent.baseOffset >= 4.2f)
+                    if(navMeshAgent.baseOffset >= 5.0f)
                     {
                         bossFloatingBool = false;
                     }
-                    else if(navMeshAgent.baseOffset <= 3.7f)
+                    else if(navMeshAgent.baseOffset <= 4.5f)
                     {
                         bossFloatingBool = true;
                     }
@@ -375,9 +375,9 @@ public class BossAIScript:MonoBehaviour
                 {
                     if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B || currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
                     {
-                        if(navMeshAgent.baseOffset < 3.7f)
+                        if(navMeshAgent.baseOffset < 4.5f)
                         {
-                            navMeshAgent.baseOffset += Time.deltaTime * 2.0f; // Sped up floating by 2.0f if Boss previous state was BOSS_STUN
+                            navMeshAgent.baseOffset += Time.deltaTime * 2.5f; // Sped up floating by 2.0f if Boss previous state was BOSS_STUN
                         }
                         else
                         {
