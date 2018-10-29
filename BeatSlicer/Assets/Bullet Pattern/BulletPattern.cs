@@ -65,7 +65,7 @@ public class BulletPattern:MonoBehaviour {
     public bool bounceWall = false;
     private bool isBounceWall = false;
 
-    public float bulletStandardHeight = 2.3f;
+    public float bulletStandardHeight = 2.6f;
 
     private AudioSource bulletAudioSource;
     private AudioClip bombTouchdownSound;

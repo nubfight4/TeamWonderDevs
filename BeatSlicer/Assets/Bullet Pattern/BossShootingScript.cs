@@ -85,7 +85,11 @@ public class BossShootingScript : MonoBehaviour
     public bool ultimateThreeReadyCheck = true;
 
     [Space(10)] // Just to look nice
-    public float bulletStandardHeight = 2.3f;
+    public float bulletStandardHeight = 2.6f;
+
+    private float patternThreeConeShotTimer = 0.2f;
+    private float patternThreeConeShotTimerCountdown = 0.0f;
+    public bool patternThreeConeShotActive = false;
 
     //For Singleton usage
     void Awake()
@@ -910,5 +914,63 @@ public class BossShootingScript : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    public void ConeShotCallFunction()
+    {
+        if(patternThreeConeShotActive == true)
+        {
+            patternThreeConeShotTimerCountdown += Time.deltaTime;
+
+            if(patternThreeConeShotTimerCountdown >= patternThreeConeShotTimer)
+            {
+                ConeShotMainFunction();
+
+                if(waveCount >= 5)
+                {
+                    patternThreeConeShotActive = false;
+
+                    Debug.Log("Check");
+
+                    waveCount = 0;
+                }
+
+                patternThreeConeShotTimerCountdown = 0.0f;
+            }
+        }
+        else
+        {
+            patternThreeConeShotTimerCountdown = 0.0f;
+        } 
+    }
+
+    void ConeShotMainFunction()
+    {
+        for(int i = 0;i < 15;i++)
+        {
+            GameObject redBullet = ObjectPooler.Instance.getPooledObject("Rhythm Bullet");
+            bulletPattern = (BulletPattern)redBullet.GetComponent(typeof(BulletPattern));
+
+            if(redBullet != null)
+            {
+                redBullet.transform.position = transform.position;
+                redBullet.transform.rotation = transform.rotation;
+                redBullet.transform.rotation *= Quaternion.Euler(i * 24,0,0);
+                bulletPattern.bulletSpeed = 10f;
+                bulletPattern.selfDestructTimer = 10f;
+                bulletPattern.aimPlayerTimer = 1f;
+                bulletPattern.currentBulletPattern = BulletPattern.BulletPatternType.AIM_PLAYER;
+                redBullet.SetActive(true);
+
+                if(i == 9)
+                {
+                    redBullet.GetComponent<BulletPattern>().isConeShotTrigger = true;
+                }
+            }
+        }
+
+        SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_BOMBING_RUN_TOUCHDOWN);
+        waveCount++;
     }
 }

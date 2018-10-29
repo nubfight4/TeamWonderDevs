@@ -81,6 +81,8 @@ public class BossAIScript:MonoBehaviour
     private bool lookAtPlayerAfterRecover = false;
     private bool isDeadTrigger = false;
 
+    private float patternThreeConeShotTimer = 0.0f;
+
     #region Public Variable Settings -- For Development Use
     [Header("Ultimate Timer Values")]
     public float ultimateOneTimerValue = 3.0f;
@@ -220,7 +222,7 @@ public class BossAIScript:MonoBehaviour
                     {
                         bombingRunCounter++;
 
-                        if(bombingRunCounter >= 2)
+                        if(bombingRunCounter >= 1) // Set To 1 Pass Only
                         {
                             selectedDestination = 5;
 
@@ -421,6 +423,23 @@ public class BossAIScript:MonoBehaviour
 
                     bulletPatternReady = false;
                     multiTimerHasStarted = true;
+                }
+
+                if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
+                {
+                    if(BossShootingScript.Instance.patternThreeConeShotActive == false)
+                    {
+                        patternThreeConeShotTimer += Time.deltaTime;
+
+                        if(patternThreeConeShotTimer >= 4.5f)
+                        {
+                            BossShootingScript.Instance.patternThreeConeShotActive = true;
+
+                            patternThreeConeShotTimer = 0.0f;
+                        }
+                    }
+
+                    BossShootingScript.Instance.ConeShotCallFunction();
                 }
             }
             else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)

@@ -3384,7 +3384,8 @@ MonoBehaviour:
   ultimateOneReadyCheck: 1
   ultimateTwoReadyCheck: 1
   ultimateThreeReadyCheck: 1
-  bulletStandardHeight: 2.3
+  bulletStandardHeight: 2.6
+  patternThreeConeShotActive: 0
 --- !u!114 &114591055903484350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3428,7 +3429,7 @@ MonoBehaviour:
   bossStunTimerValue: 8
   ultimateMusicHasStarted: 0
   soundCrossfadeEffectValue: 0.5
-  developmentSettingsEnabled: 0
+  developmentSettingsEnabled: 1
 --- !u!136 &136749890439549308
 CapsuleCollider:
   m_ObjectHideFlags: 1

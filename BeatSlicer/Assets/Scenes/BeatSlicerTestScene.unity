@@ -905,15 +905,6 @@ Prefab:
       propertyPath: playerModelScript
       value: 
       objectReference: {fileID: 2117901922}
-    - target: {fileID: 23943492945977910, guid: c572ec21b0bd39c49b6c06fdc972734a,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1268277622790122, guid: c572ec21b0bd39c49b6c06fdc972734a, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c572ec21b0bd39c49b6c06fdc972734a, type: 2}
   m_IsPrefabAsset: 0
