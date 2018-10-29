@@ -1449,7 +1449,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1093182367308912}
   m_LocalRotation: {x: -0.5000004, y: 0.4999997, z: 0.49999964, w: 0.5000003}
-  m_LocalPosition: {x: 2.3393571, y: 1.2086135, z: -0.089859605}
+  m_LocalPosition: {x: 2.3393571, y: 1.2086136, z: -0.08985965}
   m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 1}
   m_Children:
   - {fileID: 4651868952245380}
@@ -2154,7 +2154,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1841676198519138}
   m_LocalRotation: {x: 0.5000373, y: -0.4999624, z: -0.499963, w: -0.50003725}
-  m_LocalPosition: {x: -0.09289946, y: 2.3395655, z: 0.043939255}
+  m_LocalPosition: {x: -0.0928995, y: 2.3395655, z: 0.043939084}
   m_LocalScale: {x: 1, y: 0.99999994, z: 0.99999994}
   m_Children:
   - {fileID: 4784474714630720}
@@ -3384,7 +3384,8 @@ MonoBehaviour:
   ultimateOneReadyCheck: 1
   ultimateTwoReadyCheck: 1
   ultimateThreeReadyCheck: 1
-  bulletStandardHeight: 2.3
+  bulletStandardHeight: 2.6
+  patternThreeConeShotActive: 0
 --- !u!114 &114591055903484350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3556,8 +3557,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.65
-  m_Speed: 8
-  m_Acceleration: 10
+  m_Speed: 12
+  m_Acceleration: 12
   avoidancePriority: 0
   m_AngularSpeed: 100
   m_StoppingDistance: 0

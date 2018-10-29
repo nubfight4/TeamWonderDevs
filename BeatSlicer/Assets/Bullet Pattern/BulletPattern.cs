@@ -65,7 +65,7 @@ public class BulletPattern:MonoBehaviour {
     public bool bounceWall = false;
     private bool isBounceWall = false;
 
-    public float bulletStandardHeight = 2.3f;
+    public float bulletStandardHeight = 2.6f;
 
     private AudioSource bulletAudioSource;
     private AudioClip bombTouchdownSound;
@@ -282,7 +282,7 @@ public class BulletPattern:MonoBehaviour {
 
                 float centerpointDistanceChecker = Vector3.Distance(centerpointChecker.position, transform.position);
 
-                if(centerpointDistanceChecker <= 104.5f)
+                if(centerpointDistanceChecker <= 105.25f)
                 {
                     //insert bomb script
                     for(int i = 0;i < 12;i++)
