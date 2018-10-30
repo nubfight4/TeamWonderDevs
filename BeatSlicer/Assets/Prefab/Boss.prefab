@@ -3377,15 +3377,23 @@ MonoBehaviour:
   bossAIScript: {fileID: 114591055903484350}
   bulletPattern: {fileID: 0}
   currentBulletPattern: 7
-  ultimate1: 0
-  ultimate2: 0
-  ultimate3: 0
-  bulletPatternReadyCheck: 1
-  ultimateOneReadyCheck: 1
-  ultimateTwoReadyCheck: 1
-  ultimateThreeReadyCheck: 1
-  bulletStandardHeight: 2.6
-  patternThreeConeShotActive: 0
+  bulletStandardHeight: 2.8
+  bulletTurningInitialRun: 0
+  isBulletTurningActive: 0
+  bombingRunInitialRun: 0
+  isBombingRunActive: 0
+  circleRainInitialRun: 0
+  isCircleRainActive: 0
+  coneShotInitialRun: 0
+  isConeShotActive: 0
+  chaosVortexInitialRun: 0
+  isChaosVortexActive: 0
+  superMegaUltraDeathBombInitialRun: 0
+  isSuperMegaUltraDeathBombActive: 0
+  wailOfTheBansheeInitialRun: 0
+  isWailOfTheBansheeActive: 0
+  wailOfTheBansheeRandomInitialRun: 0
+  isWailOfTheBansheeRandomActive: 0
 --- !u!114 &114591055903484350
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3397,6 +3405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d8b728bafc3bd4ab31973294323e86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOutside: 0
   StageOnePoints:
   - {fileID: 0}
   - {fileID: 0}

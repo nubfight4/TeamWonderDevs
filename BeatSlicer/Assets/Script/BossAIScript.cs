@@ -12,11 +12,12 @@ public class BossAIScript:MonoBehaviour
     public enum MovementPattern
     {
         MOVE_PATTERN_1 = 0,
-        MOVE_PATTERN_2, // Bombing Run & Circle Rain
-        MOVE_PATTERN_3A,
-        MOVE_PATTERN_3B, // Bombing Run & Cone Shot
+        MOVE_PATTERN_2, // Bombing Run then Circle Rain
+        MOVE_PATTERN_3A, // Bullet Turning & Cone Shot
+        MOVE_PATTERN_3B, // Bombing Run then Cone Shot
         BOSS_ULTIMATE_PHASE,
         BOSS_STUN,
+        SEAN_FINAL_SOLUTION,
         SET_MOVE_PATTERN
     };
 
@@ -34,15 +35,12 @@ public class BossAIScript:MonoBehaviour
     private float movementTimerTemp;
 
     private bool isMoving = false;
-
-    private bool bulletPatternReady = true;
-    private bool isOutside = false;
+    public bool isOutside = false;
+    private bool isAtCenterpoint = false;
 
     private float randNum;
     private float patternTimer = 0.0f;
-    private float multiTimer = 0.0f;
     private float bossStunTimer = 0.0f;
-    private bool multiTimerHasStarted = false;
 
     public List<GameObject> StageOnePoints;
     public List<GameObject> StageTwoPoints;
@@ -51,7 +49,7 @@ public class BossAIScript:MonoBehaviour
     private int previousDestination;
     NavMeshAgent navMeshAgent;
 
-    private int bombingRunCounter = 0;
+    private int bombingRunPassCounter = 0;
     private int bombingRunRandNum;
 
     private readonly int[] bossStageOneMovement = new int[] { 0,1,4 };
@@ -64,8 +62,6 @@ public class BossAIScript:MonoBehaviour
 
     private int stageThreePatternCount = 0;
     private bool ultimateHasStarted = false;
-    private bool ultimateTimerHasStarted = false;
-    private float ultimateTimer = 0.0f;
 
     public Image healthBar; /// Boss Parameters
 
@@ -78,10 +74,29 @@ public class BossAIScript:MonoBehaviour
     public bool playBossAttackingAnimation = false;
     public bool playBossUltimateAnimation = false;
     public bool playBossStunAnimation = false;
-    private bool lookAtPlayerAfterRecover = false;
+    //private bool lookAtPlayerAfterRecover = false;
     private bool isDeadTrigger = false;
 
-    private float patternThreeConeShotTimer = 0.0f;
+    private bool isBulletTurningFirstStart = true;
+
+    private bool isBombingRunFirstStart = true;
+
+    private bool isCircleRainFirstStart = true;
+    private float circleRainCounter = 0.0f;
+
+    private bool isConeShotFirstStart = true;
+    private float coneShotCounter = 0.0f;
+    private float coneShotDelayValue = 7.0f;
+
+    private bool isChaosVortexFirstStart = true;
+    private float chaosVortexDelayValue = 5.0f;
+
+    private bool isSuperMegaUltraDeathBombFirstStart = true;
+    private float superMegaUltraDeathBombCounter = 0.0f;
+    private float superMegaUltraDeathBombDelayValue = 9.0f;
+
+    private float ultimatePhaseCounter = 0.0f;
+
 
     #region Public Variable Settings -- For Development Use
     [Header("Ultimate Timer Values")]
@@ -121,7 +136,8 @@ public class BossAIScript:MonoBehaviour
 
         currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
         previousMovementPattern = currentMovementPattern;
-        BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.TURNING_LEFT;
+
+        isBulletTurningFirstStart = true;
 
         navMeshAgent.baseOffset = 2.0f; // Move Boss to starting floating height
 
@@ -141,7 +157,7 @@ public class BossAIScript:MonoBehaviour
         LookAtPlayerFunction();
         BossMovementFunction();
         BulletPatternSetterFunction();
-        MultiTimerFunction();
+        TheMultiFunction();
 
         #region This Checks If Development Settings Is Enabled
         if(developmentSettingsEnabled == true)
@@ -152,7 +168,7 @@ public class BossAIScript:MonoBehaviour
             }
             
             TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
-            TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K'
+            //TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K' -- To Buggy To Be Used
         }
         #endregion
     }
@@ -166,7 +182,7 @@ public class BossAIScript:MonoBehaviour
 
     void LookAtPlayerFunction()
     {
-        if((currentMovementPattern != MovementPattern.BOSS_STUN && isDeadTrigger != true) || (lookAtPlayerAfterRecover == true && isDeadTrigger != true))
+        if((currentMovementPattern != MovementPattern.BOSS_STUN && isDeadTrigger != true) /*|| (lookAtPlayerAfterRecover == true && isDeadTrigger != true)*/)
         {
             transform.LookAt(player.transform);
         }
@@ -190,19 +206,9 @@ public class BossAIScript:MonoBehaviour
             {
                 navMeshAgent.speed = 0;
 
-                if(isFlyingUp != true && currentMovementPattern == MovementPattern.MOVE_PATTERN_2 && currentMovementPattern != MovementPattern.BOSS_STUN) // If MOVE_PATTERN_2, this will repeat the cycle
-                {
-                    movementTimerTemp -= Time.deltaTime;
-
-                    if(movementTimerTemp <= 0)
-                    {
-                        movementTimerTemp = movementTimer;
-
-                        isFlyingUp = true;
-                    }
-                }
+                isMoving = false;
             }
-            else if(isMoving != true && isFlyingUp != true && isVanishingAndReappearing != true)
+            else if(isMoving != true && isFlyingUp != true && isVanishingAndReappearing != true && isAtCenterpoint != true)
             {
                 transform.position = StageTwoPoints[bossStageTwoMovementStart[selectedDestination]].transform.position;
 
@@ -220,20 +226,20 @@ public class BossAIScript:MonoBehaviour
                 {
                     if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
                     {
-                        bombingRunCounter++;
+                        bombingRunPassCounter++;
 
-                        if(bombingRunCounter >= 1) // Set To 1 Pass Only
+                        if(bombingRunPassCounter >= 1) // Set To 1 Pass Only
                         {
                             selectedDestination = 5;
 
-                            bombingRunCounter = 0;
+                            bombingRunPassCounter = 0;
                             previousDestination = 99;
                         }
                         else
                         {
                             do
                             {
-                                selectedDestination = Random.Range(0,5);
+                                selectedDestination = Random.Range(0,4);
 
                             } while(selectedDestination == previousDestination); // Will repeat randomization until selectedDestination != previousDestination
                         }
@@ -245,6 +251,11 @@ public class BossAIScript:MonoBehaviour
 
                     if(selectedDestination == 5)
                     {
+                        if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 && isFlyingUp != true)
+                        {
+                            isAtCenterpoint = true;
+                        }
+
                         transform.position = StageTwoPoints[bossStageTwoMovementStart[selectedDestination]].transform.position;
                         navMeshAgent.SetDestination(StageTwoPoints[bossStageTwoMovementEnd[selectedDestination]].transform.position);
                     }
@@ -265,6 +276,38 @@ public class BossAIScript:MonoBehaviour
     #region Boss Floating Function
     void BossFloatingFunction()
     {
+        if(isAtCenterpoint == true)
+        {
+            movementTimerTemp -= Time.deltaTime;
+
+            if(movementTimerTemp <= 0.0f)
+            {
+                movementTimerTemp = movementTimer;
+
+                isFlyingUp = true;
+                isAtCenterpoint = false;
+            }
+        }
+        else
+        {
+            movementTimerTemp = movementTimer;
+        }
+
+        if(isFlyingUp == true)
+        {
+            navMeshAgent.baseOffset += Time.deltaTime * 5.0f;
+
+            if(navMeshAgent.baseOffset >= 19.0f && selectedDestination == 5)
+            {
+                navMeshAgent.baseOffset = 4.8f;
+                selectedDestination = 0;
+
+                transform.position = StageTwoPoints[selectedDestination].transform.position;
+
+                isFlyingUp = false;
+            }
+        }
+
         if(isVanishingAndReappearing == true)
         {
             if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
@@ -288,10 +331,6 @@ public class BossAIScript:MonoBehaviour
                 {
                     selectedDestination = bombingRunRandNum;
                     previousDestination = selectedDestination;
-                }
-                else
-                {
-                    selectedDestination = 0;
                 }
                 
                 transform.position = StageTwoPoints[selectedDestination].transform.position;
@@ -320,20 +359,6 @@ public class BossAIScript:MonoBehaviour
             }
 
             isVanishingAndReappearing = false;
-        }
-        else if(isFlyingUp ==  true)
-        {
-            navMeshAgent.baseOffset += Time.deltaTime * 2.0f;
-
-            if(navMeshAgent.baseOffset >= 19.0f && selectedDestination == 5)
-            {
-                navMeshAgent.baseOffset = 4.8f;
-                selectedDestination = 0;
-
-                transform.position = StageTwoPoints[selectedDestination].transform.position;
-
-                isFlyingUp = false;
-            }
         }
         else // This is for managing the floating distance from the ground
         {
@@ -407,87 +432,283 @@ public class BossAIScript:MonoBehaviour
         if(currentMovementPattern == MovementPattern.BOSS_STUN)
         {
             BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
+
+            RestBulletActiveFunction();
+            ResetCounterFunction();
         }
 
-        if(isFlyingUp == true /*|| isOutside == true*/)
+        if(isFlyingUp == true)
         {
-            BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
+            RestBulletActiveFunction();
+            ResetCounterFunction();
+
+            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
+            {
+                isBombingRunFirstStart = true;
+            }
         }
         else
         {
-            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
+            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1)
             {
-                if(bulletPatternReady == true)
+                if(BossShootingScript.Instance.isBulletTurningActive == false)
                 {
-                    BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.TURNING_LEFT;
-
-                    bulletPatternReady = false;
-                    multiTimerHasStarted = true;
-                }
-
-                if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
-                {
-                    if(BossShootingScript.Instance.patternThreeConeShotActive == false)
+                    if(isBulletTurningFirstStart == true)
                     {
-                        patternThreeConeShotTimer += Time.deltaTime;
+                        BossShootingScript.Instance.bulletTurningInitialRun = true;
 
-                        if(patternThreeConeShotTimer >= 4.5f)
-                        {
-                            BossShootingScript.Instance.patternThreeConeShotActive = true;
-
-                            patternThreeConeShotTimer = 0.0f;
-                        }
+                        isBulletTurningFirstStart = false;
                     }
-
-                    BossShootingScript.Instance.ConeShotCallFunction();
                 }
             }
-            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
             {
-                if(selectedDestination == 5)
+                if(selectedDestination != 5 && isOutside != true)
                 {
-                    if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+                    if(BossShootingScript.Instance.isBombingRunActive == false)
                     {
-                        if(bulletPatternReady == true)
+                        if(isBombingRunFirstStart == true)
                         {
-                            BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.CONE_SHOT;
+                            BossShootingScript.Instance.bombingRunInitialRun = true;
 
-                            bulletPatternReady = false;
-                            multiTimerHasStarted = true;
-                        }
-                    }
-                    else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2)
-                    {
-                        if(bulletPatternReady == true)
-                        {
-                            BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.CIRCLE_RAIN;
-
-                            bulletPatternReady = false;
-                            multiTimerHasStarted = true;
+                            isBombingRunFirstStart = false;
                         }
                     }
                 }
-                else if(selectedDestination != 5)
+                else if(selectedDestination == 5)
                 {
-                    if(isOutside != true)
-                    {
-                        if(bulletPatternReady == true)
-                        {
-                            BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.BOMBING_RUN;
+                    BossShootingScript.Instance.isBombingRunActive = false;
 
-                            bulletPatternReady = false;
-                            multiTimerHasStarted = true;
+                    if(BossShootingScript.Instance.isCircleRainActive == false)
+                    {
+                        if(isCircleRainFirstStart == true)
+                        {
+                            BossShootingScript.Instance.circleRainInitialRun = true;
+
+                            isCircleRainFirstStart = false;
+                        }
+                        else
+                        {
+                            circleRainCounter += Time.deltaTime;
+
+                            if(circleRainCounter >= 4.5f)
+                            {
+                                BossShootingScript.Instance.circleRainInitialRun = true;
+
+                                circleRainCounter = 0.0f;
+                            }
                         }
                     }
+                    else
+                    {
+                        circleRainCounter = 0.0f;
+                    }
+                }
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
+            {
+                if(BossShootingScript.Instance.isBulletTurningActive == false)
+                {
+                    if(isBulletTurningFirstStart == true)
+                    {
+                        BossShootingScript.Instance.bulletTurningInitialRun = true;
+
+                        isBulletTurningFirstStart = false;
+                    }
+                }
+
+                if(BossShootingScript.Instance.isConeShotActive == false)
+                {
+                    if(isConeShotFirstStart == true)
+                    {
+                        BossShootingScript.Instance.coneShotInitialRun = true;
+
+                        isConeShotFirstStart = false;
+                    }
+                    else
+                    {
+                        coneShotCounter += Time.deltaTime;
+
+                        if(coneShotCounter >= 4.5f)
+                        {
+                            BossShootingScript.Instance.coneShotInitialRun = true;
+
+                            coneShotCounter = 0.0f;
+                        }
+                    }
+                }
+                else
+                {
+                    coneShotCounter = 0.0f;
+                }
+            }
+            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B)
+            {
+                if(selectedDestination != 5 && isOutside != true)
+                {
+                    if(BossShootingScript.Instance.isBombingRunActive == false)
+                    {
+                        if(isBombingRunFirstStart == true)
+                        {
+                            BossShootingScript.Instance.bombingRunInitialRun = true;
+
+                            isBombingRunFirstStart = false;
+                        }
+                    }
+                }
+                else if(selectedDestination == 5)
+                {
+                    BossShootingScript.Instance.isBombingRunActive = false;
+ 
+                    if(BossShootingScript.Instance.isConeShotActive == false)
+                    {
+                        if(stageThreePatternCount >= 3)
+                        {
+                            RestBulletActiveFunction();
+                            ResetCounterFunction();
+
+                            currentMovementPattern = MovementPattern.BOSS_ULTIMATE_PHASE;
+                            ultimateHasStarted = true;
+
+                            if(playBossUltimateAnimation == false)
+                            {
+                                bossAnimator.Play("BossUltimateAnimation",-1,0.0f);
+
+                                playBossUltimateAnimation = true;
+                            }
+
+                            isChaosVortexFirstStart = true;
+                            isSuperMegaUltraDeathBombFirstStart = true;
+                            isConeShotFirstStart = true;
+                        }
+                        else if(ultimateHasStarted != true)
+                        {
+                            if(isConeShotFirstStart == true)
+                            {
+                                BossShootingScript.Instance.coneShotInitialRun = true;
+
+                                stageThreePatternCount++;
+
+                                isConeShotFirstStart = false;
+                            }
+                            else
+                            {
+                                coneShotCounter += Time.deltaTime;
+
+                                if(coneShotCounter >= 4.5f)
+                                {
+                                    BossShootingScript.Instance.coneShotInitialRun = true;
+
+                                    stageThreePatternCount++;
+
+                                    coneShotCounter = 0.0f;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        coneShotCounter = 0.0f;
+                    }
+
                 }
             }
             else if(currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
             {
-                if(bulletPatternReady == true)
+                if(ultimatePhaseCounter <= 10.0f && playBossUltimateAnimation == true)
                 {
-                    BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.ULTIMATE_ATTACK;
+                    ultimatePhaseCounter += Time.deltaTime;
+                }
 
-                    ultimateTimerHasStarted = true;
+                if(ultimatePhaseCounter >= chaosVortexDelayValue)
+                {
+                    if(BossShootingScript.Instance.isChaosVortexActive == false)
+                    {
+                        if(isChaosVortexFirstStart == true)
+                        {
+                            BossShootingScript.Instance.chaosVortexInitialRun = true;
+
+                            if(ultimateMusicHasStarted == false)
+                            {
+                                if(developmentSettingsEnabled == true)
+                                {
+                                    //SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_ULTIMATE_ATTACK);
+                                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_LOOP);
+                                }
+                                else
+                                {
+                                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_LOOP);
+                                }
+
+                                SoundManagerScript.mInstance.bgmAudioSource.loop = true;
+                                SoundManagerScript.mInstance.bgmAudioSource.volume = 1.0f;
+
+                                ultimateMusicHasStarted = true;
+                            }
+
+                            isChaosVortexFirstStart = false;
+                        }
+                    }
+                    else
+                    {
+                        isChaosVortexFirstStart = false;
+                    }
+                }
+
+                if(ultimatePhaseCounter >= superMegaUltraDeathBombDelayValue)
+                {
+                    if(BossShootingScript.Instance.isSuperMegaUltraDeathBombActive == false)
+                    {
+                        if(isSuperMegaUltraDeathBombFirstStart == true)
+                        {
+                            BossShootingScript.Instance.isSuperMegaUltraDeathBombActive = true;
+
+                            isSuperMegaUltraDeathBombFirstStart = false;
+                        }
+                        else
+                        {
+                            superMegaUltraDeathBombCounter += Time.deltaTime;
+
+                            if(superMegaUltraDeathBombCounter >= 3.0f)
+                            {
+                                BossShootingScript.Instance.isSuperMegaUltraDeathBombActive = true;
+
+                                superMegaUltraDeathBombCounter = 0.0f;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        superMegaUltraDeathBombCounter = 0.0f;
+                    }
+                }
+
+                if(ultimatePhaseCounter >= coneShotDelayValue)
+                {
+                    if(BossShootingScript.Instance.isConeShotActive == false)
+                    {
+                        if(isConeShotFirstStart == true)
+                        {
+                            BossShootingScript.Instance.coneShotInitialRun = true;
+
+                            isConeShotFirstStart = false;
+                        }
+                        else
+                        {
+                            coneShotCounter += Time.deltaTime;
+
+                            if(coneShotCounter >= 3.0f)
+                            {
+                                BossShootingScript.Instance.coneShotInitialRun = true;
+
+                                coneShotCounter = 0.0f;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        coneShotCounter = 0.0f;
+                    }
                 }
             }
         }
@@ -495,7 +716,7 @@ public class BossAIScript:MonoBehaviour
     #endregion
 
 
-    #region Boss Stunner & Phase Changer Function
+    #region Boss Stunner Function
     void BossHealthStunnerAndPatternChanger()
     {
         if(health <= 0)
@@ -531,9 +752,6 @@ public class BossAIScript:MonoBehaviour
                     playBossStunAnimation = true;
                 }
 
-                multiTimerHasStarted = false;
-                bulletPatternReady = false;
-
                 //Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
 
@@ -543,8 +761,8 @@ public class BossAIScript:MonoBehaviour
     #endregion
 
 
-    #region MultiFunction & MultiTimer Function
-    void MultiTimerFunction()
+    #region The 'MultiFunction' Function
+    void TheMultiFunction()
     {
         if(currentMovementPattern == MovementPattern.BOSS_STUN)
         {
@@ -554,7 +772,7 @@ public class BossAIScript:MonoBehaviour
             {
                 bossAnimator.SetTrigger("HasRecovered");
 
-                lookAtPlayerAfterRecover = true;
+                //lookAtPlayerAfterRecover = true;
             }
 
             if(bossStunTimer >= bossStunTimerValue)
@@ -563,15 +781,22 @@ public class BossAIScript:MonoBehaviour
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
 
+                    isBombingRunFirstStart = true;
+                    isCircleRainFirstStart = true;
+
                     SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_INTRO);
                     SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                     SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
 
                     previousDestination = 99; // Reset to number other than 0
+                    selectedDestination = 0; // Reset to 0
                 }
                 else if(previousMovementPattern == MovementPattern.MOVE_PATTERN_2)
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_3A;
+
+                    isBulletTurningFirstStart = true;
+                    isConeShotFirstStart = false;
 
                     SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_1_INTRO);
                     SoundManagerScript.mInstance.bgmAudioSource.loop = false;
@@ -583,6 +808,9 @@ public class BossAIScript:MonoBehaviour
                 {
                     currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
 
+                    isBombingRunFirstStart = true;
+                    isConeShotFirstStart = true;
+
                     SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_3_INTRO);
                     //SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                     //SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
@@ -591,9 +819,6 @@ public class BossAIScript:MonoBehaviour
                 // Might need to adjust this to transition to 'Win Scene' more smoothly
                 {
                     previousDestination = 99; // Reset to number other than 0
-
-                    bulletPatternReady = true;
-                    multiTimerHasStarted = false;
 
                     SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1); // <- To Change to Win BGM in future? - 12-10-2018
 
@@ -608,79 +833,17 @@ public class BossAIScript:MonoBehaviour
 
                 health = maxHealth;
 
-                bulletPatternReady = true;
-                multiTimerHasStarted = false;
-
                 bossStunTimer = 0.0f;
 
                 playBossStunAnimation = false;
                 bossAnimator.ResetTrigger("HasRecovered");
 
-                lookAtPlayerAfterRecover = false;
+                //lookAtPlayerAfterRecover = false;
             }
         }
         else
         {
             bossStunTimer = 0.0f;
-        }
-
-        if(multiTimerHasStarted == true)
-        {
-            multiTimer += Time.deltaTime;
-
-            if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A) // For Left, Right, Both Attacks
-            {
-                if(multiTimer >= 4.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true)
-                {
-                    bulletPatternReady = true;
-                    multiTimerHasStarted = false;
-
-                    multiTimer = 0.0f;
-                }
-            }
-            else if((currentMovementPattern == MovementPattern.MOVE_PATTERN_2 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3B) && selectedDestination != 5) // For Bombing Run
-            {
-                if(multiTimer >= 1.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true)
-                {
-                    bulletPatternReady = true;
-                    multiTimerHasStarted = false;
-
-                    multiTimer = 0.0f;
-                }
-            }
-            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_2 && selectedDestination == 5) // Circle Rain
-            {
-                if(multiTimer >= 4.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true)
-                {
-                    bulletPatternReady = true;
-                    multiTimerHasStarted = false;
-
-                    multiTimer = 0.0f;
-                }
-            }
-            else if(currentMovementPattern == MovementPattern.MOVE_PATTERN_3B && selectedDestination == 5) // For Cone Shot
-            {
-                if(multiTimer >= 4.5f && BossShootingScript.Instance.bulletPatternReadyCheck == true)
-                {
-                    bulletPatternReady = true;
-                    multiTimerHasStarted = false;
-
-                    stageThreePatternCount++;
-
-                    if(stageThreePatternCount >= 3)
-                    {
-                        currentMovementPattern = MovementPattern.BOSS_ULTIMATE_PHASE;
-
-                        ultimateHasStarted = true;
-                    }
-
-                    multiTimer = 0.0f;
-                }
-            }
-        }
-        else if(multiTimerHasStarted == false)
-        {
-            multiTimer = 0.0f;
         }
 
         if(currentMovementPattern == MovementPattern.MOVE_PATTERN_1 || currentMovementPattern == MovementPattern.MOVE_PATTERN_3A)
@@ -711,7 +874,9 @@ public class BossAIScript:MonoBehaviour
 
                     if(selectedDestination == 5)
                     {
-                        currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
+                        //currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
+
+                        selectedDestination = 0;
                     }
 
                     isVanishingAndReappearing = true;
@@ -724,44 +889,6 @@ public class BossAIScript:MonoBehaviour
         else
         {
             patternTimer = 0.0f;
-        }
-
-        if(ultimateTimerHasStarted == true)
-        {
-            if(playBossUltimateAnimation == false)
-            {
-                bossAnimator.Play("BossUltimateAnimation", -1, 0.0f);
-
-                playBossUltimateAnimation = true;
-            }
-
-            ultimateTimer += Time.deltaTime;
-
-            if((ultimateTimer >= (ultimateOneTimerValue - 0.5f) && ultimateTimer <= ultimateOneTimerValue || ultimateTimer >= (ultimateOneTimerValue + 2.5f) && ultimateTimer <= (ultimateOneTimerValue + 3.0f)) && BossShootingScript.Instance.ultimateOneReadyCheck == true)
-            {
-                if(BossShootingScript.Instance.ultimateOneReadyCheck == true)
-                {
-                    BossShootingScript.Instance.ultimate1 = true;
-                }
-            }
-
-            if((ultimateTimer >= (ultimateTwoTimerValue - 0.5f) && ultimateTimer <= ultimateTwoTimerValue) && BossShootingScript.Instance.ultimateTwoReadyCheck == true)
-            {
-                if(BossShootingScript.Instance.ultimateTwoReadyCheck == true)
-                {
-                    BossShootingScript.Instance.ultimate2 = true;
-                }
-            }
-
-            if(ultimateTimer >= ultimateThreeTimerValue && BossShootingScript.Instance.ultimateThreeReadyCheck == true)
-            {
-                BossShootingScript.Instance.ultimate3 = true;
-                ultimateTimer = 0.0f;
-            }
-        }
-        else
-        {
-            ultimateTimer = 0.0f;
         }
 
         if(SoundManagerScript.mInstance.bgmAudioSource.volume <= 1.0f && currentMovementPattern != MovementPattern.BOSS_STUN && currentMovementPattern != MovementPattern.BOSS_ULTIMATE_PHASE && playerModelScript.health != 0)
@@ -809,6 +936,27 @@ public class BossAIScript:MonoBehaviour
     #endregion
 
 
+    #region Reset Counter & Bullet Active Function
+    void ResetCounterFunction()
+    {
+        circleRainCounter = 0.0f;
+        coneShotCounter = 0.0f;
+        superMegaUltraDeathBombCounter = 0.0f;
+        ultimatePhaseCounter = 0.0f;
+    }
+
+    void RestBulletActiveFunction()
+    {
+        BossShootingScript.Instance.isBulletTurningActive = false;
+        BossShootingScript.Instance.isBombingRunActive = false;
+        BossShootingScript.Instance.isCircleRainActive = false;
+        BossShootingScript.Instance.isConeShotActive = false;
+        BossShootingScript.Instance.isChaosVortexActive = false;
+        BossShootingScript.Instance.isSuperMegaUltraDeathBombActive = false;
+    }
+    #endregion
+
+
     /// Development Settings Functions Below
 
 
@@ -822,20 +970,15 @@ public class BossAIScript:MonoBehaviour
                 previousMovementPattern = currentMovementPattern;
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_2;
 
-                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
+                isBombingRunFirstStart = true;
+                isCircleRainFirstStart = true;
 
                 SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_INTRO);
                 SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                 SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
 
-                isVanishingAndReappearing = true;
-                isFlyingUp = false;
-                isMoving = false;
-
-                bulletPatternReady = true;
-                multiTimerHasStarted = false;
-
                 previousDestination = 99; // Reset to number other than 0
+                selectedDestination = 0; // Reset to 0
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
@@ -844,18 +987,12 @@ public class BossAIScript:MonoBehaviour
                 previousMovementPattern = currentMovementPattern;
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_3A;
 
-                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
+                isBulletTurningFirstStart = true;
+                isConeShotFirstStart = false;
 
                 SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_1_INTRO);
                 SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                 SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
-
-                isVanishingAndReappearing = true;
-                isFlyingUp = false;
-                isMoving = false;
-
-                bulletPatternReady = true;
-                multiTimerHasStarted = false;
 
                 selectedDestination = 0; // Reset to 0
 
@@ -866,18 +1003,12 @@ public class BossAIScript:MonoBehaviour
                 previousMovementPattern = currentMovementPattern;
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_3B;
 
-                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
+                isBombingRunFirstStart = true;
+                isConeShotFirstStart = true;
 
-                SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_2);
+                SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_3_INTRO);
                 //SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                 //SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
-
-                isVanishingAndReappearing = true;
-                isFlyingUp = false;
-                isMoving = false;
-
-                bulletPatternReady = true;
-                multiTimerHasStarted = false;
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
@@ -886,15 +1017,20 @@ public class BossAIScript:MonoBehaviour
                 previousMovementPattern = currentMovementPattern;
                 currentMovementPattern = MovementPattern.BOSS_ULTIMATE_PHASE;
 
-                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
-
                 SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
 
-                isVanishingAndReappearing = true;
-                isFlyingUp = false;
-                isMoving = false;
+                ultimateHasStarted = true;
 
-                previousDestination = 99; // Reset to number other than 0
+                if(playBossUltimateAnimation == false)
+                {
+                    bossAnimator.Play("BossUltimateAnimation", -1, 0.0f);
+
+                    playBossUltimateAnimation = true;
+                }
+
+                isChaosVortexFirstStart = true;
+                isSuperMegaUltraDeathBombFirstStart = true;
+                isConeShotFirstStart = true;
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
@@ -903,25 +1039,35 @@ public class BossAIScript:MonoBehaviour
                 previousMovementPattern = currentMovementPattern;
                 currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
 
-                BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
-
                 SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_1_INTRO);
                 SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                 SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
 
-                isVanishingAndReappearing = true;
-                isFlyingUp = false;
-                isMoving = false;
-
                 ultimateHasStarted = false;
+                playBossUltimateAnimation = false;
                 ultimateMusicHasStarted = false;
-                bulletPatternReady = true;
-                multiTimerHasStarted = false;
 
                 previousDestination = 99; // Reset to number other than 0
 
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
+
+
+            RestBulletActiveFunction();
+            ResetCounterFunction();
+
+            BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;
+
+            isVanishingAndReappearing = true;
+            isFlyingUp = false;
+            isMoving = false;
+
+            health = maxHealth;
+
+            bossStunTimer = 0.0f;
+
+            playBossStunAnimation = false;
+            bossAnimator.ResetTrigger("HasRecovered");
         }
     }
 
@@ -942,15 +1088,12 @@ public class BossAIScript:MonoBehaviour
                     isOutside = false;
                 }
 
-                multiTimerHasStarted = true;
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
             else
             {
                 currentMovementPattern = previousMovementPattern;
 
-                bulletPatternReady = true;
-                multiTimerHasStarted = false;
                 Debug.Log("Current Move Pattern = " + currentMovementPattern);
             }
         }

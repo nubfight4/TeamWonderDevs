@@ -65,7 +65,7 @@ public class BulletPattern:MonoBehaviour {
     public bool bounceWall = false;
     private bool isBounceWall = false;
 
-    public float bulletStandardHeight = 2.6f;
+    public float bulletStandardHeight = 2.8f;
 
     private AudioSource bulletAudioSource;
     private AudioClip bombTouchdownSound;
@@ -89,7 +89,7 @@ public class BulletPattern:MonoBehaviour {
 
     void OnEnable()
     {
-        //selfDestructTimer = tempSelfDestructTimer;
+        tempSelfDestructTimer = selfDestructTimer;
         //bulletRigidbody.velocity = transform.forward * bulletSpeed;
         //bulletRigidbody = turningSpeed;
 
@@ -110,7 +110,7 @@ public class BulletPattern:MonoBehaviour {
             bulletRigidbody.velocity = transform.forward * bulletSpeed;
         }
 
-        else if (currentBulletPattern == BulletPatternType.TURNING_LEFT)
+        if (currentBulletPattern == BulletPatternType.TURNING_LEFT)
         {
             turningAngle -= Time.deltaTime * 40;
             Quaternion targetAngle = Quaternion.Euler(0, turningAngle, 0);
@@ -118,7 +118,7 @@ public class BulletPattern:MonoBehaviour {
             bulletRigidbody.velocity = transform.forward * bulletSpeed;
         }
 
-        else if (currentBulletPattern == BulletPatternType.STRAIGHT)
+        if (currentBulletPattern == BulletPatternType.STRAIGHT)
         {
             turningAngle -= Time.deltaTime * 40;
             Quaternion targetAngle = Quaternion.Euler(turningAngle, 0, turningAngle);
@@ -126,7 +126,7 @@ public class BulletPattern:MonoBehaviour {
             bulletRigidbody.velocity = transform.forward * bulletSpeed;
         }
 
-        else if (currentBulletPattern == BulletPatternType.RAIN)
+        if (currentBulletPattern == BulletPatternType.RAIN)
         {
             if (fallen == false)
             {
@@ -165,7 +165,7 @@ public class BulletPattern:MonoBehaviour {
             }
         }
 
-        else if(currentBulletPattern == BulletPatternType.AIM_PLAYER)
+        if(currentBulletPattern == BulletPatternType.AIM_PLAYER)
         {
             bulletRigidbody.velocity = transform.forward * bulletSpeed;
 
@@ -175,13 +175,13 @@ public class BulletPattern:MonoBehaviour {
 
                 if(aimPlayerCountdown >= aimPlayerTimer && isBounceWall == true)
                 {
-                    transform.LookAt(new Vector3(player.transform.position.x, 2.3f, player.transform.position.z));
+                    transform.LookAt(new Vector3(player.transform.position.x, bulletStandardHeight, player.transform.position.z));
                     isBounceWall = false;
                     aimed = true;
                 }
                 else if(aimPlayerCountdown >= aimPlayerTimer && isBounceWall == false)
                 {
-                    transform.LookAt(player.transform);
+                    transform.LookAt(new Vector3(player.transform.position.x, bulletStandardHeight, player.transform.position.z));
                     aimed = true;
 
                     if(isConeShotTrigger == true)
@@ -239,10 +239,15 @@ public class BulletPattern:MonoBehaviour {
     {
         if (gameObject.activeSelf == true)
         {
-            selfDestructTimer -= Time.deltaTime;
+            tempSelfDestructTimer -= Time.deltaTime;
 
-            if (selfDestructTimer <= 0.0f)
+            if (tempSelfDestructTimer <= 0.0f)
             {
+                turningAngle = 0;
+                Quaternion targetAngle = Quaternion.identity;
+                bulletTransform.rotation = Quaternion.identity;
+                bulletRigidbody.velocity = Vector3.zero;
+
                 rainFallTimerCountdown = 0f;
                 rainFallStopTimerCountdown = 0f;
                 aimPlayerCountdown = 0f;
@@ -265,13 +270,13 @@ public class BulletPattern:MonoBehaviour {
             {
                 if (other.tag == "PlayerHitbox" || other.gameObject.tag == "ChargeSlashProjectile")
                 {
-                    selfDestructTimer = 0f;
+                    tempSelfDestructTimer = 0f;
                 }
                 else if ( other.gameObject.tag == "Sword")
                 {
                     Instantiate(bulletDestroyedVFX, new Vector3(transform.position.x, transform.position.y, transform.position.z),
                     Quaternion.Euler(Random.Range(-45.0f, 45.0f), Random.Range(-45.0f, 45.0f), transform.rotation.z), transform.parent);
-                    selfDestructTimer = 0f;
+                    tempSelfDestructTimer = 0f;
                 }
             }
 
@@ -282,7 +287,7 @@ public class BulletPattern:MonoBehaviour {
 
                 float centerpointDistanceChecker = Vector3.Distance(centerpointChecker.position, transform.position);
 
-                if(centerpointDistanceChecker <= 105.25f)
+                if(centerpointDistanceChecker <= 107.25f)
                 {
                     //insert bomb script
                     for(int i = 0;i < 12;i++)
@@ -296,7 +301,7 @@ public class BulletPattern:MonoBehaviour {
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 30,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
-                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 15f;
                             redBullet.GetComponent<BulletPattern>().smoothing = 0f;
                             redBullet.GetComponent<BulletPattern>().bounceWall = true;
                             redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPatternType.STRAIGHT;
@@ -311,7 +316,7 @@ public class BulletPattern:MonoBehaviour {
                 }
 
                 isBomb = false;
-                selfDestructTimer = 0f;
+                tempSelfDestructTimer = 0f;
             }
 
             if(other.tag == "Wall" && bounceWall)
@@ -331,7 +336,7 @@ public class BulletPattern:MonoBehaviour {
 
                 float centerpointDistanceChecker = Vector3.Distance(centerpointChecker.position,transform.position);
 
-                if(centerpointDistanceChecker <= 104.5f)
+                if(centerpointDistanceChecker <= 107.5f)
                 {
                     //insert bomb script
                     //1st wave
@@ -395,7 +400,7 @@ public class BulletPattern:MonoBehaviour {
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
                             //redBullet.GetComponent<BulletPattern>().turningAngle = i * 11.25f;
                             //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
-                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
+                            redBullet.GetComponent<BulletPattern>().selfDestructTimer = 20f;
                             currentBulletPattern = BulletPatternType.STRAIGHT;
                             redBullet.SetActive(true);
                         }
@@ -410,9 +415,8 @@ public class BulletPattern:MonoBehaviour {
                 isSuperUltraMegaDeathBomb = false;
                 //turningAngle = 0f;
                 //smoothing = 0f;
-                selfDestructTimer = 0f;
+                tempSelfDestructTimer = 0f;
             }
-
         }
     }
 
