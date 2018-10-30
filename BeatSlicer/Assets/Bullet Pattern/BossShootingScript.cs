@@ -59,7 +59,7 @@ public class BossShootingScript : MonoBehaviour
 
     public bool chaosVortexInitialRun = false;
     public bool isChaosVortexActive = false;
-    private float chaosVortexTimerValue = 4.0f;
+    private float chaosVortexTimerValue = 3.0f;
     private float chaosVortexCounter = 0.0f;
 
     public bool superMegaUltraDeathBombInitialRun = false;

@@ -175,13 +175,13 @@ public class BulletPattern:MonoBehaviour {
 
                 if(aimPlayerCountdown >= aimPlayerTimer && isBounceWall == true)
                 {
-                    transform.LookAt(new Vector3(player.transform.position.x, 2.3f, player.transform.position.z));
+                    transform.LookAt(new Vector3(player.transform.position.x, bulletStandardHeight, player.transform.position.z));
                     isBounceWall = false;
                     aimed = true;
                 }
                 else if(aimPlayerCountdown >= aimPlayerTimer && isBounceWall == false)
                 {
-                    transform.LookAt(player.transform);
+                    transform.LookAt(new Vector3(player.transform.position.x, bulletStandardHeight, player.transform.position.z));
                     aimed = true;
 
                     if(isConeShotTrigger == true)

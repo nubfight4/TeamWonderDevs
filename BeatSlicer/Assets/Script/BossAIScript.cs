@@ -86,14 +86,14 @@ public class BossAIScript:MonoBehaviour
 
     private bool isConeShotFirstStart = true;
     private float coneShotCounter = 0.0f;
-    private float coneShotDelayValue = 8.0f;
+    private float coneShotDelayValue = 7.0f;
 
     private bool isChaosVortexFirstStart = true;
     private float chaosVortexDelayValue = 5.0f;
 
     private bool isSuperMegaUltraDeathBombFirstStart = true;
     private float superMegaUltraDeathBombCounter = 0.0f;
-    private float superMegaUltraDeathBombDelayValue = 11.0f;
+    private float superMegaUltraDeathBombDelayValue = 9.0f;
 
     private float ultimatePhaseCounter = 0.0f;
 
@@ -615,7 +615,7 @@ public class BossAIScript:MonoBehaviour
             }
             else if(currentMovementPattern == MovementPattern.BOSS_ULTIMATE_PHASE)
             {
-                if(ultimatePhaseCounter <= 12.0f && playBossUltimateAnimation == true)
+                if(ultimatePhaseCounter <= 10.0f && playBossUltimateAnimation == true)
                 {
                     ultimatePhaseCounter += Time.deltaTime;
                 }
@@ -1021,6 +1021,13 @@ public class BossAIScript:MonoBehaviour
 
                 ultimateHasStarted = true;
 
+                if(playBossUltimateAnimation == false)
+                {
+                    bossAnimator.Play("BossUltimateAnimation", -1, 0.0f);
+
+                    playBossUltimateAnimation = true;
+                }
+
                 isChaosVortexFirstStart = true;
                 isSuperMegaUltraDeathBombFirstStart = true;
                 isConeShotFirstStart = true;
@@ -1037,6 +1044,7 @@ public class BossAIScript:MonoBehaviour
                 SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
 
                 ultimateHasStarted = false;
+                playBossUltimateAnimation = false;
                 ultimateMusicHasStarted = false;
 
                 previousDestination = 99; // Reset to number other than 0
