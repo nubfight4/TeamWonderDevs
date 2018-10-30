@@ -237,7 +237,7 @@ MonoBehaviour:
   isCircleRainTriggerSound: 0
   isConeShotTrigger: 0
   bounceWall: 0
-  bulletStandardHeight: 2.3
+  bulletStandardHeight: 2.8
 --- !u!114 &114286394893461926
 MonoBehaviour:
   m_ObjectHideFlags: 1
