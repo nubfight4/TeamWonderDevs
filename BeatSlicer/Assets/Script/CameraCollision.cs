@@ -12,7 +12,7 @@ public class CameraCollision : MonoBehaviour {
 	public float distance;
     public Material m_TransMat;
 
-    float raySphereThickness = 2f;
+    float raySphereThickness = 4f;
     GameObject player;
     Vector3 playerPos;
     private LayerMask wallMask = 16;
@@ -33,8 +33,6 @@ public class CameraCollision : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-		//Vector3 desiredCameraPos = transform.parent.TransformPoint (dollyDir * maxDistance);
-
         playerPos = player.transform.position;
 
         Vector3 origin = playerPos;

@@ -21,10 +21,8 @@ public class BulletPattern:MonoBehaviour {
         SET_TYPE
     };
 
-
     public GameObject player;
     public Transform centerpointChecker;
-
     public Transform bossShootingSpot;
 
     public float bulletSpeed = 10.0f;
@@ -38,20 +36,25 @@ public class BulletPattern:MonoBehaviour {
     public bool isToBeDestroyed = false;
     public bool isBomb = false;
     public bool isSuperUltraMegaDeathBomb = false;
-    //bool rainFall = false;
-    bool fallen = false;
-    bool aimed = false;
     public bool stop = false;
 
     public Vector3 m_EulerAngleVelocity;
     public float turningAngle;
     public float smoothing;
+
+    #region Rain Fall Value
+    bool fallen = false;
     public float rainFallTimer;
     public float rainFallTimerCountdown;
     public float rainFallStopTimer;
     public float rainFallStopTimerCountdown;
+    #endregion
+
+    #region Aim Player Value
+    bool aimed = false;
     public float aimPlayerTimer;
     public float aimPlayerCountdown;
+    #endregion
 
     public BulletPatternType currentBulletPattern = BulletPatternType.SET_TYPE;
 
@@ -90,18 +93,13 @@ public class BulletPattern:MonoBehaviour {
     void OnEnable()
     {
         tempSelfDestructTimer = selfDestructTimer;
-        //bulletRigidbody.velocity = transform.forward * bulletSpeed;
-        //bulletRigidbody = turningSpeed;
-
-        //bulletRigidbody.velocity = transform.forward * bulletSpeed;
-        //bulletYRotation = bulletTransform.rotation.y;
     }
 
 
     void Update()
     {
         bulletBaseScriptUpdate();
-
+        #region Turning Right Bullet Function
         if (currentBulletPattern == BulletPatternType.TURNING_RIGHT)
         {
             turningAngle += Time.deltaTime * 40;
@@ -109,7 +107,9 @@ public class BulletPattern:MonoBehaviour {
             bulletTransform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, Time.deltaTime * smoothing);
             bulletRigidbody.velocity = transform.forward * bulletSpeed;
         }
+        #endregion
 
+        #region Turning Left Bullet Function
         if (currentBulletPattern == BulletPatternType.TURNING_LEFT)
         {
             turningAngle -= Time.deltaTime * 40;
@@ -117,7 +117,9 @@ public class BulletPattern:MonoBehaviour {
             bulletTransform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, Time.deltaTime * smoothing);
             bulletRigidbody.velocity = transform.forward * bulletSpeed;
         }
+        #endregion
 
+        #region Straight Bullet Function
         if (currentBulletPattern == BulletPatternType.STRAIGHT)
         {
             turningAngle -= Time.deltaTime * 40;
@@ -125,7 +127,9 @@ public class BulletPattern:MonoBehaviour {
             bulletTransform.rotation = Quaternion.Slerp(transform.rotation, targetAngle, Time.deltaTime * smoothing);
             bulletRigidbody.velocity = transform.forward * bulletSpeed;
         }
+        #endregion
 
+        #region Rain Fall Function
         if (currentBulletPattern == BulletPatternType.RAIN)
         {
             if (fallen == false)
@@ -164,8 +168,10 @@ public class BulletPattern:MonoBehaviour {
                 }
             }
         }
+        #endregion
 
-        if(currentBulletPattern == BulletPatternType.AIM_PLAYER)
+        #region Aim Player Function
+        if (currentBulletPattern == BulletPatternType.AIM_PLAYER)
         {
             bulletRigidbody.velocity = transform.forward * bulletSpeed;
 
@@ -193,6 +199,7 @@ public class BulletPattern:MonoBehaviour {
                 }
             }
         }
+        #endregion
     }
 
 
@@ -266,6 +273,8 @@ public class BulletPattern:MonoBehaviour {
     {
         if(gameObject.activeSelf == true)
         {
+            // Delete Undestroyalble Bullet if not needed for final build
+            #region Undestroyable Bullet Function
             if (bulletType != BulletType.BLUE_BULLET) // Test Undestroyable Blue Bullet
             {
                 if (other.tag == "PlayerHitbox" || other.gameObject.tag == "ChargeSlashProjectile")
@@ -279,8 +288,10 @@ public class BulletPattern:MonoBehaviour {
                     tempSelfDestructTimer = 0f;
                 }
             }
+            #endregion  // Delete if not needed for final build
 
-            if(other.tag == "PlaneHitbox" && isBomb)
+            #region Bomb Explosion Function
+            if (other.tag == "PlaneHitbox" && isBomb)
             //if(isBomb && transform.position.y <= 2.5f)   //Please change this to distance formula from ground
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -318,8 +329,10 @@ public class BulletPattern:MonoBehaviour {
                 isBomb = false;
                 tempSelfDestructTimer = 0f;
             }
+            #endregion
 
-            if(other.tag == "Wall" && bounceWall)
+            #region Wall Bounce Function
+            if (other.tag == "Wall" && bounceWall)
             {
                 //fix
                 currentBulletPattern = BulletPatternType.AIM_PLAYER;
@@ -329,8 +342,10 @@ public class BulletPattern:MonoBehaviour {
 
                 playBulletReflectSound = true;
             }
+            #endregion
 
-            if(other.tag == "PlaneHitbox" && isSuperUltraMegaDeathBomb)
+            #region Super Ultra Mega Bomb Explosion function
+            if (other.tag == "PlaneHitbox" && isSuperUltraMegaDeathBomb)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
 
@@ -351,8 +366,6 @@ public class BulletPattern:MonoBehaviour {
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 15f,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 15f;
                             redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
-                            //redBullet.GetComponent<BulletPattern>().turningAngle = i * 22.5f;
-                            //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
                             currentBulletPattern = BulletPatternType.STRAIGHT;
                             redBullet.SetActive(true);
                         }
@@ -374,8 +387,6 @@ public class BulletPattern:MonoBehaviour {
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 10,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 12f;
-                            //redBullet.GetComponent<BulletPattern>().turningAngle = i * 15;
-                            //.GetComponent<BulletPattern>().smoothing = 2f;
                             redBullet.GetComponent<BulletPattern>().selfDestructTimer = 10f;
                             currentBulletPattern = BulletPatternType.STRAIGHT;
                             redBullet.SetActive(true);
@@ -398,8 +409,6 @@ public class BulletPattern:MonoBehaviour {
                             redBullet.transform.rotation = transform.rotation;
                             redBullet.transform.rotation *= Quaternion.Euler(0,i * 7.5f,0);
                             redBullet.GetComponent<BulletPattern>().bulletSpeed = 10f;
-                            //redBullet.GetComponent<BulletPattern>().turningAngle = i * 11.25f;
-                            //redBullet.GetComponent<BulletPattern>().smoothing = 2f;
                             redBullet.GetComponent<BulletPattern>().selfDestructTimer = 20f;
                             currentBulletPattern = BulletPatternType.STRAIGHT;
                             redBullet.SetActive(true);
@@ -413,10 +422,9 @@ public class BulletPattern:MonoBehaviour {
                 }
 
                 isSuperUltraMegaDeathBomb = false;
-                //turningAngle = 0f;
-                //smoothing = 0f;
                 tempSelfDestructTimer = 0f;
             }
+            #endregion
         }
     }
 

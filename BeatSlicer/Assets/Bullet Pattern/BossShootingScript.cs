@@ -34,34 +34,40 @@ public class BossShootingScript : MonoBehaviour
     public float bulletStandardHeight = 2.8f;
 
     [Space(10)] // Just to look nice
+    #region Bullet Turning Values
     public bool bulletTurningInitialRun = false;
     public bool isBulletTurningActive = false;
     private float bulletTurningTimerValue = 1.0f;
     private float bulletTurningCounter = 0.0f;
     private int bulletTurningWaveCount = 0;
-
+    #endregion
+    #region Bombing Run Values
     public bool bombingRunInitialRun = false;
     public bool isBombingRunActive = false;
     private float bombingRunTimerValue = 1.0f;
     private float bombingRunCounter = 0.0f;
-
+    #endregion
+    #region Circle Rain Values
     public bool circleRainInitialRun = false;
     public bool isCircleRainActive = false;
     private float circleRainTimerValue = 0.5f;
     private float circleRainCounter = 0.0f;
     private int circleRainWaveCount = 0;
-
+    #endregion
+    #region Cone Shot Values
     public bool coneShotInitialRun = false;
     public bool isConeShotActive = false;
     private float coneShotTimerValue = 0.2f;
     private float coneShotCounter = 0.0f;
     private int coneShotWaveCount = 0;
-
+    #endregion
+    #region Chaos Vortex Value
     public bool chaosVortexInitialRun = false;
     public bool isChaosVortexActive = false;
     private float chaosVortexTimerValue = 3.0f;
     private float chaosVortexCounter = 0.0f;
-
+    #endregion
+    #region Super Mega Ultra Death Bomb Values
     public bool superMegaUltraDeathBombInitialRun = false;
     public bool isSuperMegaUltraDeathBombActive = false;
     private float superBombTimerValue = 0.4f;
@@ -69,9 +75,9 @@ public class BossShootingScript : MonoBehaviour
     private float superMegaUltraDeathBombTimerValue = 4.0f;
     private float superMegaUltraDeathBombCounter = 0.0f;
     private bool dropSuperMegaUltraDeathBomb;
-
+    #endregion
+    #region Wail of the Banshee Values
     private float wailOfTheBansheeTurning;
-
     public bool wailOfTheBansheeInitialRun = false;
     public bool isWailOfTheBansheeActive = false;
     private float wailOfTheBansheeTimerValue = 0.1f;
@@ -81,6 +87,7 @@ public class BossShootingScript : MonoBehaviour
     public bool isWailOfTheBansheeRandomActive = false;
     private float wailOfTheBansheeRandomTimerValue = 1.0f;
     private float wailOfTheBansheeRandomCounter = 0.0f;
+    #endregion
 
     //For Singleton usage
     void Awake()
@@ -95,7 +102,6 @@ public class BossShootingScript : MonoBehaviour
         }
     }
 
-
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -103,19 +109,10 @@ public class BossShootingScript : MonoBehaviour
         currentBulletPattern = BulletPatternType.TURNING_RIGHT;
     }
 
-
     void Update()
     {
-        BulletTurningCallFunction();
-        BombingRunCallFunction();
-        CircleRainCallFunction();
-        ConeShotCallFunction();
-        ChaosVortexCallFunction();
-        SuperMegaUltraDeathBombCallFunction();
-        WailOfTheBansheeCallFunction();
-        WailOfTheBansheeRandomCallFunction();
+        BulletPatternUpdate();
     }
-
 
     #region Bullet Turning Functions
     public void BulletTurningCallFunction()
@@ -603,7 +600,7 @@ public class BossShootingScript : MonoBehaviour
             superMegaUltraDeathBombInitialRun = false;
         }
 
-        if(isSuperMegaUltraDeathBombActive == true) // SUPER_MEGA_ULTRA_DEATH_BOMB <- Why the fancy name? XD
+        if(isSuperMegaUltraDeathBombActive == true) // SUPER_MEGA_ULTRA_DEATH_BOMB <- Why the fancy name? XD <- Cause an Ultimate attack needs an Ultimate Name
         {
             superBombCounter += Time.deltaTime;
             superMegaUltraDeathBombCounter += Time.deltaTime;
@@ -783,6 +780,21 @@ public class BossShootingScript : MonoBehaviour
                 redBullet.SetActive(true);
             }
         }
+    }
+    #endregion
+
+
+    #region Bullet Pattern Update Function
+    void BulletPatternUpdate()
+    {
+        BulletTurningCallFunction();
+        BombingRunCallFunction();
+        CircleRainCallFunction();
+        ConeShotCallFunction();
+        ChaosVortexCallFunction();
+        SuperMegaUltraDeathBombCallFunction();
+        WailOfTheBansheeCallFunction();
+        WailOfTheBansheeRandomCallFunction();
     }
     #endregion
 }
