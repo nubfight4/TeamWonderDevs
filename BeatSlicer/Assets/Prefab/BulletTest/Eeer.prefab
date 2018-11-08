@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 54063619805921666}
   - component: {fileID: 82846276679127844}
   m_Layer: 0
-  m_Name: Non-Rhythm Bullet
+  m_Name: Eeer
   m_TagString: Bullet Blue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -61,6 +61,6 @@ MonoBehaviour:
     shouldExpand: 0
   - objectToPool: {fileID: 1764944281241340, guid: 020abbb93a5d9f64cb7e6b8f84653fc9,
       type: 2}
-    poolName: Non-Rhythm Bullets
+    poolName: Eeer Bullets
     amountToPool: 4000
     shouldExpand: 0
