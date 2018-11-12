@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Particles1
-  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 203, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: BlendAlpha Clip_ON FrameBlend_OFF SoftParticles_OFF VertLight_OFF
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
@@ -75,4 +75,4 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Tiling: {r: 800, g: 800, b: 8, a: 8}
-    - _TintColor: {r: 3, g: 0.7201827, b: 0.19852942, a: 0.337}
+    - _TintColor: {r: 1, g: 0.95477855, b: 0.504717, a: 0.6156863}
