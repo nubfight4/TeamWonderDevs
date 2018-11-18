@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114505551576633754}
   - component: {fileID: 54226714869748648}
   - component: {fileID: 82826719362214482}
+  - component: {fileID: 95921382647856728}
   m_Layer: 0
   m_Name: Rhythm Bullet
   m_TagString: Rhythm Bullet
@@ -199,6 +200,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &95921382647856728
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532468161635432}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e9aa037da2b7ac047b6a15769ef662a8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114182873357308880
 MonoBehaviour:
   m_ObjectHideFlags: 1

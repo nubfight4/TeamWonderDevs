@@ -37,10 +37,11 @@ public class ManagerControllerScript : MonoBehaviour
 	public GameObject gameManagerPrefab;
 	public GameObject soundManagerPrefab;
     public GameObject objectPoolerPrefab;
-
+    public GameObject rhythmManagerPrefab;
 
 	[Header("In-Scene Managers")]
 	public SoundManagerScript soundManager;
 	public GameManagerScript gameManager;
     public ObjectPooler objectPooler;
+    public RhythmManager rhythmManager;
 }

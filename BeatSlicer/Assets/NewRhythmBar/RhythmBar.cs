@@ -13,7 +13,7 @@ public class RhythmBar : MonoBehaviour {
     float beatTimer;
     float beatCountdown;
 
-    private Animator anim;
+    public Animator anim;
     public PlayerModelScript playerModel;
 
     float bpmMultipler;
@@ -29,7 +29,7 @@ public class RhythmBar : MonoBehaviour {
         time = 0.5f;
         beatTimer = 0.6f;
         bpmMultipler = bpm / 60;
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
