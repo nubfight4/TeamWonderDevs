@@ -829,6 +829,7 @@ MonoBehaviour:
   beats: 0
   minReq: 0.35
   maxReq: 0.6
+  anim: {fileID: 0}
   playerModel: {fileID: 0}
   onBeat: 0
   missBeat: 0
