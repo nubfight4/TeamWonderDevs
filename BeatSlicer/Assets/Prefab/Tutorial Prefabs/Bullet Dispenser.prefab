@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1014985694320616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.121150136, y: 4.36, z: 30.5}
+  m_LocalPosition: {x: -107.1, y: 4.36, z: 18.1}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4437934010491338}
@@ -171,7 +171,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -201,6 +201,8 @@ MonoBehaviour:
   health: 0
   shootingPoint: {fileID: 1229577338053656}
   bulletPattern: {fileID: 0}
+  shootRate: 0.8
+  canShoot: 0
   door: {fileID: 0}
 --- !u!135 &135712569241406004
 SphereCollider:

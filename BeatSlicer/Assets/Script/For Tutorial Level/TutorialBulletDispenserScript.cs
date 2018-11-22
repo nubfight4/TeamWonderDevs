@@ -11,8 +11,8 @@ public class TutorialBulletDispenserScript : MonoBehaviour
     public GameObject shootingPoint;
     public BulletPattern bulletPattern;
     private float bulletSpawnTimer;
-
-    //private float tempTimer;
+    public float shootRate = 2.0f;
+    public bool canShoot = false;
 
     public GameObject door;
     private BoxCollider doorBoxCollider;
@@ -24,7 +24,6 @@ public class TutorialBulletDispenserScript : MonoBehaviour
         doorBoxCollider.isTrigger = false;
         health = maxHealth;
         bulletSpawnTimer = 0.0f;
-        //tempTimer = 0.0f;
     }
 	
 
@@ -34,25 +33,15 @@ public class TutorialBulletDispenserScript : MonoBehaviour
 
         if(health <= 0)
         {
-            /*
-            tempTimer += Time.deltaTime;
-
-            if(tempTimer >= 3.0f) // Temporary Pause Before Scene Change // Might Change Later
-            {
-                SceneManager.LoadScene("BeatSlicerTestScene"); // Loads Main Game Scene
-
-                tempTimer = 0.0f;
-            }
-            */
-
             doorBoxCollider.isTrigger = true;
             gameObject.SetActive(false);
         }
-        else
+
+        if(canShoot == true)
         {
             bulletSpawnTimer += Time.deltaTime;
 
-            if(bulletSpawnTimer >= 2.0f)
+            if(bulletSpawnTimer >= shootRate)
             {
                 CreateBullet();
 
