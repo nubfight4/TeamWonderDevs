@@ -794,6 +794,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1146850350179714, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
+      propertyPath: m_Name
+      value: Tutorial Texts & Video Screens
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
   m_IsPrefabAsset: 0
@@ -1383,7 +1387,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4543975694951902, guid: f1437385d7d0c8e41898abbef783c246, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 28.1396
+      value: 30.12
       objectReference: {fileID: 0}
     - target: {fileID: 4543975694951902, guid: f1437385d7d0c8e41898abbef783c246, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1410,6 +1414,10 @@ Prefab:
       propertyPath: door
       value: 
       objectReference: {fileID: 1196315178}
+    - target: {fileID: 1014985694320616, guid: f1437385d7d0c8e41898abbef783c246, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1437385d7d0c8e41898abbef783c246, type: 2}
   m_IsPrefabAsset: 0
