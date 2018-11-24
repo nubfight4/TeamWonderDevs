@@ -9,7 +9,7 @@ public class SwordScript : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.tag == "Rhythm Bullet")
+        if (collision.tag == "BulletHitbox")
         {
             player.charge++;
             SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_HIT_BY_PLAYER_ONBEAT);

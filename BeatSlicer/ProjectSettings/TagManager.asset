@@ -23,6 +23,7 @@ TagManager:
   - ChargeSlashAura
   - PlayerDamagedVFX
   - Wall
+  - BulletHitbox
   layers:
   - Default
   - TransparentFX

@@ -51,11 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed4826bcfab51343865b1215af14691, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beatCheck: 0
   time: 0
-  bpm: 76
-  beats: 0
+  bpm: 153
   minReq: 0.3
   maxReq: 0.6
+  beatTimer: 4.95
   playerModel: {fileID: 0}
-  onBeat: 0
-  missBeat: 0

@@ -13,11 +13,13 @@ public class RhythmManager : MonoBehaviour {
     }
     #endregion Singleton
 
+    public bool beatCheck;
+
     public float time;
     public float bpm = 1;
     public float minReq;
     public float maxReq;
-    float beatTimer;
+    public float beatTimer;
 
     public PlayerModelScript playerModel;
 
@@ -32,15 +34,37 @@ public class RhythmManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        time = 0.5f;
-        beatTimer = 0.6f;
-        bpmMultipler = bpm / 60;
-        //
+        time = 0f;
+        beatCheck = false;
+        //time = 0.5f;
+        //beatTimer = 0.6f;
+        //bpmMultipler = bpm / 60;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (time<0)
+        {
+            time = beatTimer;
+            if(beatCheck)
+            {
+                beatCheck = false;
+            }
+            else
+            {
+                beatCheck = true;
+            }
+            
+        }
+        
+        else
+        {
+            time -= Time.deltaTime;
+        }
+
+       
+        /*
         beatsTicker();
 
         if (time <= 0)
@@ -64,11 +88,12 @@ public class RhythmManager : MonoBehaviour {
         {
             time -= bpmMultipler * Time.deltaTime;
         }
-
+        */
         //Debug.Log(time);
         //timeCheck += Time.deltaTime;
     }
 
+    /*
     void beatsTicker()
     {
         if (Input.GetMouseButtonDown(0))
@@ -90,4 +115,5 @@ public class RhythmManager : MonoBehaviour {
             }
         }
     }
+    */
 }
