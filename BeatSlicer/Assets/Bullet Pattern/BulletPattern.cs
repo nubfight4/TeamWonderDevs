@@ -27,7 +27,7 @@ public class BulletPattern:MonoBehaviour {
 
     public float bulletSpeed = 10.0f;
     public float selfDestructTimer = 5.0f;
-    private float tempSelfDestructTimer;
+    public float tempSelfDestructTimer;
 
     private Rigidbody bulletRigidbody;
     private Transform bulletTransform;
@@ -279,12 +279,6 @@ public class BulletPattern:MonoBehaviour {
             {
                 if (other.tag == "PlayerHitbox" || other.gameObject.tag == "ChargeSlashProjectile")
                 {
-                    tempSelfDestructTimer = 0f;
-                }
-                else if ( other.gameObject.tag == "Sword")
-                {
-                    Instantiate(bulletDestroyedVFX, new Vector3(transform.position.x, transform.position.y, transform.position.z),
-                    Quaternion.Euler(Random.Range(-45.0f, 45.0f), Random.Range(-45.0f, 45.0f), transform.rotation.z), transform.parent);
                     tempSelfDestructTimer = 0f;
                 }
             }

@@ -69,6 +69,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1748326348174594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4919590490686818}
+  - component: {fileID: 135911817486644594}
+  - component: {fileID: 114428737792502584}
+  m_Layer: 0
+  m_Name: BulletHitbox
+  m_TagString: BulletHitbox
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1892086528401020
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,6 +113,7 @@ Transform:
   m_LocalPosition: {x: 2.093, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 4919590490686818}
   - {fileID: 4191848711516668}
   - {fileID: 4353049592745758}
   - {fileID: 4650016140046192}
@@ -113,7 +131,7 @@ Transform:
   m_LocalScale: {x: 4.500004, y: 4.5, z: 4.500004}
   m_Children: []
   m_Father: {fileID: 4162445041124688}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4353049592745758
 Transform:
@@ -126,7 +144,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 4162445041124688}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!4 &4650016140046192
 Transform:
@@ -139,8 +157,21 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4162445041124688}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!4 &4919590490686818
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1748326348174594}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4162445041124688}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &23529685831645354
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -346,6 +377,7 @@ MonoBehaviour:
     type: 2}
   bulletSpeed: 10
   selfDestructTimer: 5
+  tempSelfDestructTimer: 0
   bulletType: 3
   isToBeDestroyed: 0
   isBomb: 0
@@ -369,6 +401,20 @@ MonoBehaviour:
   isConeShotTrigger: 0
   bounceWall: 0
   bulletStandardHeight: 2.8
+--- !u!114 &114428737792502584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1748326348174594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b36c1f364f2774ea5f1bed1d17d149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletDestroyedVFX: {fileID: 1438237891324044, guid: 380453e9a296e2648bfd7654b05e415d,
+    type: 2}
+  bulletPatternScript: {fileID: 114284597941203914}
 --- !u!114 &114505551576633754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -383,12 +429,26 @@ MonoBehaviour:
   PlayerModel: {fileID: 4546713858639812, guid: 294a728be3fd12e41ae5bd8882913947,
     type: 2}
   RhythmBar: {fileID: 1115000810755632, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
+  beatCheck: 0
+  beatSwitch: 0
 --- !u!135 &135223949420210576
 SphereCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1532468161635432}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &135911817486644594
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1748326348174594}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
