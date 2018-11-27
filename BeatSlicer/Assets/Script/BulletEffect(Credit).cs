@@ -81,7 +81,7 @@ public class BulletEffectManagerScript : MonoBehaviour
                 redBullet.GetComponent<BulletPattern>().turningAngle = i * (360f / 30f);
                 redBullet.GetComponent<BulletPattern>().smoothing = 2f;
                 redBullet.GetComponent<BulletPattern>().selfDestructTimer = 7f;
-                redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPattern.BulletPatternType.TURNING_LEFT;
+                redBullet.GetComponent<BulletPattern>().currentBulletPattern = BulletPattern.BulletPatternType.TURNING_RIGHT;
                 redBullet.SetActive(true);
 
             }
