@@ -798,6 +798,36 @@ Prefab:
       propertyPath: m_Name
       value: Tutorial Texts & Video Screens
       objectReference: {fileID: 0}
+    - target: {fileID: 82034066702292092, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82034066702292092, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82605288033456502, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82605288033456502, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82248354969320840, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82248354969320840, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
   m_IsPrefabAsset: 0
