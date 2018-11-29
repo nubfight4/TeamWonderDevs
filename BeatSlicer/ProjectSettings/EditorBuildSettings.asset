@@ -9,15 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 385bb11ea3d861248b6f88cb3e448e77
   - enabled: 1
+    path: Assets/Scenes/Credits Scene.unity
+    guid: 7275303f0b2f8b0428dfc0cf761886cb
+  - enabled: 1
+    path: Assets/Scenes/Tutorial Level Scene.unity
+    guid: a184fe643e6447347a0f4d604b1ad945
+  - enabled: 1
     path: Assets/Scenes/BeatSlicerTestScene.unity
     guid: 4836366a7f624434193cabaa7fae07eb
   - enabled: 1
+    path: Assets/Scenes/Victory Screen.unity
+    guid: abc8f2016e353cb47bcfc7e3fc4bb22f
+  - enabled: 1
     path: Assets/Scenes/Defeat Screen.unity
     guid: d5fc8874bca010b428f7558293cb27d4
-  - enabled: 1
-    path: Assets/Scenes/Win Screen.unity
-    guid: 1d578d2448569da4aa178b4a6d409b06
-  - enabled: 1
-    path: Assets/Scenes/TutorialScene.unity
-    guid: 0054f7c182b0a54458bea0115f1ad39f
   m_configObjects: {}
