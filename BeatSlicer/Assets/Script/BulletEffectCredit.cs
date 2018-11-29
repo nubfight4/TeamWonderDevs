@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletEffectManagerScript : MonoBehaviour
+public class BulletEffectCredit : MonoBehaviour
 {
     /* 
      private float wailOfTheBansheeTurning;
