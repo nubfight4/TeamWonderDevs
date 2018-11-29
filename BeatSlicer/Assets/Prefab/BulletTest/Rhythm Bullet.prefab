@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 54226714869748648}
   - component: {fileID: 82826719362214482}
   - component: {fileID: 95567494159280314}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rhythm Bullet
   m_TagString: Rhythm Bullet
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 4650016140046192}
   - component: {fileID: 198702029329274880}
   - component: {fileID: 199757626133617662}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 4353049592745758}
   - component: {fileID: 198501609983611016}
   - component: {fileID: 199831949309613292}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 4919590490686818}
   - component: {fileID: 135911817486644594}
   - component: {fileID: 114428737792502584}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BulletHitbox
   m_TagString: BulletHitbox
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4191848711516668}
   - component: {fileID: 198877839859627434}
   - component: {fileID: 199826040404914358}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,11 +354,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 1
-  outlineColor: {r: 0.27450982, g: 0.121568635, b: 0.20392159, a: 1}
+  outlineColor:
+    r: 0.27450982
+    g: 0.121568635
+    b: 0.20392159
+    a: 1
   outlineWidth: 10
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+  renderers: []
+  outlineMaskMaterial: {fileID: 0}
+  outlineFillMaterial: {fileID: 0}
+  needsUpdate: 1
 --- !u!114 &114284597941203914
 MonoBehaviour:
   m_ObjectHideFlags: 1
