@@ -803,6 +803,46 @@ Prefab:
       propertyPath: m_Name
       value: Tutorial Stuff & Tutorial Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 224068450648638452, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1844056075318686, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114291470197710934, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 114291470197710934, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1920733018609042, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224405244226038742, guid: a0b67ec5934bb584c95db74f17044498,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -297
+      objectReference: {fileID: 0}
+    - target: {fileID: 1112461381728606, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154371265607422, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -174.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 4154371265607422, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 23.38
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114095691492958056, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
@@ -1196,6 +1236,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4387238593272142, guid: bc8439ba9c8f7e44c96c8751b68b3abb,
     type: 2}
   m_PrefabInternal: {fileID: 1596535151}
+--- !u!1 &1372653979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1112461381728606, guid: a0b67ec5934bb584c95db74f17044498,
+    type: 2}
+  m_PrefabInternal: {fileID: 659234901}
 --- !u!1 &1413478734 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1185616935807756, guid: 43aa85be3222a1742a85a053bc6ffdf1,
@@ -1956,6 +2001,11 @@ Prefab:
       propertyPath: bulletDispenser
       value: 
       objectReference: {fileID: 1438105798}
+    - target: {fileID: 114807235668222790, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: cresendoText
+      value: 
+      objectReference: {fileID: 1372653979}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2a03b60e16ade448ac853317fcbc07e, type: 2}
   m_IsPrefabAsset: 0

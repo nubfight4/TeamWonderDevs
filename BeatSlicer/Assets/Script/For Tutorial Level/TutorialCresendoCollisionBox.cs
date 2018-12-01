@@ -5,6 +5,7 @@ using UnityEngine;
 public class TutorialCresendoCollisionBox : MonoBehaviour
 {
     private GameObject player;
+    public GameObject cresendoText;
     private bool cresendoHasCharged = false;
     PlayerModelScript playerModelScript;
 
@@ -15,6 +16,7 @@ public class TutorialCresendoCollisionBox : MonoBehaviour
 
     void Start()
     {
+        cresendoText.SetActive(false);
         playerModelScript = player.GetComponent<PlayerModelScript>();
     }
 	
@@ -31,6 +33,7 @@ public class TutorialCresendoCollisionBox : MonoBehaviour
         {
             if(other.tag == "Player")
             {
+                cresendoText.SetActive(true);
                 playerModelScript.charge = playerModelScript.maxCharge;
                 cresendoHasCharged = true;
             }

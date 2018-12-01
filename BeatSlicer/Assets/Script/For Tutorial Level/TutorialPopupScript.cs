@@ -8,7 +8,7 @@ public class TutorialPopupScript : MonoBehaviour
     public GameObject tutorialCanvas;
     public GameObject Image1;
     public GameObject Image2;
-    public GameObject Image3;
+    public GameObject Image3; 
 
     private bool tutorialPause;
     private bool hasBeenTriggered = false;
