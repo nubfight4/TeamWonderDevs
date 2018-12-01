@@ -91,7 +91,7 @@ LightmapSettings:
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 112000002, guid: a8b652b9e88f9ce4dbc664fa8790bae8,
     type: 2}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -547,6 +547,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1892974225}
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+--- !u!1 &323443604 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1920733018609042, guid: a0b67ec5934bb584c95db74f17044498,
+    type: 2}
+  m_PrefabInternal: {fileID: 659234901}
 --- !u!1001 &433892478
 Prefab:
   m_ObjectHideFlags: 0
@@ -755,7 +760,7 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 840f00ac3d1c0df45898b0d0d6fc7321, type: 2}
   m_IsPrefabAsset: 0
---- !u!1001 &645113538
+--- !u!1001 &659234901
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -796,41 +801,22 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1146850350179714, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
       propertyPath: m_Name
-      value: Tutorial Texts & Video Screens
+      value: Tutorial Stuff & Tutorial Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 82034066702292092, guid: a0b67ec5934bb584c95db74f17044498,
-        type: 2}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 82034066702292092, guid: a0b67ec5934bb584c95db74f17044498,
-        type: 2}
-      propertyPath: m_Volume
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 82605288033456502, guid: a0b67ec5934bb584c95db74f17044498,
-        type: 2}
-      propertyPath: m_Volume
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 82605288033456502, guid: a0b67ec5934bb584c95db74f17044498,
-        type: 2}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 82248354969320840, guid: a0b67ec5934bb584c95db74f17044498,
-        type: 2}
-      propertyPath: m_Volume
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 82248354969320840, guid: a0b67ec5934bb584c95db74f17044498,
-        type: 2}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114095691492958056, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &659234902 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1748096110788412, guid: a0b67ec5934bb584c95db74f17044498,
+    type: 2}
+  m_PrefabInternal: {fileID: 659234901}
+--- !u!1 &659234903 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1356646078768962, guid: a0b67ec5934bb584c95db74f17044498,
+    type: 2}
+  m_PrefabInternal: {fileID: 659234901}
 --- !u!1001 &676377176
 Prefab:
   m_ObjectHideFlags: 0
@@ -1668,6 +1654,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bf4c7c3c44bfb14693f80a1139a1994, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1855955875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1844056075318686, guid: a0b67ec5934bb584c95db74f17044498,
+    type: 2}
+  m_PrefabInternal: {fileID: 659234901}
 --- !u!1 &1870675420 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1263647260445082, guid: 43aa85be3222a1742a85a053bc6ffdf1,
@@ -1895,12 +1886,72 @@ Prefab:
       propertyPath: m_RootOrder
       value: 13
       objectReference: {fileID: 0}
-    - target: {fileID: 114420093979895894, guid: d2a03b60e16ade448ac853317fcbc07e,
+    - target: {fileID: 114613659843473408, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: tutorialCanvas
+      value: 
+      objectReference: {fileID: 1855955875}
+    - target: {fileID: 114613659843473408, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: Image1
+      value: 
+      objectReference: {fileID: 323443604}
+    - target: {fileID: 114613659843473408, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: Image2
+      value: 
+      objectReference: {fileID: 659234903}
+    - target: {fileID: 114613659843473408, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: Image3
+      value: 
+      objectReference: {fileID: 659234902}
+    - target: {fileID: 114589772201681650, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: tutorialCanvas
+      value: 
+      objectReference: {fileID: 1855955875}
+    - target: {fileID: 114589772201681650, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: Image1
+      value: 
+      objectReference: {fileID: 323443604}
+    - target: {fileID: 114589772201681650, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: Image2
+      value: 
+      objectReference: {fileID: 659234903}
+    - target: {fileID: 114589772201681650, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: Image3
+      value: 
+      objectReference: {fileID: 659234902}
+    - target: {fileID: 114341135286693198, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: tutorialCanvas
+      value: 
+      objectReference: {fileID: 1855955875}
+    - target: {fileID: 114341135286693198, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: Image1
+      value: 
+      objectReference: {fileID: 323443604}
+    - target: {fileID: 114341135286693198, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: Image2
+      value: 
+      objectReference: {fileID: 659234903}
+    - target: {fileID: 114341135286693198, guid: d2a03b60e16ade448ac853317fcbc07e,
+        type: 2}
+      propertyPath: Image3
+      value: 
+      objectReference: {fileID: 659234902}
+    - target: {fileID: 114459671993601132, guid: d2a03b60e16ade448ac853317fcbc07e,
         type: 2}
       propertyPath: bulletDispenser
       value: 
       objectReference: {fileID: 1438105798}
-    - target: {fileID: 114459671993601132, guid: d2a03b60e16ade448ac853317fcbc07e,
+    - target: {fileID: 114420093979895894, guid: d2a03b60e16ade448ac853317fcbc07e,
         type: 2}
       propertyPath: bulletDispenser
       value: 
