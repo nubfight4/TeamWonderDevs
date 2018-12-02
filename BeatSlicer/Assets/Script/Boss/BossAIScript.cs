@@ -71,11 +71,14 @@ public class BossAIScript:MonoBehaviour
     private readonly float maxHealth = 1; // Was 5, set to 1
 
     public Animator bossAnimator;
+    public bool playBossLaughAnimation = false;
     public bool playBossAttackingAnimation = false;
     public bool playBossUltimateAnimation = false;
     public bool playBossStunAnimation = false;
     //private bool lookAtPlayerAfterRecover = false;
     private bool isDeadTrigger = false;
+    private float bossLaughTimer = 0.0f;
+    private bool bossLaughTriggered = false;
 
     private bool isBulletTurningFirstStart = true;
 
@@ -134,6 +137,10 @@ public class BossAIScript:MonoBehaviour
 
         previousDestination = 99; // Initializing with a number that is not 0
 
+        playBossLaughAnimation = true;
+        bossLaughTriggered = false;
+        bossLaughTimer = 0.0f;   
+
         currentMovementPattern = MovementPattern.MOVE_PATTERN_1;
         previousMovementPattern = currentMovementPattern;
 
@@ -153,11 +160,35 @@ public class BossAIScript:MonoBehaviour
 	{
         healthBar.fillAmount = health / maxHealth;
 
-        BossHealthStunnerAndPatternChanger();
+        if(playBossLaughAnimation == true)
+        {
+            bossLaughTimer += Time.deltaTime;
+
+            if(bossLaughTimer >= 1.0f && bossLaughTriggered == false)
+            {
+                bossAnimator.Play("BossLaughAnimation",-1,0.0f);
+
+                bossLaughTriggered = true;
+            }
+
+            if(bossLaughTimer >= 3.6f)
+            {
+                playBossLaughAnimation = false;
+
+                bossAnimator.Play("BossAttack2Animation",-1,0.0f);
+            }
+
+            SoundManagerScript.mInstance.bgmAudioSource.volume += Time.deltaTime * 0.2f; // Test Value - 8/10/2018
+        }
+        else
+        {
+            BossHealthStunnerAndPatternChanger();        
+            BossMovementFunction();
+            BulletPatternSetterFunction();
+            TheMultiFunction();
+        }
+
         LookAtPlayerFunction();
-        BossMovementFunction();
-        BulletPatternSetterFunction();
-        TheMultiFunction();
 
         #region This Checks If Development Settings Is Enabled
         if(developmentSettingsEnabled == true)

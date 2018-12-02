@@ -203,7 +203,7 @@ MonoBehaviour:
   bulletPattern: {fileID: 0}
   shootRate: 0.8
   canShoot: 0
-  door: {fileID: 0}
+  door: {fileID: 1438792085228894, guid: 339f790aec4a3974594ee31e568e5087, type: 2}
 --- !u!135 &135712569241406004
 SphereCollider:
   m_ObjectHideFlags: 1

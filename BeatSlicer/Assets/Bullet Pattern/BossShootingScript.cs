@@ -89,6 +89,8 @@ public class BossShootingScript : MonoBehaviour
     private float wailOfTheBansheeRandomCounter = 0.0f;
     #endregion
 
+    private bool bossIntialAttackAnimationCheck = false;
+
     //For Singleton usage
     void Awake()
     {
@@ -171,7 +173,7 @@ public class BossShootingScript : MonoBehaviour
 
                         if(bossAIScript.playBossAttackingAnimation == true)
                         {
-                            bossAIScript.bossAnimator.Play("BossAttackAnimation",-1,0.0f);
+                            //bossAIScript.bossAnimator.Play("BossAttackAnimation",-1,0.0f);
 
                             bossAIScript.playBossAttackingAnimation = false;
                         }
@@ -217,7 +219,15 @@ public class BossShootingScript : MonoBehaviour
 
                     if(bossAIScript.playBossAttackingAnimation == true)
                     {
-                        bossAIScript.bossAnimator.Play("BossAttackAnimation",-1,0.0f);
+                        if(bossIntialAttackAnimationCheck == true)
+                        {
+                            bossAIScript.bossAnimator.Play("BossAttackAnimation",-1,0.0f);
+                        }
+
+                        if(bossIntialAttackAnimationCheck == false)
+                        {
+                            bossIntialAttackAnimationCheck = true;
+                        }
 
                         bossAIScript.playBossAttackingAnimation = false;
                     }
@@ -278,7 +288,16 @@ public class BossShootingScript : MonoBehaviour
 
                     if(bossAIScript.playBossAttackingAnimation == true)
                     {
-                        bossAIScript.bossAnimator.Play("BossAttackAnimation",-1,0.0f);
+                        int randNum = Random.Range(0,6);
+
+                        if(randNum == 5)
+                        {
+                            bossAIScript.bossAnimator.Play("BossLaughAnimation",-1,0.0f);
+                        }
+                        else
+                        {
+                            bossAIScript.bossAnimator.Play("BossAttack2Animation",-1,0.0f);
+                        }
 
                         bossAIScript.playBossAttackingAnimation = false;
                     }
