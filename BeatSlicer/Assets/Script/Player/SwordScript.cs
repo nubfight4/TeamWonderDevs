@@ -6,6 +6,7 @@ public class SwordScript : MonoBehaviour {
     
     public PlayerModelScript player;
     public BossAIScript boss;
+    public OnBeatSphereScript onBeatSphereScript;
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -26,6 +27,12 @@ public class SwordScript : MonoBehaviour {
                 player.missBeat = false;
             }
         }
+
+        if (collision.tag == "OnBeatTutorialSphere")
+        {
+            player.charge++;
+            SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_BULLET_HIT_BY_PLAYER_ONBEAT);
+            onBeatSphereScript.active = false;
+        }
     }
-    
 }

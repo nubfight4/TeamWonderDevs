@@ -24,6 +24,7 @@ TagManager:
   - PlayerDamagedVFX
   - Wall
   - BulletHitbox
+  - OnBeatTutorialSphere
   layers:
   - Default
   - TransparentFX
