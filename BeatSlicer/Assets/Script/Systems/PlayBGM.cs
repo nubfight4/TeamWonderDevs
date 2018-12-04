@@ -42,7 +42,7 @@ public class PlayBGM : MonoBehaviour
     {
         currentSceneName = SceneManager.GetActiveScene();
 
-        if(SoundManagerScript.mInstance.bgmAudioSource.isPlaying == false)
+        if(SoundManagerScript.mInstance.bgmAudioSource.isPlaying == false && currentSceneName.name == "BeatSlicerTestScene")
         {
             if(bossAIScript.currentMovementPattern == BossAIScript.MovementPattern.MOVE_PATTERN_1 && bossAIScript.currentMovementPattern != BossAIScript.MovementPattern.BOSS_STUN)
             {
