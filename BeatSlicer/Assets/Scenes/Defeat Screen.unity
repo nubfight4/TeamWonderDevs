@@ -438,7 +438,7 @@ GameObject:
   - component: {fileID: 546124714}
   - component: {fileID: 546124713}
   m_Layer: 5
-  m_Name: Exit to Desktop Button
+  m_Name: Main Menu Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -503,7 +503,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1840267412}
-        m_MethodName: ExitToDesktop
+        m_MethodName: ExitToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1684,7 +1684,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: EXIT TO DESKTOP
+  m_Text: MAIN MENU
 --- !u!222 &1468598850
 CanvasRenderer:
   m_ObjectHideFlags: 0
