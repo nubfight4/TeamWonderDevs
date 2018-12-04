@@ -67,6 +67,7 @@ public class BossAIScript:MonoBehaviour
 
     public PlayerModelScript playerModelScript;
     public BossShootingScript bossShootingScript;
+    public SceneTransitionScript sceneTransitionScript;
     public float health;
     private readonly float maxHealth = 1; // Was 5, set to 1
 
@@ -862,9 +863,6 @@ public class BossAIScript:MonoBehaviour
                 {
                     previousDestination = 99; // Reset to number other than 0
 
-                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1); // <- To Change to Win BGM in future? - 12-10-2018
-
-                    SceneManager.LoadScene("Victory Screen"); // Loads Win Scene
                 }
 
                 BossShootingScript.Instance.currentBulletPattern = BossShootingScript.BulletPatternType.REST;

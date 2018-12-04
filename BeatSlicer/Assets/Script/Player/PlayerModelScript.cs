@@ -31,6 +31,7 @@ public class PlayerModelScript : MonoBehaviour {
     public Image chargeBar;
     public GameObject chargeSlashProjectile;
     public GameObject playerDamagedVFX;
+    public SceneTransitionScript sceneTransitionScript;
 
     //Rhythm Bar variables
     // bonusTimer is to adjust how long the timer is
@@ -177,7 +178,9 @@ public class PlayerModelScript : MonoBehaviour {
 
     public void DeathTransition()
     {
-        SceneManager.LoadScene("Defeat Screen");
+        sceneTransitionScript.gameObject.SetActive(true);
+        sceneTransitionScript.sceneName = "Defeat Screen";
+        sceneTransitionScript.startTransit = true;
         SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_LOSE_SCENE); // Play Lose BGM? <- Possible? 15-10-2018
     }
 }

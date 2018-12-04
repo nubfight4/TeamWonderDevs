@@ -391,29 +391,15 @@ Prefab:
       propertyPath: chargeBar
       value: 
       objectReference: {fileID: 451973852}
-    - target: {fileID: 1315052434309616, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4208637821565912, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
-      propertyPath: m_LocalPosition.x
+    - target: {fileID: 114819291773803392, guid: 66d0904396e32c844b6a522869e5aa06,
+        type: 2}
+      propertyPath: sceneTransitionScript
+      value: 
+      objectReference: {fileID: 1163490639}
+    - target: {fileID: 114819291773803392, guid: 66d0904396e32c844b6a522869e5aa06,
+        type: 2}
+      propertyPath: maxCharge
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4270711182328064, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.19347431
-      objectReference: {fileID: 0}
-    - target: {fileID: 4270711182328064, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.0030896387
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532447080908214, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.00051915646
-      objectReference: {fileID: 0}
-    - target: {fileID: 4532447080908214, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.0007748604
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
@@ -550,6 +536,110 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1471754866319014, guid: 43aa85be3222a1742a85a053bc6ffdf1,
     type: 2}
   m_PrefabInternal: {fileID: 2091144016}
+--- !u!1 &1163490637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1163490638}
+  - component: {fileID: 1163490642}
+  - component: {fileID: 1163490641}
+  - component: {fileID: 1163490640}
+  - component: {fileID: 1163490639}
+  m_Layer: 5
+  m_Name: TransitionPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1163490638
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1163490637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1892974226}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1163490639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1163490637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2280979c63b2fa84ea8e5aed6e6fa265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionAnimation: {fileID: 1163490640}
+  sceneName: 
+  startTransit: 0
+  startTransitWhite: 0
+--- !u!95 &1163490640
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1163490637}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 925cb14167cee064594c90701942ac79, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1163490641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1163490637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1163490642
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1163490637}
+  m_CullTransparentMesh: 0
 --- !u!1 &1163532396 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1840391929062974, guid: 43aa85be3222a1742a85a053bc6ffdf1,
@@ -921,9 +1011,31 @@ Prefab:
       propertyPath: playerModelScript
       value: 
       objectReference: {fileID: 2117901922}
+    - target: {fileID: 114591055903484350, guid: c572ec21b0bd39c49b6c06fdc972734a,
+        type: 2}
+      propertyPath: sceneTransitionScript
+      value: 
+      objectReference: {fileID: 1163490639}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c572ec21b0bd39c49b6c06fdc972734a, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1613429247 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1086288166583924, guid: c572ec21b0bd39c49b6c06fdc972734a,
+    type: 2}
+  m_PrefabInternal: {fileID: 1613429246}
+--- !u!114 &1613429248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1613429247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b39db69e28c3754c99b840b18a7e084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneTransitionScript: {fileID: 1163490639}
 --- !u!1 &1659234971 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1980207695115812, guid: 43aa85be3222a1742a85a053bc6ffdf1,
@@ -1293,6 +1405,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad7bb3d7f46a0464f86a2cd94cc09063, type: 2}
   m_IsPrefabAsset: 0
+--- !u!224 &1892974226 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 224559114856803526, guid: ad7bb3d7f46a0464f86a2cd94cc09063,
+    type: 2}
+  m_PrefabInternal: {fileID: 1892974225}
 --- !u!1001 &1965123128
 Prefab:
   m_ObjectHideFlags: 0
@@ -1332,6 +1449,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114881307564811126, guid: 8585a9658ef54ac4a8d73051cd911ba3,
+        type: 2}
+      propertyPath: sceneTransitionScript
+      value: 
+      objectReference: {fileID: 1163490639}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8585a9658ef54ac4a8d73051cd911ba3, type: 2}
   m_IsPrefabAsset: 0

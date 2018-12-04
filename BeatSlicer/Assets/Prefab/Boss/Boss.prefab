@@ -3587,6 +3587,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   playerModelScript: {fileID: 0}
   bossShootingScript: {fileID: 114309032372947740}
+  sceneTransitionScript: {fileID: 0}
   health: 0
   bossAnimator: {fileID: 0}
   playBossLaughAnimation: 0

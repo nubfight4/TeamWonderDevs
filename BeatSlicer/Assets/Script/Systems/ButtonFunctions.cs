@@ -5,29 +5,41 @@ using UnityEngine.SceneManagement;
 
 public class ButtonFunctions : MonoBehaviour {
     public GameManagerScript gameManagerScript;
+    public SceneTransitionScript sceneTransitionScript;
 
     public void TutorialStart()
     {
-        SceneManager.LoadScene("Tutorial Level Scene");
+        sceneTransitionScript.gameObject.SetActive(true);
+        sceneTransitionScript.sceneName= "Tutorial Level Scene";
+        sceneTransitionScript.startTransit = true;
     }
 
 	public void StartGame()
     {
-        SceneManager.LoadScene("BeatSlicerTestScene");
+        sceneTransitionScript.gameObject.SetActive(true);
+        sceneTransitionScript.sceneName = "BeatSlicerTestScene";
+        sceneTransitionScript.startTransit = true;
     }
 
     public void Credits()
     {
-        SceneManager.LoadScene("Credits Scene");
+        sceneTransitionScript.gameObject.SetActive(true);
+        sceneTransitionScript.sceneName = "Credits Scene";
+        sceneTransitionScript.startTransit = true;
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        sceneTransitionScript.gameObject.SetActive(true);
+        sceneTransitionScript.sceneName = "MainMenu";
+        sceneTransitionScript.startTransit = true;
     }
 
     public void ExitToDesktop()
     {
+        sceneTransitionScript.gameObject.SetActive(true);
+        sceneTransitionScript.sceneName = " ";
+        sceneTransitionScript.startTransit = true;
         Application.Quit();
     }
 
@@ -35,6 +47,8 @@ public class ButtonFunctions : MonoBehaviour {
     {
         gameManagerScript.isPaused = false;
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene("MainMenu");
+        sceneTransitionScript.gameObject.SetActive(true);
+        sceneTransitionScript.sceneName = "MainMenu";
+        sceneTransitionScript.startTransit = true;
     }
 }
