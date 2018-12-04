@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 01368ecb38cca2e4aa41fd6bfc6378de
+guid: 6fae29263efcd5f469701ba305d9c765
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Diss_Menu_UI_0
-    21300002: Diss_Menu_UI_1
-    21300004: Diss_Menu_UI_2
+    21300000: Diss_Menu_UI_2_0
+    21300002: Diss_Menu_UI_2_1
+    21300004: Diss_Menu_UI_2_2
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -87,13 +87,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Diss_Menu_UI_0
+      name: Diss_Menu_UI_2_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 515.3333
-        height: 296
+        x: 39
+        y: 6
+        width: 402
+        height: 254
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -101,19 +101,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6b44c96f72cded46b68eacc1bd7fe56
+      spriteID: c18579e36d9adf640b47c717e9d65fdf
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diss_Menu_UI_1
+      name: Diss_Menu_UI_2_1
       rect:
         serializedVersion: 2
-        x: 515
+        x: 639
         y: 0
-        width: 515.3333
-        height: 296
+        width: 405
+        height: 267
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -121,19 +121,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db638313fee72ed418a2beafd8657057
+      spriteID: ec7aa69797f60de40be608a4254ca8de
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Diss_Menu_UI_2
+      name: Diss_Menu_UI_2_2
       rect:
         serializedVersion: 2
-        x: 1030
+        x: 1125
         y: 0
-        width: 515.3333
-        height: 296
+        width: 405
+        height: 267
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,7 +141,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9dd969b6a1f4f8148aa3d35bb27e58af
+      spriteID: 952cb3cb918834648bca4bd74476f7f8
       vertices: []
       indices: 
       edges: []
@@ -149,7 +149,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 69a5e48d56dcd07499c4cdef636a9116
+    spriteID: 64c2e53851d335242a94e3e0d1ee5a8f
     vertices: []
     indices: 
     edges: []
