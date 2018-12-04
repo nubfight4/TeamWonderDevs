@@ -16,12 +16,24 @@ public class PlayBGM : MonoBehaviour
         {
             SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1); // Temporary Music Until Decided
             SoundManagerScript.mInstance.bgmAudioSource.loop = true;
+            SoundManagerScript.mInstance.bgmAudioSource.volume = 1.0f;
         }
-        else
+        else if(currentSceneName.name == "MainMenu")
+        {
+            SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_MAIN_MENU);
+            SoundManagerScript.mInstance.bgmAudioSource.loop = true;
+            SoundManagerScript.mInstance.bgmAudioSource.volume = 1.0f;
+        }
+        else if(currentSceneName.name == "BeatSlicerTestScene")
         {
             SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_1_INTRO);
             SoundManagerScript.mInstance.bgmAudioSource.loop = false;
-            SoundManagerScript.mInstance.bgmAudioSource.volume = 0.0f;
+        }
+        else
+        {
+            SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_INGAME_1); // Temporary Music Until Decided
+            SoundManagerScript.mInstance.bgmAudioSource.loop = true;
+            SoundManagerScript.mInstance.bgmAudioSource.volume = 1.0f;
         }
     }
 
@@ -42,9 +54,14 @@ public class PlayBGM : MonoBehaviour
                 SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_LOOP);
                 SoundManagerScript.mInstance.bgmAudioSource.loop = true;
             }
-            else if(bossAIScript.currentMovementPattern == BossAIScript.MovementPattern.MOVE_PATTERN_3A && bossAIScript.currentMovementPattern == BossAIScript.MovementPattern.MOVE_PATTERN_3B && bossAIScript.currentMovementPattern != BossAIScript.MovementPattern.BOSS_STUN)
+            else if((bossAIScript.currentMovementPattern == BossAIScript.MovementPattern.MOVE_PATTERN_3A || bossAIScript.currentMovementPattern == BossAIScript.MovementPattern.MOVE_PATTERN_3B) && bossAIScript.currentMovementPattern != BossAIScript.MovementPattern.BOSS_STUN)
             {
                 SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_3_LOOP);
+                SoundManagerScript.mInstance.bgmAudioSource.loop = true;
+            }
+            else if(bossAIScript.currentMovementPattern == BossAIScript.MovementPattern.BOSS_ULTIMATE_PHASE && bossAIScript.currentMovementPattern != BossAIScript.MovementPattern.BOSS_STUN)
+            {
+                SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_4_LOOP);
                 SoundManagerScript.mInstance.bgmAudioSource.loop = true;
             }
         }

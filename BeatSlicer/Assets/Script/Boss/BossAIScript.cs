@@ -199,7 +199,7 @@ public class BossAIScript:MonoBehaviour
             }
             
             TempMovePatternChangeButton(); // Temporary Movement Pattern Change Button 'J'
-            //TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K' -- To Buggy To Be Used
+            //TempBossStunnerButton(); // Temporary Boss Stunner (& Unstunner) Button 'K' -- Too Buggy To Be Used
         }
         #endregion
     }
@@ -395,13 +395,24 @@ public class BossAIScript:MonoBehaviour
         {
             if(currentMovementPattern == MovementPattern.BOSS_STUN)
             {
-                if(navMeshAgent.baseOffset > 1.0f)
+                /*
+                if(navMeshAgent.baseOffset > 1.9f)
                 {
                     navMeshAgent.baseOffset -= Time.deltaTime * 5.0f; // Time for Boss to fall when stunned set to Time.deltaTime * 5.0f;
                 }
-                else if(navMeshAgent.baseOffset <= 0.9f)
+                else if(navMeshAgent.baseOffset <= 2.9f)
                 {
-                    navMeshAgent.baseOffset = 0.9f;  
+                    navMeshAgent.baseOffset = 2.9f;  
+                }
+                */
+
+                if(navMeshAgent.baseOffset > 1.5f)
+                {
+                    navMeshAgent.baseOffset -= Time.deltaTime * 5.0f; // Time for Boss to fall when stunned set to Time.deltaTime * 5.0f;
+                }
+                else
+                {
+                    navMeshAgent.baseOffset = 1.5f;
                 }
             }
             else
@@ -664,14 +675,14 @@ public class BossAIScript:MonoBehaviour
                                 if(developmentSettingsEnabled == true)
                                 {
                                     //SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_ULTIMATE_ATTACK);
-                                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_LOOP);
+                                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_4_INTRO);
                                 }
                                 else
                                 {
-                                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_2_LOOP);
+                                    SoundManagerScript.mInstance.PlayBGM(AudioClipID.BGM_SECTION_4_INTRO);
                                 }
 
-                                SoundManagerScript.mInstance.bgmAudioSource.loop = true;
+                                SoundManagerScript.mInstance.bgmAudioSource.loop = false;
                                 SoundManagerScript.mInstance.bgmAudioSource.volume = 1.0f;
 
                                 ultimateMusicHasStarted = true;

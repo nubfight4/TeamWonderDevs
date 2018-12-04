@@ -3537,7 +3537,7 @@ MonoBehaviour:
   bossAIScript: {fileID: 114591055903484350}
   bulletPattern: {fileID: 0}
   currentBulletPattern: 7
-  bulletStandardHeight: 2.9
+  bulletStandardHeight: 2.4
   bulletTurningInitialRun: 0
   isBulletTurningActive: 0
   bombingRunInitialRun: 0
