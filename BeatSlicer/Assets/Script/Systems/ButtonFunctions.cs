@@ -37,9 +37,6 @@ public class ButtonFunctions : MonoBehaviour {
 
     public void ExitToDesktop()
     {
-        sceneTransitionScript.gameObject.SetActive(true);
-        sceneTransitionScript.sceneName = " ";
-        sceneTransitionScript.startTransit = true;
         Application.Quit();
     }
 
