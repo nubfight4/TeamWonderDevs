@@ -144,7 +144,7 @@ public class PlayerModelScript : MonoBehaviour {
             chargeSlashAura.SetActive(false);
         }
 
-        if (Input.GetButton("ChargeSlash") && charge >= maxCharge)
+        if (Input.GetButton("ChargeSlash") && charge >= maxCharge && health > 0)
         {
             {
                 isPlayerChargeSlashing = true;
@@ -156,9 +156,12 @@ public class PlayerModelScript : MonoBehaviour {
 
     public void ChargeSlashAnim()
     {
-        SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_CHARGE_SLASH);
-        Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), Quaternion.Euler(0.0f, 0.0f, 0.0f));
-        charge = 0;
+        if(health>0)
+        {
+            SoundManagerScript.mInstance.PlaySFX(AudioClipID.SFX_CHARGE_SLASH);
+            Instantiate(chargeSlashProjectile, new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z), Quaternion.Euler(0.0f, 0.0f, 0.0f));
+            charge = 0;
+        }     
     }
 
     public void StopChargeSlashAnim()

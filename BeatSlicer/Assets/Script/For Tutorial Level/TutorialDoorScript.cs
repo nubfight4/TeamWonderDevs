@@ -5,11 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class TutorialDoorScript : MonoBehaviour
 {
+    public SceneTransitionScript sceneTransitionScript;
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        
+        if (other.tag == "Player")
         {
-            SceneManager.LoadScene("BeatSlicerTestScene"); // Loads Main Game Scene
+            sceneTransitionScript.gameObject.SetActive(true);
+            sceneTransitionScript.sceneName = "BeatSlicerTestScene";
+            sceneTransitionScript.startTransit = true;
         }
     }
 }
