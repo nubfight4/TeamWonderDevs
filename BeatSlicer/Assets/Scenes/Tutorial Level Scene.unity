@@ -148,7 +148,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 42, y: 342.3}
+  m_AnchoredPosition: {x: 0, y: 330}
   m_SizeDelta: {x: 1253.3, y: 235}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &15155199
@@ -439,7 +439,7 @@ SphereCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 119844016}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -1016,7 +1016,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4288624474240530, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -82.03
+      value: 0.11
       objectReference: {fileID: 0}
     - target: {fileID: 4288624474240530, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1024,7 +1024,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4288624474240530, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 27
+      value: -39
       objectReference: {fileID: 0}
     - target: {fileID: 4288624474240530, guid: 66d0904396e32c844b6a522869e5aa06, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1189,7 +1189,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 41, y: 12}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 486.7, y: 91.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &583722903
@@ -1455,27 +1455,6 @@ Prefab:
     - target: {fileID: 1146850350179714, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
       propertyPath: m_Name
       value: Tutorial Stuff & Tutorial Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 224068450648638452, guid: a0b67ec5934bb584c95db74f17044498,
-        type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1112461381728606, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4154371265607422, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 17.54
-      objectReference: {fileID: 0}
-    - target: {fileID: 4154371265607422, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 40.85
-      objectReference: {fileID: 0}
-    - target: {fileID: 4154371265607422, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -169.78
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0b67ec5934bb584c95db74f17044498, type: 2}
@@ -3023,7 +3002,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 41, y: -142}
+  m_AnchoredPosition: {x: 0, y: -142}
   m_SizeDelta: {x: 486.7, y: 91.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1888489329
@@ -3281,6 +3260,11 @@ Prefab:
       propertyPath: PausePanel
       value: 
       objectReference: {fileID: 1887216633}
+    - target: {fileID: 114442029813343052, guid: 8585a9658ef54ac4a8d73051cd911ba3,
+        type: 2}
+      propertyPath: TutorialCanvas
+      value: 
+      objectReference: {fileID: 1855955875}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8585a9658ef54ac4a8d73051cd911ba3, type: 2}
   m_IsPrefabAsset: 0

@@ -75,8 +75,8 @@ public class TutorialPopupScript : MonoBehaviour
 
         Time.timeScale = 0.0f;
         tutorialPause = true;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
     }
 
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour 
 {
@@ -34,9 +35,11 @@ public class GameManagerScript : MonoBehaviour
     #endregion Singleton
 
     GameObject PausePanel;
+    public GameObject TutorialCanvas;
     public bool isPaused;
+    private Scene currentSceneName;
 
-	void Awake()
+    void Awake()
 	{
 		if(GameManagerScript.CheckInstanceExist())
 		{
@@ -58,23 +61,45 @@ public class GameManagerScript : MonoBehaviour
 
     void Update()
 	{
+        currentSceneName = SceneManager.GetActiveScene();
+
         if(Input.GetButtonDown("Pause"))
         {
-            if(!isPaused)
+            if(currentSceneName.name == "Tutorial Level Scene")
             {
-                PausePanel.SetActive(true);
-                Time.timeScale = 0.0f;
-                isPaused = true;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
+                if(TutorialCanvas.activeSelf != true)
+                {
+                    if(!isPaused)
+                    {
+                        PausePanel.SetActive(true);
+                        Time.timeScale = 0.0f;
+                        isPaused = true;
+                        Cursor.visible = true;
+                        Cursor.lockState = CursorLockMode.None;
+                    }
+                    else
+                    {
+                        ResumeGame();
+                    }
+                }
             }
             else
             {
-                ResumeGame();
+                if(!isPaused)
+                {
+                    PausePanel.SetActive(true);
+                    Time.timeScale = 0.0f;
+                    isPaused = true;
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                }
+                else
+                {
+                    ResumeGame();
+                }
             }
-            
         }
-	}
+    }
 
     public void ResumeGame()
     {
