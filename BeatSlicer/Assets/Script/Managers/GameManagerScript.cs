@@ -34,7 +34,7 @@ public class GameManagerScript : MonoBehaviour
 	}
     #endregion Singleton
 
-    GameObject PausePanel;
+    public GameObject PausePanel;
     public GameObject TutorialCanvas;
     public bool isPaused;
     private Scene currentSceneName;
@@ -53,7 +53,12 @@ public class GameManagerScript : MonoBehaviour
     private void Start()
     {
         PausePanel = GameObject.FindGameObjectWithTag("PausePanel");
-        PausePanel.SetActive(false);
+
+        if(PausePanel.activeSelf == true)
+        {
+            PausePanel.SetActive(false);
+        }
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         isPaused = false;
