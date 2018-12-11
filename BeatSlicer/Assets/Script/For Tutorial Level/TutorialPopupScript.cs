@@ -37,7 +37,7 @@ public class TutorialPopupScript : MonoBehaviour
     {
         if(tutorialPause == true && hasBeenTriggered == false)
         {
-            if(Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
             {
                 ResumeGame();
                 tutorialPause = false;
