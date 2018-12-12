@@ -52,6 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a702b86028d5855428ef37012191283f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetFrameRate: 60
+  PausePanel: {fileID: 0}
+  TutorialCanvas: {fileID: 0}
   isPaused: 0
 --- !u!114 &114881307564811126
 MonoBehaviour:

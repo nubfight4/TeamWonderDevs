@@ -34,6 +34,7 @@ public class GameManagerScript : MonoBehaviour
 	}
     #endregion Singleton
 
+    public int targetFrameRate;
     public GameObject PausePanel;
     public GameObject TutorialCanvas;
     public bool isPaused;
@@ -45,6 +46,9 @@ public class GameManagerScript : MonoBehaviour
 		{
 			Destroy(this.gameObject);
 		}
+
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = targetFrameRate;
 
         //ResumeGame();
 
