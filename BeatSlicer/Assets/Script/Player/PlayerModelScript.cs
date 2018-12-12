@@ -89,7 +89,7 @@ public class PlayerModelScript : MonoBehaviour {
         #endregion
 
         #region Attack Function
-        if (Input.GetButtonDown("Attack") && !isPlayerChargeSlashing)
+        if (Input.GetButtonDown("Attack") && !isPlayerChargeSlashing && health > 0)
         {
             {
                 animator.Play("AttackAnimationClip");
