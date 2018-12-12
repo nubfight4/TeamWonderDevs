@@ -192,7 +192,7 @@ MonoBehaviour:
   CameraMoveSpeed: 120
   minClampAngle: 30
   maxClampAngle: 10
-  inputSensitivity: 450
+  inputSensitivity: 650
   mouseX: 0
   mouseY: 0
   finalInputX: 0
