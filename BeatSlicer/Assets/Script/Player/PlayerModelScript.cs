@@ -60,8 +60,8 @@ public class PlayerModelScript : MonoBehaviour {
         animator.SetBool("isPlayerDamaged", isPlayerDamaged);
         animator.SetBool("isPlayerAttacking", isPlayerAttacking);
         animator.SetBool("isPlayerChargeSlashing", isPlayerChargeSlashing);
-        animator.SetFloat("VelX", Input.GetAxisRaw("Horizontal"));
-        animator.SetFloat("VelY",Input.GetAxisRaw("Vertical"));
+        animator.SetFloat("VelX", Input.GetAxis("Horizontal"));
+        animator.SetFloat("VelY",Input.GetAxis("Vertical"));
         animator.SetFloat("playerHealth", health);
 
         if (isPlayerDamaged)
@@ -89,7 +89,7 @@ public class PlayerModelScript : MonoBehaviour {
         #endregion
 
         #region Attack Function
-        if (Input.GetButtonDown("Attack") && !isPlayerChargeSlashing && health > 0)
+        if (Input.GetButtonDown("Attack") && !isPlayerChargeSlashing && Time.timeScale != 0)
         {
             {
                 animator.Play("AttackAnimationClip");
@@ -144,7 +144,7 @@ public class PlayerModelScript : MonoBehaviour {
             chargeSlashAura.SetActive(false);
         }
 
-        if (Input.GetButton("ChargeSlash") && charge >= maxCharge && health > 0)
+        if (Input.GetButton("ChargeSlash") && charge >= maxCharge && health > 0 && Time.timeScale != 0)
         {
             {
                 isPlayerChargeSlashing = true;
