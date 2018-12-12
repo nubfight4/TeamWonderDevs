@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
-	public float CameraMoveSpeed = 120.0f;
+	public float CameraMoveSpeed;
 	
 	Vector3 FollowPOS;
-	public float minClampAngle = 15.0f;
-    public float maxClampAngle = 10.0f;
-    public float inputSensitivity = 150.0f;
+	public float minClampAngle;
+    public float maxClampAngle;
+    public float inputSensitivity;
 	public float mouseX;
 	public float mouseY;
 	public float finalInputX;
